@@ -6,7 +6,6 @@
     <title>Document</title>
 </head>
 <body>
-    <p>cokkk</p>
-    <h1>lol</h1>
+  
 </body>
 </html>
