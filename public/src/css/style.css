@@ -1,0 +1,119 @@
+/* https://images.app.goo.gl/XZC8kh5oFVLeAK3R9 */
+#hero{
+    background-image: url("../assets/images/bg-hero.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 92.326vw;
+}
+
+/* https://pin.it/1GASPfMCT */
+/* https://pin.it/5xnlA6Ujl */
+#bg-man{
+    background-image: url("../assets/images/bg-man-2.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    height: 60.698vw;
+}
+
+/* https://pin.it/5xnlA6Ujl */
+#blog{
+    background-image: url("../assets/images/bg-blog.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+/* https://pin.it/7iFmRBHx6 */
+.login-section {
+    background-image: url('../assets/images/login-image.png');
+    background-size: cover;
+    background-position: top;
+}
+
+/* https://pin.it/JgXj554uJ */
+.register-section {
+  background-image: url('../assets/images/register-image.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top;
+}
+
+body::-webkit-scrollbar {
+    display: none;
+}
+/* Ensure the scroll container has snap behavior */
+#blog .overflow-scroll {
+    scroll-snap-type: x mandatory; /* Snap horizontally */
+    display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth; /* Smooth scrolling */
+  }
+  
+  #blog .overflow-scroll .flex {
+    scroll-snap-align: start; /* Snap to the start of each item */
+    transition: transform 0.5s ease, opacity 0.5s ease; /* Animation for the items */
+  }
+  
+  #blog .overflow-scroll .flex.exiting {
+    transform: translateY(-20px); /* Move the item up */
+    opacity: 0; /* Fade it out */
+  }
+  
+  /* Hide scrollbar */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }  
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+.slide-in-active {
+  transform: translateX(0%);
+  transition: transform 0.2s ease-out;
+}
+
+/* Custom Slide Out Animation */
+.slide-out-active {
+  transform: translateX(100%);
+  transition: transform 0.2s ease-out;
+}
+
+.slide-in-left-active {
+  transform: translateX(0%);
+  transition: transform 0.2s ease-out;
+}
+
+/* Custom Slide Out Animation */
+.slide-out-left-active {
+  transform: translateX(-100%);
+  transition: transform 0.2s ease-out;
+}
+
+@media (min-width: 431px) {
+  #hero{
+    height: 50vw;
+  }
+  #bg-man{
+    height: 43.229vw;
+  }
+
+  #blog{
+    background-position: top;
+  }
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+  
