@@ -29,3 +29,6 @@ Route::group(['middleware' => 'auth'], function () {
         return view('pages.auth.blog');
     });
 });
+Route::get('/detail', function () {
+    return view('pages.auth.blog');
+});
