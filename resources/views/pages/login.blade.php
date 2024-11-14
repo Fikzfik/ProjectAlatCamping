@@ -43,48 +43,37 @@
                         </div>
 
                         <!-- Form Content -->
-                        <form action="dashboard.html">
-                            <div class="bg-white pt-2 rounded-lg space-y-[4vw]  lg:space-y-[1.5vw]">
-                                <div data-aos="fade-left" data-aos-duration="500" data-aos-delay="300"
-                                    class="space-y-[0.3vw]">
-                                    <h2 class="text-[7vw] lg:text-[2.083vw] font-semibold text-gray-800">Login</h2>
-                                    <p class="text-[3vw] lg:text-[1.042vw] text-gray-500">Sign in to your email</p>
-                                </div>
-                                <div class="grid grid-cols-1 space-y-[4vw] lg:space-y-[0.5vw]">
-                                    <!-- Email Input -->
-                                    <div data-aos="fade-left" data-aos-duration="500" data-aos-delay="350"
-                                        class=" ">
-                                        <label for="email"
-                                            class="block text-[4.5vw] lg:text-[1.25vw] font-medium text-gray-700 mb-[0.833vw]">Email</label>
-                                        <input type="email" id="email" name="email"
-                                            class="w-full p-[3vw] lg:p-[1vw]  border border-gray-400 focus:outline-none focus:ring-2 focus:ring-dark lg:placeholder:text-[0.938vw] placeholder:text-[3.5vw] text-[4.5vw] lg:text-[1.25vw]"
-                                            placeholder="Enter Email" autocomplete="off" required>
-                                    </div>
-
-                                    <!-- Password Input -->
-                                    <div data-aos="fade-left" data-aos-duration="500" data-aos-delay="400"
-                                        class=" ">
-                                        <label for="password"
-                                            class="block text-[4.5vw] lg:text-[1.25vw] font-medium text-gray-700 mb-[0.833vw]">Password</label>
-                                        <input type="password" id="password" name="password"
-                                            class="w-full p-[3vw] lg:p-[1vw]  border border-gray-400 focus:outline-none focus:ring-2 focus:ring-dark lg:placeholder:text-[0.938vw] placeholder:text-[3.5vw] text-[4.5vw] lg:text-[1.25vw]"
-                                            placeholder="Enter Password" autocomplete="off" required>
-                                    </div>
-
-                                    <!-- Login Button -->
-                                    <div data-aos="fade-left" data-aos-duration="500" data-aos-delay="450"
-                                        class="">
-                                        <button
-                                            class="block w-full text-center bg-dark text-white p-[3vw] lg:p-[1vw] font-medium text-[4vw] lg:text-[1.302vw] mt-[1vw]">Login</button>
-                                    </div>
+                        <form action="{{ route('login.post') }}" method="POST">
+                            @csrf
+                            <div class="bg-white pt-2 rounded-lg space-y-[4vw] lg:space-y-[1.5vw]">
+                                <!-- Email Input -->
+                                <div data-aos="fade-left" data-aos-duration="500" data-aos-delay="350">
+                                    <label for="email"
+                                        class="block text-[4.5vw] lg:text-[1.25vw] font-medium text-gray-700 mb-[0.833vw]">Email</label>
+                                    <input type="email" id="email" name="email"
+                                        class="w-full p-[3vw] lg:p-[1vw] border border-gray-400 focus:outline-none focus:ring-2 focus:ring-dark lg:placeholder:text-[0.938vw] placeholder:text-[3.5vw] text-[4.5vw] lg:text-[1.25vw]"
+                                        placeholder="Enter Email" autocomplete="off" required>
                                 </div>
 
-                                <div class="text-center text-[3vw] lg:text-[1.042vw]">
-                                    <p class="">Didn't Have Account? <span class="font-semibold"><a
-                                                href="register.html">Register Now</a></span></p>
+                                <!-- Password Input -->
+                                <div data-aos="fade-left" data-aos-duration="500" data-aos-delay="400">
+                                    <label for="password"
+                                        class="block text-[4.5vw] lg:text-[1.25vw] font-medium text-gray-700 mb-[0.833vw]">Password</label>
+                                    <input type="password" id="password" name="password"
+                                        class="w-full p-[3vw] lg:p-[1vw] border border-gray-400 focus:outline-none focus:ring-2 focus:ring-dark lg:placeholder:text-[0.938vw] placeholder:text-[3.5vw] text-[4.5vw] lg:text-[1.25vw]"
+                                        placeholder="Enter Password" autocomplete="off" required>
+                                </div>
+
+                                <!-- Login Button -->
+                                <div data-aos="fade-left" data-aos-duration="500" data-aos-delay="450">
+                                    <button
+                                        class="block w-full text-center bg-dark text-white p-[3vw] lg:p-[1vw] font-medium text-[4vw] lg:text-[1.302vw] mt-[1vw]">
+                                        Login
+                                    </button>
                                 </div>
                             </div>
                         </form>
+
                     </div>
                 </div>
             </div>
