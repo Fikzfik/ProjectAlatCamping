@@ -7,9 +7,9 @@
                 <h1 class="text-black text-[4.651vw] text-center logo">CampRover</h1>
             </a>
             <ul class="flex flex-col gap-[7.442vw] text-black font-semibold text-[4.186vw] mt-[4.884vw]">
-                <li><a href="dashboard.html">Product</a></li>
-                <li><a href="blog.html">Blog</a></li>
-                <li><a href="location.html">Store Location</a></li>
+                <li><a href="{{ route('home') }}">Home</a></li>
+                <li><a href="{{ route('blog') }}">Blog</a></li>
+                <li><a href="{{ route('location') }}">Store Location</a></li>
             </ul>
         </div>
         <div id="filterSide"
@@ -144,7 +144,7 @@
                 class="sm:hidden inline"><img src="assets/icons/hamburger.svg" alt=""></button>
             <a href="index.html">
                 <h1 data-aos="fade-up" data-aos-duration="500" data-aos-delay="200"
-                    class="text-white sm:text-[1.667vw] text-[3.721vw] logo sm:ml-0 ml-[4.884vw]">Treadwear.co</h1>
+                    class="text-white sm:text-[1.667vw] text-[3.721vw] logo sm:ml-0 ml-[4.884vw]">CampRover</h1>
             </a>
         </div>
         <div class="flex items-center sm:space-x-[1.875vw] space-x-[3.721vw]">
@@ -161,22 +161,29 @@
             </div>
             <div data-aos="fade-left" data-aos-duration="500" data-aos-delay="350" class="sm:hidden block">
                 <button href="" onclick="searching()">
-                    <img src="assets/icons/search-white.svg" alt="" class="sm:w-[2.083vw] w-[4.651vw]">
+                    <img src="src/assets/icons/search-white.svg" alt="" class="sm:w-[2.083vw] w-[4.651vw]">
                 </button>
             </div>
             <div data-aos="fade-left" data-aos-duration="500" data-aos-delay="350">
                 <button>
                     <a href="bag.html">
-                        <img src="assets/icons/bag-icon.svg" alt="" class="sm:w-[2.083vw] w-[4.651vw]">
+                        <img src="src/assets/icons/bag-icon.svg" alt="" class="sm:w-[2.083vw] w-[4.651vw]">
                     </a>
                 </button>
             </div>
-            <div data-aos="fade-left" data-aos-duration="500" data-aos-delay="300">
-                <button>
-                    <a href="login.html">
-                        <img src="assets/icons/profile-icon.svg" alt="" class="sm:w-[2.083vw] w-[4.651vw]">
-                    </a>
+            <div data-aos="fade-left" data-aos-duration="500" data-aos-delay="300" class="relative">
+                <button class="flex items-center justify-center" id="profile-button">
+                    <img src="src/assets/icons/profile-icon.svg" alt="Profile Icon"
+                        class="sm:w-[2.083vw] w-[4.651vw] transition duration-300 ease-in-out hover:scale-110">
                 </button>
+                <div id="submenu"
+                    class="submenu absolute right-0 hidden bg-white shadow-lg rounded-lg mt-2 p-4 w-48">
+                    <ul>
+                        <li><a href="profile.html" class="block py-2 px-4 hover:bg-gray-200">Profile</a></li>
+                        <li><a href="settings.html" class="block py-2 px-4 hover:bg-gray-200">Settings</a></li>
+                        <li><a href="{{ route('logout') }}" class="block py-2 px-4 hover:bg-gray-200">Logout</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
     </nav>

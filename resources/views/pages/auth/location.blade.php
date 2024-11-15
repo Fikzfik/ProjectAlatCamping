@@ -298,10 +298,28 @@
 
 
         });
+        document.addEventListener('DOMContentLoaded', () => {
+            const profileButton = document.getElementById('profile-button');
+            const submenu = document.getElementById('submenu');
+
+            // Toggle submenu visibility on button click
+            profileButton.addEventListener('click', (event) => {
+                event.preventDefault(); // Prevent default behavior of button
+                submenu.classList.toggle('hidden');
+            });
+
+            // Close submenu when clicking outside
+            document.addEventListener('click', (event) => {
+                if (!profileButton.contains(event.target) && !submenu.contains(event.target)) {
+                    submenu.classList.add('hidden');
+                }
+            });
+        });
     </script>
     <script>
         AOS.init();
     </script>
+
 </body>
 
 </html>

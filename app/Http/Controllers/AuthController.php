@@ -7,6 +7,9 @@ use Illuminate\View\View;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
@@ -41,25 +44,30 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ]);
+        $email = $request->input('email');
+        $password = $request->input('password');
 
-        $credentials = $request->only('email', 'password');
+        // Ambil data user berdasarkan email saja, tanpa join dengan tabel `role`
+        $validUser = DB::table('users')->where('email', $email)->first();
 
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
-            @dd('test');
-            return redirect()->intended('home'); // Redirect to the intended page or a specific route
+        if ($validUser) {
+            // Periksa apakah password cocok
+            if (Hash::check($password, $validUser->password)) {
+                // Menggunakan DB::select akan mengembalikan array
+                $query = 'SELECT * FROM users WHERE users.email = ?';
+                $validUser = DB::select($query, [$email]);
+
+                // Pastikan untuk mengakses elemen pertama dari array
+                $user = $validUser[0];
+
+                Auth::loginUsingId($user->id_user);
+                return redirect()->intended('/home');
+            } else {
+                return redirect()->back()->with('error', 'Password salah.');
+            }
+        } else {
+            return redirect()->back()->with('error', 'Email tidak ditemukan.');
         }
-        
-        @dd('testt');
-        return back()
-            ->withErrors([
-                'email' => 'The provided credentials do not match our records.',
-            ])
-            ->onlyInput('email');
     }
 
     public function logout(Request $request)

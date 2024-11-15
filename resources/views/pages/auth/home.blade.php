@@ -41,25 +41,32 @@
                             <ul class="text-[0.938vw] space-y-[0.5vw] max-w-[3vw]">
                                 <li
                                     class="font-medium opacity-100 translate-x-0 transition-all duration-500 ease-in-out">
-                                    <a href="">Shirt</a></li>
+                                    <a href="">Shirt</a>
+                                </li>
                                 <li
                                     class="opacity-60 translate-x-0 hover:opacity-100 transition-all duration-500 ease-in-out">
-                                    <a href="">Coat</a></li>
+                                    <a href="">Coat</a>
+                                </li>
                                 <li
                                     class="opacity-60 translate-x-0 hover:opacity-100 transition-all duration-500 ease-in-out">
-                                    <a href="">Jacket</a></li>
+                                    <a href="">Jacket</a>
+                                </li>
                                 <li
                                     class="opacity-60 translate-x-0 hover:opacity-100 transition-all duration-500 ease-in-out">
-                                    <a href="">Flannel</a></li>
+                                    <a href="">Flannel</a>
+                                </li>
                                 <li
                                     class="opacity-60 translate-x-0 hover:opacity-100 transition-all duration-500 ease-in-out">
-                                    <a href="">Short</a></li>
+                                    <a href="">Short</a>
+                                </li>
                                 <li
                                     class="opacity-60 translate-x-0 hover:opacity-100 transition-all duration-500 ease-in-out">
-                                    <a href="">Pants</a></li>
+                                    <a href="">Pants</a>
+                                </li>
                                 <li
                                     class="opacity-60 translate-x-0 hover:opacity-100 transition-all duration-500 ease-in-out">
-                                    <a href="">Hoodie</a></li>
+                                    <a href="">Hoodie</a>
+                                </li>
                             </ul>
                         </div>
                     </div>
@@ -75,8 +82,7 @@
                             </div>
                         </a>
                         <hr>
-                        <div id="dropdownList2"
-                            class="overflow-hidden max-h-0 transition-all duration-500 ease-in-out">
+                        <div id="dropdownList2" class="overflow-hidden max-h-0 transition-all duration-500 ease-in-out">
                             <ul id="listItems2" class="text-[0.938vw] space-y-[0.781vw]">
                                 <li
                                     class="font-medium flex items-center space-x-[0.885vw] opacity-0 translate-x-[-100%] transition-all duration-500 ease-in-out">
@@ -105,8 +111,7 @@
                             </div>
                         </a>
                         <hr>
-                        <div id="dropdownList3"
-                            class="overflow-hidden max-h-0 transition-all duration-500 ease-in-out">
+                        <div id="dropdownList3" class="overflow-hidden max-h-0 transition-all duration-500 ease-in-out">
                             <ul class="text-[0.938vw] space-y-[1.042vw] flex items-center space-x-[0.729vw]">
                                 <li
                                     class="text-[1.042vw] opacity-0 translate-x-[-100%] transition-all duration-500 ease-in-out">
@@ -523,10 +528,12 @@
                         Treadwear</li>
                     <li
                         class="sm:text-[1.042vw] text-[3.686vw] sm:leading-[2.188vw] leading-[9.628vw] sm:font-normal font-light">
-                        <a href="location.html">Location</a></li>
+                        <a href="location.html">Location</a>
+                    </li>
                     <li
                         class="sm:text-[1.042vw] text-[3.686vw] sm:leading-[2.188vw] leading-[9.628vw] sm:font-normal font-light">
-                        <a href="about.html">About Us</a></li>
+                        <a href="about.html">About Us</a>
+                    </li>
                     <li onclick="togglePopup(true)"
                         class="sm:text-[1.042vw] text-[3.686vw] sm:leading-[2.188vw] leading-[9.628vw] sm:font-normal font-light cursor-pointer">
                         Contact Us</li>
@@ -568,7 +575,8 @@
                         Sale</li>
                     <li
                         class="sm:text-[1.042vw] text-[3.686vw] sm:leading-[2.188vw] leading-[9.628vw] sm:font-normal font-light cursor-pointer">
-                        <a href="collection.html">New Collections</a></li>
+                        <a href="collection.html">New Collections</a>
+                    </li>
                 </ul>
             </div>
             <div data-aos="fade-up" data-aos-duration="500" data-aos-delay="800"
@@ -727,6 +735,23 @@
                 scrollAmountPx = vwToPx(scrollAmountVW);
             });
 
+        });
+        document.addEventListener('DOMContentLoaded', () => {
+            const profileButton = document.getElementById('profile-button');
+            const submenu = document.getElementById('submenu');
+
+            // Toggle submenu visibility on button click
+            profileButton.addEventListener('click', (event) => {
+                event.preventDefault(); // Prevent default behavior of button
+                submenu.classList.toggle('hidden');
+            });
+
+            // Close submenu when clicking outside
+            document.addEventListener('click', (event) => {
+                if (!profileButton.contains(event.target) && !submenu.contains(event.target)) {
+                    submenu.classList.add('hidden');
+                }
+            });
         });
     </script>
     <script>
