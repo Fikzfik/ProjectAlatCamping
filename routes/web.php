@@ -1,12 +1,13 @@
 <?php
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ViewController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'guest'], function () {
-    Route::get('/login', [AuthController::class, 'loginview'])->name('login');
+    Route::get('/login', [ViewController::class, 'loginview'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->name('login.post');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-    Route::get('/register', [AuthController::class, 'registerview'])->name('register');
+    Route::get('/register', [ViewController::class, 'registerview'])->name('register');
     Route::post('/register', [AuthController::class, 'register'])->name('register.post');
     Route::get('/register', function () {
         return view('pages.register');
@@ -16,6 +17,7 @@ Route::group(['middleware' => 'guest'], function () {
     });
 });
 Route::group(['middleware' => 'auth'], function () {
+    Route::get('/blog', [ViewController::class, 'blogview'])->name('blog');
     Route::get('/home', function () {
         return view('pages.auth.home');
     });
