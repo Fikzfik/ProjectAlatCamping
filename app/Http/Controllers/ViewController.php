@@ -15,4 +15,16 @@ class ViewController extends Controller
     {
         return view('pages.register');
     }
+    public function homeview(): view
+    {
+        return view('pages.auth.home');
+    }
+    public function locationview(): view
+    {
+        return view('pages.auth.location');
+    }
+    public function blogview(): view
+    {
+        return view('pages.auth.blog');
+    }
 }

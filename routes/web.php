@@ -18,19 +18,7 @@ Route::group(['middleware' => 'guest'], function () {
 });
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/blog', [ViewController::class, 'blogview'])->name('blog');
-    Route::get('/home', function () {
-        return view('pages.auth.home');
-    });
-    Route::get('/location', function () {
-        return view('pages.auth.location');
-    });
-    Route::get('/blog', function () {
-        return view('pages.auth.blog');
-    });
-    Route::get('/detail/barang', function () {
-        return view('pages.auth.blog');
-    });
+    Route::get('/home', [ViewController::class, 'homeview'])->name('home');
+    Route::get('/location', [ViewController::class, 'locationview'])->name('location');
 });
-Route::get('/detail', function () {
-    return view('pages.auth.blog');
-});
+
