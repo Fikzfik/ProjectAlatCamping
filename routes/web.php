@@ -19,7 +19,9 @@ Route::group(['middleware' => 'guest'], function () {
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/stock', [ViewController::class, 'stockview'])->name('stock');
     Route::get('/barang', [ViewController::class, 'barangview'])->name('barang');
+    Route::post('/barang', [BarangController::class, 'barangstore'])->name('barang.store');
     Route::get('/kategori', [ViewController::class, 'kategoriview'])->name('kategori');
+    Route::post('/kategori', [ViewController::class, 'kategorstore'])->name('kategori.store');
     Route::get('/menu', [ViewController::class, 'menuview'])->name('menu');
     Route::get('/settingmenu', [ViewController::class, 'settingmenuview'])->name('settingmenu');
     Route::get('/blog', [ViewController::class, 'blogview'])->name('blog');
