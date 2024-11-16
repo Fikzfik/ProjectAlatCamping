@@ -17,6 +17,11 @@ Route::group(['middleware' => 'guest'], function () {
     });
 });
 Route::group(['middleware' => 'auth'], function () {
+    Route::get('/stock', [ViewController::class, 'stockview'])->name('stock');
+    Route::get('/barang', [ViewController::class, 'barangview'])->name('barang');
+    Route::get('/kategori', [ViewController::class, 'kategoriview'])->name('kategori');
+    Route::get('/menu', [ViewController::class, 'menuview'])->name('menu');
+    Route::get('/settingmenu', [ViewController::class, 'settingmenuview'])->name('settingmenu');
     Route::get('/blog', [ViewController::class, 'blogview'])->name('blog');
     Route::get('/home', [ViewController::class, 'homeview'])->name('home');
     Route::get('/location', [ViewController::class, 'locationview'])->name('location');

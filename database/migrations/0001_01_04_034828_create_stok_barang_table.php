@@ -13,7 +13,6 @@ return new class extends Migration {
         Schema::create('stok_barangs', function (Blueprint $table) {
             $table->id('id_stok');
             $table->integer('jumlah_stok');
-            $table->string('lokasi_stok');
             $table->timestamps();
             $table->unsignedBigInteger('id_barang');
             $table->foreign('id_barang')->references('id_barang')->on('barangs')->onDelete('cascade')->onUpdate('cascade');
