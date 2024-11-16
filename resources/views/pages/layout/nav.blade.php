@@ -3,7 +3,7 @@
         class="sm:hidden block w-[100vw] h-[216.744vw] overflow-x-hidden absolute z-[2] pointer-events-none">
         <div id="sidebar" class="absolute right-0 bg-white w-[100vw] h-[216.744vw] px-[8.372vw] slide-out-left-active">
             <button id="cross" class="mt-[9.767vw]"><img src="assets/icons/close-icon.svg" alt=""></button>
-            <a href="index.html">
+            <a href="{{ route('home') }}">
                 <h1 class="text-black text-[4.651vw] text-center logo">CampRover</h1>
             </a>
             <ul class="flex flex-col gap-[7.442vw] text-black font-semibold text-[4.186vw] mt-[4.884vw]">
@@ -16,7 +16,7 @@
             class="fixed right-0 bg-white w-[100vw] h-[216.744vw] px-[8.372vw] pb-[8.372vw] slide-out-active">
             <button id="crossFilter" class="ml-[76.512vw] mt-[9.767vw]"><img src="assets/icons/close-icon.svg"
                     alt=""></button>
-            <a href="index.html">
+            <a href="{{ route('home') }}">
                 <h1 class="text-black text-[4.651vw] text-center logo">CampRover</h1>
             </a>
             <div class="space-y-[4.651vw] mt-[4.884vw] h-[150.744vw] overflow-x-hidden overflow-y-scroll">
@@ -131,14 +131,42 @@
         class="flex justify-between items-center sm:pt-[2.323vw] pt-[9.302vw] sm:px-[4.271vw] px-[8.372vw] sm:mb-0 mb-[6.302vw]">
         <div class="sm:inline hidden">
             <ul class="text-[0.938vw] text-white flex space-x-[1.615vw]">
-                <li data-aos="fade-right" data-aos-duration="500" data-aos-delay="300"><a
-                        href="dashboard.html">Product</a></li>
-                <li data-aos="fade-right" data-aos-duration="500" data-aos-delay="400"><a href="blog.html">Blog</a>
+                <!-- Existing Menu -->
+                <li data-aos="fade-right" data-aos-duration="500" data-aos-delay="300">
+                    <a href="{{ route('home') }}">Home</a>
                 </li>
-                <li data-aos="fade-right" data-aos-duration="500" data-aos-delay="500"><a href="location.html">Store
-                        Location</a></li>
+                <li data-aos="fade-right" data-aos-duration="500" data-aos-delay="400">
+                    <a href="{{ route('blog') }}">Blog</a>
+                </li>
+                <li data-aos="fade-right" data-aos-duration="500" data-aos-delay="500">
+                    <a href="{{ route('location') }}">Store Location</a>
+                </li>
+
+                <!-- Admin Menu -->
+                <!-- Admin Menu -->
+                <li class="relative group" data-aos="fade-right" data-aos-duration="500" data-aos-delay="600">
+                    <a href="javascript:void(0)" onclick="toggleAdminMenu()" class="flex items-center">
+                    Admin
+                        <svg class="ml-2 w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 9l-7 7-7-7" />
+                        </svg>
+                    </a>
+                    <!-- Dropdown -->
+                    <ul id="adminDropdown"
+                        class="hidden absolute left-0 bg-gray-800 text-white text-sm rounded shadow-lg mt-2 z-10">
+                        <li class="px-4 py-2 hover:bg-gray-700"><a href="{{ route('stock') }}">Stock Management</a></li>
+                        <li class="px-4 py-2 hover:bg-gray-700"><a href="{{ route('barang') }}">Barang Management</a></li>
+                        <li class="px-4 py-2 hover:bg-gray-700"><a href="{{ route('kategori') }}">Kategori Management</a></li>
+                        <li class="px-4 py-2 hover:bg-gray-700"><a href="{{ route('menu') }}">Menu Management</a></li>
+                        <li class="px-4 py-2 hover:bg-gray-700"><a href="{{ route('settingmenu') }}">Setting Menu Management</a></li>
+                    </ul>
+                </li>
+
             </ul>
         </div>
+
         <div class="flex">
             <button data-aos="fade-right" data-aos-duration="500" data-aos-delay="300" id="hamburger"
                 class="sm:hidden inline"><img src="assets/icons/hamburger.svg" alt=""></button>
