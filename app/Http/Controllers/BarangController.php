@@ -81,7 +81,6 @@ class BarangController extends Controller
             'link_foto' => $fotoLink, // Kirim URL lengkap foto barang
         ]);
     }
-
     public function destroy($id)
     {
         // Hapus barang

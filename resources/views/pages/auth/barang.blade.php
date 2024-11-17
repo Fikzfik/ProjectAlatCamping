@@ -488,16 +488,20 @@
     function deleteBarang(id) {
         if (confirm('Apakah Anda yakin ingin menghapus barang ini?')) {
             $.ajax({
-                url: '/barang/' + id, // Pastikan URL ini benar
+                url: '/barang/destroy/' + id,
                 type: 'DELETE',
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
                 success: function(response) {
                     alert(response.message);
-                    loadBarang(); // Reload data barang setelah dihapus
+                    loadBarang();
                 },
                 error: function(xhr) {
                     alert('Terjadi kesalahan saat menghapus barang!');
                 }
             });
+
         }
     }
 
