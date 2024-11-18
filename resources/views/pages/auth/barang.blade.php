@@ -140,7 +140,7 @@
             <div class="w-full sm:w-[60%] px-4">
                 <h2 class="text-lg font-semibold text-black mb-4">Update Barang</h2>
 
-                <form id="form-update-barang">
+                <form id="form-update-barang" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <input type="hidden" id="update-id-barang" name="id_barang">
@@ -194,6 +194,14 @@
                             <textarea name="deskripsi" id="update-deskripsi" placeholder="Masukkan deskripsi barang"
                                 class="px-3 py-2 bg-gray-100 text-black rounded-md w-full"></textarea>
                         </div>
+
+                        <!-- Foto Barang -->
+                        <div class="flex flex-col">
+                            <label for="foto_barang_update" class="text-sm font-semibold text-black mb-1">Ganti Foto
+                                Barang</label>
+                            <input type="file" name="link_foto" id="update-foto_barang"
+                                class="px-3 py-2 bg-gray-100 text-black rounded-md w-full" accept="image/*">
+                        </div>
                     </div>
 
                     <!-- Tombol Simpan -->
@@ -220,9 +228,10 @@
             </button>
         </div>
     </div>
+
     <div id="kategoriModal"
         class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-[9999]">
-        <div class="bg-dark w-full max-w-lg rounded-md shadow-lg p-6 relative">
+        <div class="bg-dark w-auto max-w-lg rounded-md shadow-lg p-6 relative">
             <!-- Tombol Tutup Modal -->
             <button class="absolute top-2 right-2 text-gray-500 hover:text-gray-800"
                 onclick="document.getElementById('kategoriModal').classList.add('hidden')">
@@ -232,17 +241,17 @@
             <h2 class="text-xl font-bold mb-4">Tambah Item</h2>
 
             <!-- Form Inputan -->
-            <form action="{{ route('kategori.store') }}" method="POST">
+            <form id="kategoriForm" method="POST">
                 @csrf
                 <div class="mb-4">
                     <label for="nama_item" class="block text-gray-700 font-semibold mb-2">Nama Item</label>
-                    <input type="text" name="nama_item" id="nama_item" placeholder="Masukkan nama item"
-                        class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                    <input type="text" name="nama_kategori" id="nama_item" placeholder="Masukkan nama item"
+                        class="w-full px-4 py-2 border rounded-md text-black focus:outline-none focus:ring-2 focus:ring-blue-500">
                 </div>
                 <div class="mb-4">
                     <label for="deskripsi" class="block text-gray-700 font-semibold mb-2">Deskripsi</label>
                     <textarea name="deskripsi" id="deskripsi" placeholder="Masukkan deskripsi item"
-                        class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
+                        class="w-full px-4 py-2 border rounded-md text-black focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
                 </div>
                 <div class="flex justify-end">
                     <button type="button" class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 mr-2"
@@ -254,11 +263,9 @@
                     </button>
                 </div>
             </form>
-
-            <!-- Tabel Daftar Item -->
             <div class="mt-8">
                 <h3 class="text-lg font-semibold mb-4">Daftar Item</h3>
-                <table id="itemTable" class="display w-full">
+                <table id="itemTable" class="display w-full text-sm">
                     <thead>
                         <tr>
                             <th>#</th>
@@ -267,45 +274,126 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <!-- Data item akan diisi di sini -->
-                        <tr>
-                            <td>1</td>
-                            <td>Elektronik</td>
-                            <td>Item untuk barang elektronik</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Furniture</td>
-                            <td>Item untuk barang furniture</td>
-                        </tr>
-                        <!-- Tambahkan data item lainnya di sini -->
+                        @foreach ($kategori as $key => $category)
+                            <tr>
+                                <td>{{ $key + 1 }}</td> <!-- Nomor urut -->
+                                <td>{{ $category->nama_kategori }}</td> <!-- Nama kategori -->
+                                <td>{{ $category->deskripsi }}</td> <!-- Deskripsi kategori -->
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
             </div>
+
         </div>
     </div>
 
 
 
-
-
     @include('pages.layout.footer')
-</body>
-<div id="popup" class="fixed inset-0 items-center justify-center bg-black bg-opacity-50 hidden"
-    onclick="togglePopup(false)">
-    <div class="bg-black flex flex-col items-center p-6 rounded-lg shadow-lg sm:w-[20.833vw] w-[69.767vw]"
-        onclick="event.stopPropagation()">
-        <img src="assets/icons/gear-512.png" alt=""
-            class="sm:w-[5.208vw] w-[23.256vw] animate-[spin_5s_linear_infinite]">
-        <h2 class="text-white text-[4.651vw] text-center sm:text-[1.042vw] font-bold mb-4">This features is under
-            developement now</h2>
-        <p class="text-white sm:text-[0.729vw] text-[3.256vw] mb-4">Sorry for the inconvinient</p>
-        <button onclick="togglePopup(false)"
-            class="sm:px-[0.833vw] px-[3.721vw] sm:py-[0.208vw] py-[0.93vw] bg-red-500 text-white sm:text-[0.729vw] text-[3.256vw] rounded-md">Close</button>
+    <div id="popup" class="fixed inset-0 items-center justify-center bg-black bg-opacity-50 hidden"
+        onclick="togglePopup(false)">
+        <div class="bg-black flex flex-col items-center p-6 rounded-lg shadow-lg sm:w-[20.833vw] w-[69.767vw]"
+            onclick="event.stopPropagation()">
+            <img src="assets/icons/gear-512.png" alt=""
+                class="sm:w-[5.208vw] w-[23.256vw] animate-[spin_5s_linear_infinite]">
+            <h2 class="text-white text-[4.651vw] text-center sm:text-[1.042vw] font-bold mb-4">This features is under
+                developement now</h2>
+            <p class="text-white sm:text-[0.729vw] text-[3.256vw] mb-4">Sorry for the inconvinient</p>
+            <button onclick="togglePopup(false)"
+                class="sm:px-[0.833vw] px-[3.721vw] sm:py-[0.208vw] py-[0.93vw] bg-red-500 text-white sm:text-[0.729vw] text-[3.256vw] rounded-md">Close</button>
+        </div>
     </div>
-</div>
+</body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <script>
     $(document).ready(function() {
+        // Event submit pada form
+        $("#kategoriForm").submit(function(event) {
+            event.preventDefault(); // Mencegah reload halaman
+
+            let formData = new FormData(this); // Ambil data form
+
+            $.ajax({
+                url: "/kategori/store", // Ganti dengan endpoint Laravel Anda
+                method: "POST",
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"), // Token CSRF
+                },
+                data: formData,
+                processData: false, // Jangan proses data form secara otomatis
+                contentType: false, // Jangan set content-type secara otomatis
+                success: function(response) {
+                    console.log(response);
+                    // Notifikasi jika berhasil
+                    Swal.fire({
+                        icon: "success",
+                        title: "Berhasil!",
+                        text: response.message,
+                    });
+
+                    // Reset form dan tutup modal
+                    $("#kategoriForm")[0].reset();
+                    $("#kategoriModal").addClass("hidden");
+
+                    // Tambahkan data baru ke tabel
+                    let newRow = `
+                    <tr>
+                        <td>#</td>
+                        <td>${response.nama_kategori}</td>
+                        <td>${response.deskripsi}</td>
+                    </tr>
+                `;
+                    $("#itemTable tbody").append(newRow);
+                },
+                error: function(xhr) {
+                    // Notifikasi jika gagal
+                    Swal.fire({
+                        icon: "error",
+                        title: "Gagal!",
+                        text: xhr.responseJSON.message ||
+                            "Terjadi kesalahan saat menyimpan data.",
+                    });
+                },
+            });
+        });
+    });
+
+
+    $(document).ready(function() {
+
+        $("#form-tambah-barang").submit(function(e) {
+            e.preventDefault(); // Mencegah form untuk submit secara default
+
+            let formData = new FormData(this);
+
+            $.ajax({
+                url: '{{ route('barang.store') }}', // URL yang sesuai dengan route 'barang.store'
+                type: 'POST',
+                data: formData,
+                processData: false, // Jangan memproses data (karena ada file)
+                contentType: false, // Jangan set content-type header
+                success: function(response) {
+                    Swal.fire({
+                        icon: "success",
+                        title: "Berhasil!",
+                        text: response.message,
+                    });
+                    $('#form-tambah-barang')[0].reset(); // Reset form setelah sukses
+                    loadBarang(); // Reload data barang
+                },
+                error: function(xhr, status, error) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Gagal!",
+                        text: "Terjadi kesalahan: " + error,
+                    });
+                }
+            });
+        });
         $('#barangTable').DataTable({
             language: {
                 paginate: {
@@ -323,27 +411,6 @@
     });
 </script>
 <script>
-    $('#form-tambah-barang').submit(function(e) {
-        e.preventDefault(); // Mencegah form untuk submit secara default
-
-        let formData = new FormData(this); // Ambil data dari form, termasuk file gambar
-
-        $.ajax({
-            url: '{{ route('barang.store') }}', // URL yang sesuai dengan route 'barang.store'
-            type: 'POST',
-            data: formData,
-            processData: false, // Jangan memproses data (karena ada file)
-            contentType: false, // Jangan set content-type header
-            success: function(response) {
-                alert(response.message); // Menampilkan pesan sukses
-                $('#form-tambah-barang')[0].reset(); // Reset form setelah sukses
-            },
-            error: function(xhr, status, error) {
-                alert("Terjadi kesalahan: " + error); // Menampilkan error jika ada
-            }
-        });
-    });
-
     $(document).ready(function() {
         $('#kategoriTable').DataTable();
     });
@@ -382,7 +449,6 @@
         const nav = document.getElementById('nav');
         const openButton = document.getElementById('hamburger');
         const closeButton = document.getElementById('cross');
-
         // Tombol untuk Slide In
         openButton.addEventListener('click', () => {
             sidebar.classList.remove('slide-out-left-active');
@@ -430,22 +496,29 @@
                 let rows = '';
                 $.each(data, function(index, item) {
                     rows += `<tr>
-                        <td>${index + 1}</td>
-                        <td>${item.nama_barang}</td>
-                        <td>${item.nama_kategori}</td>
-                        <td>Rp ${number_format(item.harga_sewa, 0, ',', '.')}</td>
-                        <td>
-                            <span class="px-3 py-1 text-xs font-semibold rounded-full ${item.status == 'tersedia' ? 'bg-green-600 text-white' : 'bg-red-600 text-white'}">
-                                ${item.status.charAt(0).toUpperCase() + item.status.slice(1)}
-                            </span>
-                        </td>
-                        <td class="text-center">
-                            <button onclick="openUpdateModal(${item.id_barang})" class="px-4 py-2 text-sm font-semibold text-white bg-blue-600 rounded-md hover:bg-blue-700 transition-all">Edit</button>
-                            <button onclick="deleteBarang(${item.id_barang})" class="px-4 py-2 text-sm font-semibold text-white bg-red-600 rounded-md hover:bg-red-700 transition-all ml-2">Hapus</button>
-                        </td>
-                    </tr>`;
+                            <td>${index + 1}</td>
+                            <td>${item.nama_barang}</td>
+                            <td>${item.nama_kategori}</td>
+                            <td>Rp ${number_format(item.harga_sewa, 0, ',', '.')}</td>
+                            <td>
+                                <span class="px-3 py-1 text-xs font-semibold rounded-full ${item.status == 'tersedia' ? 'bg-green-600 text-white' : 'bg-red-600 text-white'}">
+                                    ${item.status.charAt(0).toUpperCase() + item.status.slice(1)}
+                                </span>
+                            </td>
+                            <td class="text-center">
+                                <button onclick="openUpdateModal(${item.id_barang})" class="px-4 py-2 text-sm font-semibold text-white bg-blue-600 rounded-md hover:bg-blue-700 transition-all">Edit</button>
+                                <button onclick="deleteBarang(${item.id_barang})" class="px-4 py-2 text-sm font-semibold text-white bg-red-600 rounded-md hover:bg-red-700 transition-all ml-2">Hapus</button>
+                            </td>
+                        </tr>`;
                 });
                 $('#barangTable tbody').html(rows);
+            },
+            error: function(xhr) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Gagal Memuat Data!",
+                    text: "Terjadi kesalahan saat memuat data barang.",
+                });
             }
         });
     }
@@ -453,11 +526,10 @@
     // Fungsi untuk membuka modal dan mengisi form dengan data barang yang dipilih
     function openUpdateModal(id) {
         $.ajax({
-            url: '/barang/' + id, // Pastikan URL ini benar
+            url: '/barang/' + id,
             type: 'get',
             success: function(response) {
                 if (response.success) {
-                    // Isi form dengan data barang
                     $('#update-id-barang').val(response.data.id_barang);
                     $('#update-nama_barang').val(response.data.nama_barang);
                     $('#update-id-kategori').val(response.data.id_kategori);
@@ -465,65 +537,162 @@
                     $('#update-status').val(response.data.status);
                     $('#update-deskripsi').val(response.data.deskripsi);
 
-                    // Perbarui foto barang
                     if (response.link_foto) {
-                        $('#update-foto-barang').attr('src', response
-                            .link_foto); // Gunakan URL foto dari server
+                        $('#update-foto-barang').attr('src', response.link_foto);
                     } else {
-                        $('#update-foto-barang').attr('src',
-                            '/storage/barang_foto/default.jpg'); // Foto default jika tidak ada foto
+                        $('#update-foto-barang').attr('src', '/storage/barang_foto/default.jpg');
                     }
 
-                    // Tampilkan modal
                     $('#updateBarangModal').removeClass('hidden');
                 }
             },
-            error: function(xhr) {
-                alert('Terjadi kesalahan saat memuat data barang!');
+            error: function() {
+                Swal.fire({
+                    icon: "error",
+                    title: "Gagal!",
+                    text: "Terjadi kesalahan saat memuat data barang.",
+                });
+            }
+        });
+    }
+
+    function openUpdateModal(id) {
+        $.ajax({
+            url: '/barang/' + id,
+            type: 'get',
+            success: function(response) {
+                if (response.success) {
+                    $('#update-id-barang').val(response.data.id_barang);
+                    $('#update-nama_barang').val(response.data.nama_barang);
+                    $('#update-id-kategori').val(response.data.id_kategori);
+                    $('#update-harga_sewa').val(response.data.harga_sewa);
+                    $('#update-status').val(response.data.status);
+                    $('#update-deskripsi').val(response.data.deskripsi);
+
+                    if (response.link_foto) {
+                        $('#update-foto-barang').attr('src', response.link_foto);
+                    } else {
+                        $('#update-foto-barang').attr('src', '/storage/barang_foto/default.jpg');
+                    }
+
+                    $('#updateBarangModal').removeClass('hidden');
+                }
+            },
+            error: function() {
+                Swal.fire({
+                    icon: "error",
+                    title: "Gagal!",
+                    text: "Terjadi kesalahan saat memuat data barang.",
+                });
+            }
+        });
+    }
+
+    function openUpdateModal(id) {
+        $.ajax({
+            url: '/barang/' + id,
+            type: 'get',
+            success: function(response) {
+                if (response.success) {
+                    $('#update-id-barang').val(response.data.id_barang);
+                    $('#update-nama_barang').val(response.data.nama_barang);
+                    $('#update-id-kategori').val(response.data.id_kategori);
+                    $('#update-harga_sewa').val(response.data.harga_sewa);
+                    $('#update-status').val(response.data.status);
+                    $('#update-deskripsi').val(response.data.deskripsi);
+
+                    if (response.link_foto) {
+                        $('#update-foto-barang').attr('src', response.link_foto);
+                    } else {
+                        $('#update-foto-barang').attr('src', '/storage/barang_foto/default.jpg');
+                    }
+
+                    $('#updateBarangModal').removeClass('hidden');
+                }
+            },
+            error: function() {
+                Swal.fire({
+                    icon: "error",
+                    title: "Gagal!",
+                    text: "Terjadi kesalahan saat memuat data barang.",
+                });
             }
         });
     }
 
     // Fungsi untuk menghapus barang
     function deleteBarang(id) {
-        if (confirm('Apakah Anda yakin ingin menghapus barang ini?')) {
-            $.ajax({
-                url: '/barang/' + id, // Pastikan URL ini benar
-                type: 'DELETE',
-                success: function(response) {
-                    alert(response.message);
-                    loadBarang(); // Reload data barang setelah dihapus
-                },
-                error: function(xhr) {
-                    alert('Terjadi kesalahan saat menghapus barang!');
-                }
-            });
-        }
+        Swal.fire({
+            title: 'Yakin ingin menghapus barang ini?',
+            text: "Data yang dihapus tidak bisa dikembalikan!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Ya, Hapus!',
+            cancelButtonText: 'Batal'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: '/barang/destroy/' + id,
+                    type: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(response) {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Berhasil!",
+                            text: response.message,
+                        });
+                        loadBarang(); // Reload data barang setelah berhasil dihapus
+                    },
+                    error: function(xhr) {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Gagal!",
+                            text: "Terjadi kesalahan saat menghapus barang.",
+                        });
+                    }
+                });
+            }
+        });
     }
-
-    // Fungsi untuk menyimpan data barang yang diupdate
     $('#form-update-barang').submit(function(e) {
         e.preventDefault();
+
         let formData = new FormData(this);
+        // Tambahkan _method untuk spoofing PUT
+        formData.append('_method', 'PUT');
 
         $.ajax({
-            url: '/barang/' + $('#update-id-barang').val(), // Endpoint untuk update barang
-            type: 'PUT',
+            url: '/barang/update/' + $('#update-id-barang').val(), // Endpoint update barang
+            type: 'POST', // Menggunakan POST karena metode spoofing
             data: formData,
             processData: false,
             contentType: false,
             success: function(response) {
-                alert(response.message);
-                $('#updateBarangModal').addClass('hidden'); // Tutup modal setelah update berhasil
-                loadBarang(); // Reload data barang setelah update
+                Swal.fire({
+                    icon: "success",
+                    title: "Berhasil!",
+                    text: response.message,
+                });
+                $('#updateBarangModal').addClass('hidden'); // Tutup modal
+                loadBarang(); // Reload data barang
             },
             error: function(xhr) {
-                alert('Terjadi kesalahan saat memperbarui barang!');
+                // Tangkap pesan error dari server
+                let errorMessage = xhr.responseJSON ? xhr.responseJSON.error :
+                    'Terjadi kesalahan tak terduga.';
+                Swal.fire({
+                    icon: "error",
+                    title: "Gagal!",
+                    text: errorMessage,
+                });
             }
         });
     });
 
-    // Memuat data barang saat halaman siap
     $(document).ready(function() {
         loadBarang();
     });

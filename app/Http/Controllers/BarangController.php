@@ -37,23 +37,45 @@ class BarangController extends Controller
 
     public function update(Request $request, $id)
     {
-        // Update barang
-        $filePath = $file->storeAs('public/barang_foto', $file->getClientOriginalName());
-        $fileName = basename($filePath);
-        $barang = DB::table('barangs')
-            ->where('id_barang', $id)
-            ->update([
-                'nama_barang' => $request->nama_barang,
-                'id_kategori' => $request->id_kategori,
-                'harga_sewa' => $request->harga_sewa,
-                'status' => $request->status,
-                'deskripsi' => $request->deskripsi,
-                'link_foto' => $filename,
-                'updated_at' => now(),
-            ]);
+        try {
+            // Ambil data barang lama
+            $barang = DB::table('barangs')->where('id_barang', $id)->first();
 
-        return response()->json(['message' => 'Barang berhasil diperbarui!']);
+            // Cek jika ada file baru
+            $fileName = $barang->link_foto; // Ambil nama file foto lama
+
+            if ($request->hasFile('link_foto')) {
+                $file = $request->file('link_foto');
+                // Menyimpan foto baru di folder 'barang_foto' dan memastikan file disimpan secara publik
+                $fileName = $file->storePublicly('barang_foto', 'public');
+            }
+
+            // Update data barang
+            DB::table('barangs')
+                ->where('id_barang', $id)
+                ->update([
+                    'nama_barang' => $request->nama_barang,
+                    'id_kategori' => $request->id_kategori,
+                    'harga_sewa' => $request->harga_sewa,
+                    'status' => $request->status,
+                    'deskripsi' => $request->deskripsi,
+                    'link_foto' => $fileName, // Tetap menggunakan foto lama jika tidak ada file baru
+                    'updated_at' => now(),
+                ]);
+
+            return response()->json(['message' => 'Barang berhasil diperbarui!'], 200);
+        } catch (\Exception $e) {
+            // Tangkap error dan kirim response JSON
+            return response()->json(
+                [
+                    'message' => 'Terjadi kesalahan saat memperbarui barang.',
+                    'error' => $e->getMessage(),
+                ],
+                500,
+            );
+        }
     }
+
     public function updateModal($id)
     {
         // Mengambil data barang berdasarkan ID menggunakan Query Builder
@@ -81,7 +103,6 @@ class BarangController extends Controller
             'link_foto' => $fotoLink, // Kirim URL lengkap foto barang
         ]);
     }
-
     public function destroy($id)
     {
         // Hapus barang
