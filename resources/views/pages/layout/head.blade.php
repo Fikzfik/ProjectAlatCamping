@@ -14,6 +14,15 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <style>
     /* Modal container */
+    #kategoriModal {
+        z-index: 9999;
+        /* Modal harus berada di atas */
+    }
+
+    .swal2-container {
+        z-index: 10500 !important;
+    }
+
     .modal {
         position: fixed;
         /* Ensure it is fixed to the screen */

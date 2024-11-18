@@ -37,23 +37,41 @@ class BarangController extends Controller
 
     public function update(Request $request, $id)
     {
-        // Update barang
-        $filePath = $file->storeAs('public/barang_foto', $file->getClientOriginalName());
-        $fileName = basename($filePath);
-        $barang = DB::table('barangs')
-            ->where('id_barang', $id)
-            ->update([
-                'nama_barang' => $request->nama_barang,
-                'id_kategori' => $request->id_kategori,
-                'harga_sewa' => $request->harga_sewa,
-                'status' => $request->status,
-                'deskripsi' => $request->deskripsi,
-                'link_foto' => $filename,
-                'updated_at' => now(),
-            ]);
+        try {
+            // Proses file
+            $file = $request->file('link_foto');
+            $fileName = null;
+            if ($file) {
+                $filePath = $file->storeAs('public/barang_foto', $file->getClientOriginalName());
+                $fileName = basename($filePath);
+            }
 
-        return response()->json(['message' => 'Barang berhasil diperbarui!']);
+            // Update data barang
+            DB::table('barangs')
+                ->where('id_barang', $id)
+                ->update([
+                    'nama_barang' => $request->nama_barang,
+                    'id_kategori' => $request->id_kategori,
+                    'harga_sewa' => $request->harga_sewa,
+                    'status' => $request->status,
+                    'deskripsi' => $request->deskripsi,
+                    // 'link_foto' => $fileName,
+                    'updated_at' => now(),
+                ]);
+
+            return response()->json(['message' => 'Barang berhasil diperbarui!'], 200);
+        } catch (\Exception $e) {
+            // Tangkap error dan kirim response JSON
+            return response()->json(
+                [
+                    'message' => 'Terjadi kesalahan saat memperbarui barang.',
+                    'error' => $e->getMessage(),
+                ],
+                500,
+            );
+        }
     }
+
     public function updateModal($id)
     {
         // Mengambil data barang berdasarkan ID menggunakan Query Builder
