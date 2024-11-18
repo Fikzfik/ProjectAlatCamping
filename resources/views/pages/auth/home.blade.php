@@ -39,44 +39,21 @@
                         <a href="javascript:void(0)" onclick="toggleDropdown1()">
                             <div data-aos-delay="200" class="flex items-center justify-between">
                                 <h2 class="text-[1.146vw] font-medium">Type:</h2>
-                                <img id="arrowIcon1" src="assets/icons/arrow-icon.svg" alt=""
-                                    class="w-[0.833vw] rotate-180 transition-transform duration-500">
-                                <!-- Default open state -->
+                                <img id="arrowIcon1" src="src/assets/icons/arrow-icon.svg" alt=""
+                                    class="w-[0.833vw] rotate-0 transition-transform duration-500">
                             </div>
                         </a>
                         <hr>
                         <div id="dropdownList1"
-                            class="overflow-hidden max-h-[20vw] transition-all duration-500 ease-in-out">
-                            <!-- Default open state -->
+                            class="overflow-auto max-h-[30vw] transition-all duration-500 ease-in-out hidden">
+                            <!-- Loop through categories -->
                             <ul class="text-[0.938vw] space-y-[0.5vw] max-w-[3vw]">
-                                <li
-                                    class="font-medium opacity-100 translate-x-0 transition-all duration-500 ease-in-out">
-                                    <a href="">Shirt</a>
-                                </li>
-                                <li
-                                    class="opacity-60 translate-x-0 hover:opacity-100 transition-all duration-500 ease-in-out">
-                                    <a href="">Coat</a>
-                                </li>
-                                <li
-                                    class="opacity-60 translate-x-0 hover:opacity-100 transition-all duration-500 ease-in-out">
-                                    <a href="">Jacket</a>
-                                </li>
-                                <li
-                                    class="opacity-60 translate-x-0 hover:opacity-100 transition-all duration-500 ease-in-out">
-                                    <a href="">Flannel</a>
-                                </li>
-                                <li
-                                    class="opacity-60 translate-x-0 hover:opacity-100 transition-all duration-500 ease-in-out">
-                                    <a href="">Short</a>
-                                </li>
-                                <li
-                                    class="opacity-60 translate-x-0 hover:opacity-100 transition-all duration-500 ease-in-out">
-                                    <a href="">Pants</a>
-                                </li>
-                                <li
-                                    class="opacity-60 translate-x-0 hover:opacity-100 transition-all duration-500 ease-in-out">
-                                    <a href="">Hoodie</a>
-                                </li>
+                                @foreach ($kategori as $kat)
+                                    <li
+                                        class="opacity-60 translate-x-0 hover:opacity-100 transition-all duration-500 ease-in-out">
+                                        <a href="">{{ $kat->nama_kategori }}</a>
+                                    </li>
+                                @endforeach
                             </ul>
                         </div>
                     </div>
@@ -87,7 +64,7 @@
                         <a href="javascript:void(0)" onclick="toggleDropdown2()">
                             <div class="flex items-center justify-between">
                                 <h2 class="text-[1.146vw] font-medium">Availability:</h2>
-                                <img id="arrowIcon2" src="assets/icons/arrow-icon.svg" alt=""
+                                <img id="arrowIcon2" src="src/assets/icons/arrow-icon.svg" alt=""
                                     class="w-[0.833vw] rotate-0 transition-transform duration-500">
                             </div>
                         </a>
@@ -116,7 +93,7 @@
                         <a href="javascript:void(0)" onclick="toggleDropdown3()">
                             <div class="flex items-center justify-between">
                                 <h2 class="text-[1.146vw] font-medium">Price:</h2>
-                                <img id="arrowIcon3" src="assets/icons/arrow-icon.svg" alt=""
+                                <img id="arrowIcon3" src="src/assets/icons/arrow-icon.svg" alt=""
                                     class="w-[0.833vw] rotate-0 transition-transform duration-500">
                             </div>
                         </a>
@@ -146,7 +123,7 @@
                         <a href="javascript:void(0)" onclick="toggleDropdown4()">
                             <div class="flex items-center justify-between">
                                 <h2 class="text-[1.146vw] font-medium">Size:</h2>
-                                <img id="arrowIcon4" src="assets/icons/arrow-icon.svg" alt=""
+                                <img id="arrowIcon4" src="src/assets/icons/arrow-icon.svg" alt=""
                                     class="w-[0.833vw] rotate-0 transition-transform duration-500">
                             </div>
                         </a>
@@ -199,333 +176,36 @@
         <div class="sm:w-[65.729vw] w-[83.256vw]">
             <div
                 class="grid sm:grid-cols-4 grid-cols-2 sm:place-items-start place-items-center sm:gap-y-[2.344vw] gap-y-[9.767vw] sm:gap-x-[1.146vw] gap-x-[3.256vw]">
-                <!-- Item 1 -->
-                <div data-aos="fade-up" data-aos-duration="500" data-aos-delay="300"
-                    class="flex justify-center items-center sm:col-span-1 col-span-2 md:col-span-1">
-                    <div class="space-y-[0.885vw] relative overflow-hidden">
-                        <!-- https://pin.it/5tOrEauML -->
-                        <img src="src/assets/images/cloth-2.png" alt=""
-                            class="sm:w-[15.555vw] w-[83.256vw] sm:h-[20.859vw] h-[111.628vw] object-cover object-top transform transition-transform duration-300 ease-in-out hover:scale-110">
-
-                        <div
-                            class="absolute sm:w-[15.555vw] w-[83.256vw] sm:h-[10.426vw] h-[54.419vw] bg-gradient-to-t from-dark/90 to-dark/0 bottom-0">
-
-                            <div
-                                class="absolute bottom-0 sm:px-[0.938vw] px-[7.442vw] sm:pb-[1vw] pb-[7.442vw] text-white">
-                                <div>
-                                    <h2 class="sm:text-[0.938vw] text-[4.651vw] leading-none">Black Grafiti Shirt</h2>
-                                    <p class="sm:text-[0.938vw] text-[4.651vw] opacity-60">T - Shirt</p>
-                                </div>
-                                <div
-                                    class="flex items-center sm:space-x-[0.313vw] space-x-[3.721vw] sm:mt-[0.938vw] mt-[2.181vw]">
-                                    <h2 class="sm:text-[1.25vw] text-[6.047vw]">Rp. 175.000</h2>
-                                    <h2 class="sm:text-[0.938vw] text-[4.651vw] opacity-50"><s>Rp. 350.000</s></h2>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Item 1 -->
-                <!-- Item 2 -->
-                <div data-aos="fade-up" data-aos-duration="500" data-aos-delay="350"
-                    class="flex justify-center items-center">
-                    <div class="flex flex-col justify-between h-auto">
-                        <div class="overflow-hidden">
-                            <img src="assets/images/cloth-2.png" alt=""
-                                class="sm:w-[15.555vw] w-[39.767vw] sm:h-[15.115vw] h-[39.302vw] object-cover object-top transform transition-transform duration-300 ease-in-out hover:scale-110">
-                            <!-- https://pin.it/5OBKtVWaz -->
-                        </div>
-                        <div class="">
-                            <div class="mt-[10px]">
-                                <h2
-                                    class="sm:text-[0.938vw] text-[2.791vw] font-semibold truncate sm:w-[15.555vw] w-[40vw]">
-                                    Black Green Grafiti Shirt</h2>
-                                <p class="sm:text-[0.938vw] text-[2.326vw] opacity-60">T - Shirt</p>
-                            </div>
-                            <div class="flex items-center sm:space-x-[0.313vw] space-x-[2.326vw] mt-[1vw]">
-                                <h2 class="sm:text-[1.25vw] text-[3.256vw]">Rp. 175.000</h2>
-                                <h2 class="sm:text-[0.938vw] text-[2.791vw] opacity-50"><s>Rp. 350.000</s></h2>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Item 2 -->
-                <!-- Item 3 -->
-                <div data-aos="fade-up" data-aos-duration="500" data-aos-delay="400"
-                    class="flex justify-center items-center">
-                    <div class="flex flex-col justify-between h-auto">
-                        <div class="overflow-hidden">
-                            <img src="assets/images/cloth-3.png" alt=""
-                                class="sm:w-[15.555vw] w-[39.767vw] sm:h-[15.115vw] h-[39.302vw] object-cover object-top transform transition-transform duration-300 ease-in-out hover:scale-110">
-                            <!-- https://pin.it/24zGqV8V5 -->
-                        </div>
-                        <div class="">
-                            <div class="mt-[10px]">
-                                <h2
-                                    class="sm:text-[0.938vw] text-[2.791vw] font-semibold truncate sm:w-[15.555vw] w-[40vw]">
-                                    Organic Chemistry Clean Shirt</h2>
-                                <p class="sm:text-[0.938vw] text-[2.326vw] opacity-60">T - Shirt</p>
-                            </div>
-                            <div class="flex items-center sm:space-x-[0.313vw] space-x-[2.326vw] mt-[1vw]">
-                                <h2 class="sm:text-[1.25vw] text-[3.256vw]">Rp. 175.000</h2>
-                                <h2 class="sm:text-[0.938vw] text-[2.791vw] opacity-50"><s>Rp. 350.000</s></h2>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Item 3 -->
-
-                <!-- Item 4 -->
-                <div data-aos="fade-up" data-aos-duration="500" data-aos-delay="450"
-                    class="flex justify-center items-center">
-                    <div class="flex flex-col justify-between h-auto">
-                        <div class="overflow-hidden">
-                            <img src="assets/images/cloth-4.png" alt=""
-                                class="sm:w-[15.555vw] w-[39.767vw] sm:h-[15.115vw] h-[39.302vw] object-cover object-top transform transition-transform duration-300 ease-in-out hover:scale-110">
-                            <!-- https://images.app.goo.gl/R1FwJFf9BY23ZF3s6 -->
-                        </div>
-                        <div class="">
-                            <div class="mt-[10px]">
-                                <h2
-                                    class="sm:text-[0.938vw] text-[2.791vw] font-semibold truncate sm:w-[15.555vw] w-[40vw]">
-                                    Blue Ocean Shirt</h2>
-                                <p class="sm:text-[0.938vw] text-[2.326vw] opacity-60">T - Shirt</p>
-                            </div>
-                            <div class="flex items-center sm:space-x-[0.313vw] space-x-[2.326vw] mt-[1vw]">
-                                <h2 class="sm:text-[1.25vw] text-[3.256vw]">Rp. 175.000</h2>
-                                <h2 class="sm:text-[0.938vw] text-[2.791vw] opacity-50"><s>Rp. 350.000</s></h2>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Item 4 -->
-
-                <!-- Item 5 -->
-                <div data-aos="fade-up" data-aos-duration="500" data-aos-delay="500"
-                    class="flex justify-center items-center">
-                    <div class="flex flex-col justify-between h-auto">
-                        <div class="overflow-hidden">
-                            <img src="assets/images/cloth-5.png" alt=""
-                                class="sm:w-[15.555vw] w-[39.767vw] sm:h-[15.115vw] h-[39.302vw] object-cover object-top transform transition-transform duration-300 ease-in-out hover:scale-110">
-                            <!-- https://pin.it/KPdwGa88L -->
-                        </div>
-                        <div class="">
-                            <div class="mt-[10px]">
-                                <h2
-                                    class="sm:text-[0.938vw] text-[2.791vw] font-semibold truncate sm:w-[15.555vw] w-[40vw]">
-                                    Green White Shirt</h2>
-                                <p class="sm:text-[0.938vw] text-[2.326vw] opacity-60">T - Shirt</p>
-                            </div>
-                            <div class="flex items-center sm:space-x-[0.313vw] space-x-[2.326vw] mt-[1vw]">
-                                <h2 class="sm:text-[1.25vw] text-[3.256vw]">Rp. 175.000</h2>
-                                <h2 class="sm:text-[0.938vw] text-[2.791vw] opacity-50"><s>Rp. 350.000</s></h2>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Item 5 -->
-
-                <!-- Item 6 -->
-                <div data-aos="fade-up" data-aos-duration="500" data-aos-delay="550"
-                    class="sm:flex justify-center items-center hidden">
-                    <div class="flex flex-col justify-between h-auto">
-                        <div class="overflow-hidden">
-                            <img src="assets/images/cloth-6.png" alt=""
-                                class="sm:w-[15.555vw] w-[39.767vw] sm:h-[15.115vw] h-[39.302vw] object-cover object-top transform transition-transform duration-300 ease-in-out hover:scale-110">
-                            <!-- https://pin.it/6bYpGRWCS -->
-                        </div>
-                        <div class="">
-                            <div class="mt-[10px]">
-                                <h2
-                                    class="sm:text-[0.938vw] text-[2.791vw] font-semibold truncate sm:w-[15.555vw] w-[40vw]">
-                                    Future Coming Art</h2>
-                                <p class="sm:text-[0.938vw] text-[2.326vw] opacity-60">T - Shirt</p>
-                            </div>
-                            <div class="flex items-center sm:space-x-[0.313vw] space-x-[2.326vw] mt-[1vw]">
-                                <h2 class="sm:text-[1.25vw] text-[3.256vw]">Rp. 175.000</h2>
-                                <h2 class="sm:text-[0.938vw] text-[2.791vw] opacity-50"><s>Rp. 350.000</s></h2>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Item 6 -->
-
-                <!-- Item 7 -->
-                <div data-aos="fade-up" data-aos-duration="500" data-aos-delay="600"
-                    class="col-span-2 flex justify-center items-center">
-                    <div class="relative">
-                        <img src="assets/images/collections-image.png" alt=""
-                            class="sm:w-[32.292vw] w-[83.256vw] sm:h-[20.859vw] h-[53.721vw]">
-                        <!-- https://images.app.goo.gl/zqY9PMEhaKLVE5maA -->
-                        <div
-                            class="absolute sm:w-[32.292vw] w-[83.256vw] sm:h-[10.426vw] h-[29.535vw] bg-gradient-to-t from-dark/90 to-dark/0 bottom-0 sm:px-[1.875vw] px-[4.884vw] sm:pt-[2.708vw] pt-[6.512vw]">
-                            <h1 class="sm:text-[2.5vw] text-[7.442vw]">New Collection Out Now</h1>
-                            <button
-                                class="sm:w-[11.042vw] w-[30.828vw] sm:h-[2.604vw] h-[7.072vw] text-dark bg-white sm:text-[1.042vw] text-[2.791vw] font-medium"
-                                onclick="togglePopup(true)">Shop Now <span class="arrow">--></span></button>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Item 7 -->
-
-                <!-- Item 6 -->
-                <div data-aos="fade-up" data-aos-duration="500" data-aos-delay="550"
-                    class="sm:hidden justify-center items-center flex">
-                    <div class="flex flex-col justify-between h-auto">
-                        <div class="overflow-hidden">
-                            <img src="assets/images/cloth-6.png" alt=""
-                                class="sm:w-[15.555vw] w-[39.767vw] sm:h-[15.115vw] h-[39.302vw] object-cover object-top transform transition-transform duration-300 ease-in-out hover:scale-110">
-                            <!-- https://pin.it/6bYpGRWCS -->
-                        </div>
-                        <div class="">
-                            <div class="mt-[10px]">
-                                <h2
-                                    class="sm:text-[0.938vw] text-[2.791vw] font-semibold truncate sm:w-[15.555vw] w-[40vw]">
-                                    Future Coming Art</h2>
-                                <p class="sm:text-[0.938vw] text-[2.326vw] opacity-60">T - Shirt</p>
-                            </div>
-                            <div class="flex items-center sm:space-x-[0.313vw] space-x-[2.326vw] mt-[1vw]">
-                                <h2 class="sm:text-[1.25vw] text-[3.256vw]">Rp. 175.000</h2>
-                                <h2 class="sm:text-[0.938vw] text-[2.791vw] opacity-50"><s>Rp. 350.000</s></h2>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Item 6 -->
-
-                <!-- Item 8 -->
-                <div data-aos="fade-up" data-aos-duration="500" data-aos-delay="300"
-                    class="flex justify-center items-center">
-                    <div class="flex flex-col justify-between h-auto">
-                        <div class="overflow-hidden">
-                            <img src="assets/images/cloth-7.png" alt=""
-                                class="sm:w-[15.555vw] w-[39.767vw] sm:h-[15.115vw] h-[39.302vw] object-cover object-top transform transition-transform duration-300 ease-in-out hover:scale-110">
-                            <!-- https://pin.it/2SKLtUYOg -->
-                        </div>
-                        <div class="">
-                            <div class="mt-[10px]">
-                                <h2
-                                    class="sm:text-[0.938vw] text-[2.791vw] font-semibold truncate sm:w-[15.555vw] w-[40vw]">
-                                    Summer Moments Shirt</h2>
-                                <p class="sm:text-[0.938vw] text-[2.326vw] opacity-60">T - Shirt</p>
-                            </div>
-                            <div class="flex items-center sm:space-x-[0.313vw] space-x-[2.326vw] mt-[1vw]">
-                                <h2 class="sm:text-[1.25vw] text-[3.256vw]">Rp. 175.000</h2>
-                                <h2 class="sm:text-[0.938vw] text-[2.791vw] opacity-50"><s>Rp. 350.000</s></h2>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Item 8 -->
-
-                <!-- Item 9 -->
-                <div data-aos="fade-up" data-aos-duration="500" data-aos-delay="350"
-                    class="flex justify-center items-center">
-                    <div class="flex flex-col justify-between h-auto">
-                        <div class="overflow-hidden">
-                            <img src="assets/images/cloth-8.png" alt=""
-                                class="sm:w-[15.555vw] w-[39.767vw] sm:h-[15.115vw] h-[39.302vw] object-cover object-top transform transition-transform duration-300 ease-in-out hover:scale-110">
-                            <!-- https://pin.it/6XWuC9AJ3 -->
-                        </div>
-                        <div class="">
-                            <div class="mt-[10px]">
-                                <h2
-                                    class="sm:text-[0.938vw] text-[2.791vw] font-semibold truncate sm:w-[15.555vw] w-[40vw]">
-                                    Skate Ramp Shirt</h2>
-                                <p class="sm:text-[0.938vw] text-[2.326vw] opacity-60">T - Shirt</p>
-                            </div>
-                            <div class="flex items-center sm:space-x-[0.313vw] space-x-[2.326vw] mt-[1vw]">
-                                <h2 class="sm:text-[1.25vw] text-[3.256vw]">Rp. 175.000</h2>
-                                <h2 class="sm:text-[0.938vw] text-[2.791vw] opacity-50"><s>Rp. 350.000</s></h2>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Item 9 -->
-
-                <!-- Item 10 -->
-                <div data-aos="fade-up" data-aos-duration="500" data-aos-delay="400"
-                    class="sm:flex justify-center items-center hidden">
-                    <a href="detail.html">
-                        <div class="space-y-[0.885vw] relative  overflow-hidden">
-                            <img src="assets/images/cloth-9.png" alt=""
-                                class="w-[15.365vw] h-[20.859vw] object-cover object-top transform transition-transform duration-300 ease-in-out hover:scale-110">
-                            <!-- https://www.birden.com.br/prod/1555/camiseta-oversized-collective-grove#s8203 -->
-
-                            <div
-                                class="absolute w-[15.365vw] h-[10.426vw] bg-gradient-to-t from-dark/90 to-dark/0 bottom-0">
-
-                                <div class="absolute bottom-0 px-[0.938vw] pb-[1vw] text-white">
-                                    <div>
-                                        <h2 class="text-[0.938vw]">Soft Green Oversized</h2>
-                                        <p class="text-[0.938vw] opacity-60">T - Shirt</p>
-                                    </div>
-                                    <div class="flex items-center space-x-[0.313vw]">
-                                        <h2 class="text-[1.25vw]">Rp. 175.000</h2>
-                                        <h2 class="text-[0.938vw] opacity-50"><s>Rp. 350.000</s></h2>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <!-- End Item 10 -->
-
-                <!-- Item 11 -->
-                <div data-aos="fade-up" data-aos-duration="500" data-aos-delay="450"
-                    class="flex justify-center items-center">
-                    <div class="flex flex-col justify-between h-auto">
-                        <div class="overflow-hidden">
-                            <img src="assets/images/cloth-10.png" alt=""
-                                class="sm:w-[15.555vw] w-[39.767vw] sm:h-[15.115vw] h-[39.302vw] object-cover object-top transform transition-transform duration-300 ease-in-out hover:scale-110">
-                        </div>
-                        <div class="">
-                            <div class="mt-[10px]">
-                                <h2
-                                    class="sm:text-[0.938vw] text-[2.791vw] font-semibold truncate sm:w-[15.555vw] w-[40vw]">
-                                    Color Grafiti Oversized Shirt</h2>
-                                <p class="sm:text-[0.938vw] text-[2.326vw] opacity-60">T - Shirt</p>
-                            </div>
-                            <div class="flex items-center sm:space-x-[0.313vw] space-x-[2.326vw] mt-[1vw]">
-                                <h2 class="sm:text-[1.25vw] text-[3.256vw]">Rp. 175.000</h2>
-                                <h2 class="sm:text-[0.938vw] text-[2.791vw] opacity-50"><s>Rp. 350.000</s></h2>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Item 11 -->
-                <!-- Item 12 -->
-                <div data-aos="fade-up" data-aos-duration="500" data-aos-delay="500"
-                    class="sm:hidden flex justify-center items-center sm:col-span-1 col-span-2 md:col-span-1">
-                    <a href="detail.html">
-                        <div class="space-y-[0.885vw] relative">
-                            <img src="assets/images/cloth-9.png" alt=""
-                                class="sm:w-[15.555vw] w-[83.256vw] sm:h-[20.859vw] h-[111.628vw] object-cover object-top">
-                            <!-- https://pin.it/2B1dHMvN3 -->
-
+                @foreach ($barang as $item)
+                    <div data-aos="fade-up" data-aos-duration="500" data-aos-delay="300"
+                        class="flex justify-center items-center sm:col-span-1 col-span-2 md:col-span-1">
+                        <div class="space-y-[0.885vw] relative overflow-hidden">
+                            <img src="{{ asset('storage/' . $item->link_foto) }}" alt=""
+                                class="sm:w-[15.555vw] w-[83.256vw] sm:h-[20.859vw] h-[111.628vw] object-cover object-top transform transition-transform duration-300 ease-in-out hover:scale-110">
                             <div
                                 class="absolute sm:w-[15.555vw] w-[83.256vw] sm:h-[10.426vw] h-[54.419vw] bg-gradient-to-t from-dark/90 to-dark/0 bottom-0">
-
                                 <div
                                     class="absolute bottom-0 sm:px-[0.938vw] px-[7.442vw] sm:pb-[1vw] pb-[7.442vw] text-white">
                                     <div>
-                                        <h2 class="sm:text-[0.938vw] text-[4.651vw] leading-none">Soft Green Oversized
-                                        </h2>
-                                        <p class="sm:text-[0.938vw] text-[4.651vw] opacity-60">T - Shirt</p>
+                                        <h2 class="sm:text-[0.938vw] text-[4.651vw] leading-none">
+                                            {{ $item->nama_barang }}</h2>
+                                        <p class="sm:text-[0.938vw] text-[4.651vw] opacity-60">
+                                            {{ $item->nama_kategori }}</p>
                                     </div>
                                     <div
-                                        class="flex items-center sm:space-x-[0.313vw] space-x-[3.721vw] sm:mt-0 mt-[2.181vw]">
-                                        <h2 class="sm:text-[1.25vw] text-[6.047vw]">Rp. 175.000</h2>
-                                        <h2 class="sm:text-[0.938vw] text-[4.651vw] opacity-50"><s>Rp. 350.000</s></h2>
+                                        class="flex items-center sm:space-x-[0.313vw] space-x-[3.721vw] sm:mt-[0.938vw] mt-[2.181vw]">
+                                        <h2 class="sm:text-[1.25vw] text-[6.047vw]">Rp.
+                                            {{ number_format($item->harga_sewa, 0, ',', '.') }}</h2>
+                                        <h2 class="sm:text-[0.938vw] text-[4.651vw] opacity-50"><s> {{ number_format($item->harga_sewa*2, 0, ',', '.') }}</s></h2>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </a>
-                </div>
-                <!-- End Item 12 -->
+                    </div>
+                @endforeach
             </div>
         </div>
+
     </div>
     @include('pages.layout.footer')
     </div>
@@ -533,7 +213,7 @@
         onclick="togglePopup(false)">
         <div class="bg-black flex flex-col items-center p-6 rounded-lg shadow-lg sm:w-[20.833vw] w-[69.767vw]"
             onclick="event.stopPropagation()">
-            <img src="assets/icons/gear-512.png" alt=""
+            <img src="src/assets/icons/gear-512.png" alt=""
                 class="sm:w-[5.208vw] w-[23.256vw] animate-[spin_5s_linear_infinite]">
             <h2 class="text-white text-[4.651vw] text-center sm:text-[1.042vw] font-bold mb-4">This features is under
                 developement now</h2>
@@ -576,6 +256,41 @@
                 arrowIcon.style.transform = 'rotate(180deg)';
             }
         }
+
+        function toggleDropdown1() {
+            const dropdown = document.getElementById('dropdownList1');
+            const arrowIcon = document.getElementById('arrowIcon1');
+
+            // Toggle dropdown visibility
+            dropdown.classList.toggle('hidden'); // Show or hide the dropdown
+            arrowIcon.classList.toggle('rotate-180'); // Rotate the arrow icon
+        }
+
+        function toggleDropdown2() {
+            const dropdown = document.getElementById('dropdownList2');
+            const arrowIcon = document.getElementById('arrowIcon2');
+
+            // Toggle dropdown visibility
+            dropdown.classList.toggle('max-h-0'); // Toggle dropdown visibility
+            dropdown.classList.toggle('max-h-[20vw]'); // Set maximum height when dropdown is open
+
+            // Toggle the arrow rotation
+            arrowIcon.classList.toggle('rotate-180');
+
+            // Animate the items inside the dropdown
+            const listItems = document.querySelectorAll('#listItems2 li');
+            listItems.forEach((item, index) => {
+                // Add animations for showing items
+                if (dropdown.classList.contains('max-h-[20vw]')) {
+                    item.classList.add('opacity-100', 'translate-x-0'); // Show items
+                    item.classList.remove('opacity-0', 'translate-x-[-100%]');
+                } else {
+                    item.classList.remove('opacity-100', 'translate-x-0'); // Hide items
+                    item.classList.add('opacity-0', 'translate-x-[-100%]');
+                }
+            });
+        }
+
 
         function toggleDropdown7() {
             const dropdown = document.getElementById('dropdownList7');

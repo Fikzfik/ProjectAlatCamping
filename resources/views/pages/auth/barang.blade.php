@@ -140,7 +140,7 @@
             <div class="w-full sm:w-[60%] px-4">
                 <h2 class="text-lg font-semibold text-black mb-4">Update Barang</h2>
 
-                <form id="form-update-barang">
+                <form id="form-update-barang" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     <input type="hidden" id="update-id-barang" name="id_barang">
@@ -194,6 +194,14 @@
                             <textarea name="deskripsi" id="update-deskripsi" placeholder="Masukkan deskripsi barang"
                                 class="px-3 py-2 bg-gray-100 text-black rounded-md w-full"></textarea>
                         </div>
+
+                        <!-- Foto Barang -->
+                        <div class="flex flex-col">
+                            <label for="foto_barang_update" class="text-sm font-semibold text-black mb-1">Ganti Foto
+                                Barang</label>
+                            <input type="file" name="link_foto" id="update-foto_barang"
+                                class="px-3 py-2 bg-gray-100 text-black rounded-md w-full" accept="image/*">
+                        </div>
                     </div>
 
                     <!-- Tombol Simpan -->
@@ -220,6 +228,7 @@
             </button>
         </div>
     </div>
+
     <div id="kategoriModal"
         class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-[9999]">
         <div class="bg-dark w-auto max-w-lg rounded-md shadow-lg p-6 relative">
@@ -282,23 +291,24 @@
 
 
     @include('pages.layout.footer')
-</body>
-<div id="popup" class="fixed inset-0 items-center justify-center bg-black bg-opacity-50 hidden"
-    onclick="togglePopup(false)">
-    <div class="bg-black flex flex-col items-center p-6 rounded-lg shadow-lg sm:w-[20.833vw] w-[69.767vw]"
-        onclick="event.stopPropagation()">
-        <img src="assets/icons/gear-512.png" alt=""
-            class="sm:w-[5.208vw] w-[23.256vw] animate-[spin_5s_linear_infinite]">
-        <h2 class="text-white text-[4.651vw] text-center sm:text-[1.042vw] font-bold mb-4">This features is under
-            developement now</h2>
-        <p class="text-white sm:text-[0.729vw] text-[3.256vw] mb-4">Sorry for the inconvinient</p>
-        <button onclick="togglePopup(false)"
-            class="sm:px-[0.833vw] px-[3.721vw] sm:py-[0.208vw] py-[0.93vw] bg-red-500 text-white sm:text-[0.729vw] text-[3.256vw] rounded-md">Close</button>
+    <div id="popup" class="fixed inset-0 items-center justify-center bg-black bg-opacity-50 hidden"
+        onclick="togglePopup(false)">
+        <div class="bg-black flex flex-col items-center p-6 rounded-lg shadow-lg sm:w-[20.833vw] w-[69.767vw]"
+            onclick="event.stopPropagation()">
+            <img src="assets/icons/gear-512.png" alt=""
+                class="sm:w-[5.208vw] w-[23.256vw] animate-[spin_5s_linear_infinite]">
+            <h2 class="text-white text-[4.651vw] text-center sm:text-[1.042vw] font-bold mb-4">This features is under
+                developement now</h2>
+            <p class="text-white sm:text-[0.729vw] text-[3.256vw] mb-4">Sorry for the inconvinient</p>
+            <button onclick="togglePopup(false)"
+                class="sm:px-[0.833vw] px-[3.721vw] sm:py-[0.208vw] py-[0.93vw] bg-red-500 text-white sm:text-[0.729vw] text-[3.256vw] rounded-md">Close</button>
+        </div>
     </div>
-</div>
+</body>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
+<script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
 <script>
     $(document).ready(function() {
         // Event submit pada form

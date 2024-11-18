@@ -14,6 +14,17 @@
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <style>
     /* Modal container */
+    #dropdownList1 {
+        transition: max-height 0.5s ease-in-out;
+        max-height: 0;
+        /* Initially closed */
+    }
+
+    .max-h-[20vw] {
+        max-height: 20vw;
+        /* Open state */
+    }
+
     #kategoriModal {
         z-index: 9999;
         /* Modal harus berada di atas */

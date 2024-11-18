@@ -38,12 +38,16 @@ class BarangController extends Controller
     public function update(Request $request, $id)
     {
         try {
-            // Proses file
-            $file = $request->file('link_foto');
-            $fileName = null;
-            if ($file) {
-                $filePath = $file->storeAs('public/barang_foto', $file->getClientOriginalName());
-                $fileName = basename($filePath);
+            // Ambil data barang lama
+            $barang = DB::table('barangs')->where('id_barang', $id)->first();
+
+            // Cek jika ada file baru
+            $fileName = $barang->link_foto; // Ambil nama file foto lama
+
+            if ($request->hasFile('link_foto')) {
+                $file = $request->file('link_foto');
+                // Menyimpan foto baru di folder 'barang_foto' dan memastikan file disimpan secara publik
+                $fileName = $file->storePublicly('barang_foto', 'public');
             }
 
             // Update data barang
@@ -55,7 +59,7 @@ class BarangController extends Controller
                     'harga_sewa' => $request->harga_sewa,
                     'status' => $request->status,
                     'deskripsi' => $request->deskripsi,
-                    // 'link_foto' => $fileName,
+                    'link_foto' => $fileName, // Tetap menggunakan foto lama jika tidak ada file baru
                     'updated_at' => now(),
                 ]);
 
