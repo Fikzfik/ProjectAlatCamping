@@ -110,4 +110,9 @@ class BarangController extends Controller
 
         return response()->json(['message' => 'Barang berhasil dihapus!']);
     }
+    public function show($id)
+    {
+        $barang = DB::table('barangs')->where('id_barang', $id)->first(); 
+        return view('pages.auth.detail', compact('barang'));
+    }
 }

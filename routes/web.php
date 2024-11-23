@@ -27,6 +27,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('barang/{id}', [BarangController::class, 'updateModal'])->name('barang.showmodal');
     Route::delete('barang/destroy/{id}', [BarangController::class, 'destroy'])->name('barang.destroy');
 
+    Route::get('/detailbarang/{id}', [BarangController::class, 'show'])->name('detailbarang');
+
     Route::get('/kategori', [ViewController::class, 'kategoriview'])->name('kategori');
     Route::post('kategori/store', [KategoriController::class, 'store'])->name('kategori.store');
     Route::post('kategori/update/{id}', [KategoriController::class, 'update'])->name('kategori.update');
