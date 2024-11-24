@@ -195,14 +195,15 @@
             <div data-aos="fade-left" data-aos-duration="500" data-aos-delay="350">
                 <button>
                     <a href="bag.html">
-                        <img src="src/assets/icons/bag-icon.svg" alt="" class="sm:w-[2.083vw] w-[4.651vw]">
+                        <img src="{{ asset('src/assets/icons/bag-icon.svg') }}" alt="" class="sm:w-[2.083vw] w-[4.651vw]">
+
                     </a>
                 </button>
             </div>
             <div data-aos="fade-left" data-aos-duration="500" data-aos-delay="300" class="relative">
                 <button class="flex items-center justify-center" id="profile-button">
-                    <img src="src/assets/icons/profile-icon.svg" alt="Profile Icon"
-                        class="sm:w-[2.083vw] w-[4.651vw] transition duration-300 ease-in-out hover:scale-110">
+                    <img src="{{ asset('src/assets/icons/profile-icon.svg') }}" alt="Profile Icon"
+                    class="sm:w-[2.083vw] w-[4.651vw] transition duration-300 ease-in-out hover:scale-110">
                 </button>
                 <div id="submenu"
                     class="submenu absolute right-0 hidden bg-white shadow-lg rounded-lg mt-2 p-4 w-48">

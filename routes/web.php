@@ -3,6 +3,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ViewController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\KeranjangController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'guest'], function () {
@@ -34,6 +35,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('kategori/update/{id}', [KategoriController::class, 'update'])->name('kategori.update');
     Route::get('kategori/{id}', [KategoriController::class, 'updateModal'])->name('kategori.showmodal');
     Route::delete('kategori/destroy/{id}', [KategoriController::class, 'destroy'])->name('kategori.destroy');
+
+    Route::post('/keranjang/store', [KeranjangController::class, 'store'])->name('keranjang.store');
 
     Route::get('/menu', [ViewController::class, 'menuview'])->name('menu');
     Route::get('/settingmenu', [ViewController::class, 'settingmenuview'])->name('settingmenu');

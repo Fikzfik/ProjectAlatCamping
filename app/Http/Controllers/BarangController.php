@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class BarangController extends Controller
 {
@@ -112,7 +113,29 @@ class BarangController extends Controller
     }
     public function show($id)
     {
-        $barang = DB::table('barangs')->where('id_barang', $id)->first(); 
+        $barang = DB::table('barangs')
+            ->join('kategori_barangs', 'barangs.id_kategori', '=', 'kategori_barangs.id_kategori')
+            ->where('barangs.id_barang', $id)
+            ->select('barangs.*', 'kategori_barangs.nama_kategori') // Pilih kolom yang diinginkan
+            ->first();
+        $userId = Auth::user()->id_user;
+
+        // Mengambil semua data keranjang milik user dengan PDO
+        $keranjang = DB::select(
+            'SELECT
+            k.id_keranjang,
+            k.jumlah_barang,
+            b.nama_barang,
+            b.harga_sewa,
+            b.link_foto,
+            b.deskripsi
+            FROM keranjangs k
+            JOIN barangs b ON k.id_barang = b.id_barang
+            WHERE k.id_user = ?
+            ',
+            [$userId],
+        );
+        // @dd($keranjang);
         return view('pages.auth.detail', compact('barang'));
     }
 }

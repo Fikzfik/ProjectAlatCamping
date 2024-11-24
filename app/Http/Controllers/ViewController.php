@@ -33,7 +33,7 @@ class ViewController extends Controller
     JOIN kategori_barangs k
     ON b.id_kategori = k.id_kategori
 ');
-        return view('pages.auth.home', compact('barang','kategori'));
+        return view('pages.auth.home', compact('barang', 'kategori'));
     }
     public function locationview(): view
     {

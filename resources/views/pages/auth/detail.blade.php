@@ -13,6 +13,16 @@
     <link href="{{ asset('node_modules/aos/dist/aos.css') }}" rel="stylesheet">
     <script src="{{ asset('node_modules/aos/dist/aos.js') }}"></script>
     <title>Detail</title>
+    <style>
+        #dropdownList5,
+        #dropdownList6,
+        #dropdownList7 {
+            max-height: 0;
+            /* Default tertutup */
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
+    </style>
 </head>
 
 <body id="body" class="">
@@ -21,11 +31,12 @@
         <div class="w-full flex sm:flex-row flex-col">
             <div class="sm:w-[70vw] w-[83.256vw]">
                 {{-- @dd($barang); --}}
-                <div class="border border-white sm:px-[1.563vw] px-[13.488vw] sm:py-[1.563vw] py-0 sm:w-[64.74vw] sm:h-[31.979vw] w-[83.256vw] h-[89.535vw]">
+                <div
+                    class="border border-white sm:px-[1.563vw] px-[13.488vw] sm:py-[1.563vw] py-0 sm:w-[64.74vw] sm:h-[31.979vw] w-[83.256vw] h-[89.535vw]">
                     <div class="flex justify-center items-center relative">
                         <div id="sliderContainer" class="w-full flex justify-center items-center">
                             <div data-aos="fade-up" data-aos-duration="500" data-aos-delay="300">
-                                <img src="{{ asset('storage/' . $barang->link_foto) }}"  alt="{{ $barang->nama_barang }}"
+                                <img src="{{ asset('storage/' . $barang->link_foto) }}" alt="{{ $barang->nama_barang }}"
                                     class="sm:w-[20vw] w-[55.814vw] sm:h-[28.542vw] h-[89.07vw] object-cover">
                             </div>
                         </div>
@@ -40,8 +51,8 @@
                                 <div class="">
                                     <div class="grid gap-y-[4.651vw]">
                                         <div class="">
-                                            <h2 class="text-[4.651vw] font-semibold">Soft Green Oversized</h2>
-                                            <p class="text-[3.256vw] opacity-60">T - Shirt</p>
+                                            <h2 class="text-[4.651vw] font-semibold">{{ $barang->nama_barang }}</h2>
+                                            <p class="text-[3.256vw] opacity-60">{{ $barang->id_kategori }}</p>
                                             <div class="flex gap-x-[1.395vw] pt-[2.791vw]">
                                                 <img src="src/assets/icons/stars-icon.svg" alt=""
                                                     class="w-[4.651vw] h-[4.651vw]">
@@ -56,73 +67,19 @@
                                             </div>
                                         </div>
                                         <div class="flex items-center space-x-[0.313vw]">
-                                            <h2 class="text-[4.651vw] font-medium">Rp. 175.000</h2>
-                                            <h2 class="text-[3.256vw] opacity-50"><s>Rp. 350.000</s></h2>
-                                        </div>
-                                        <div class="">
-                                            <h2 class="text-[4.651vw] font-normal pb-[1vw]">Size</h2>
-                                            <div class="flex space-x-4">
-                                                <div class="flex space-x-[3.553vw]">
-                                                    <div class="">
-                                                        <input type="radio" id="option7" name="option"
-                                                            class="hidden peer">
-                                                        <label for="option7"
-                                                            class="flex items-center justify-center w-[10.698vw] h-[10.698vw] text-white text-[3.256vw] bg-transparent border border-gray-300 cursor-pointer peer-checked:bg-white peer-checked:text-black">
-                                                            S
-                                                        </label>
-                                                    </div>
-                                                    <div class="">
-                                                        <input type="radio" id="option8" name="option"
-                                                            class="hidden peer">
-                                                        <label for="option8"
-                                                            class="flex items-center justify-center w-[10.698vw] h-[10.698vw] text-white text-[3.256vw] bg-transparent border border-gray-300 cursor-pointer peer-checked:bg-white peer-checked:text-black">
-                                                            M
-                                                        </label>
-                                                    </div>
-                                                    <div class="">
-                                                        <input type="radio" id="option9" name="option"
-                                                            class="hidden peer">
-                                                        <label for="option9"
-                                                            class="flex items-center justify-center w-[10.698vw] h-[10.698vw] text-white text-[3.256vw] bg-transparent border border-gray-300 cursor-pointer peer-checked:bg-white peer-checked:text-black">
-                                                            L
-                                                        </label>
-                                                    </div>
-                                                    <div class="">
-                                                        <input type="radio" id="option10" name="option"
-                                                            class="hidden peer">
-                                                        <label for="option10"
-                                                            class="flex items-center justify-center w-[10.698vw] h-[10.698vw] text-white text-[3.256vw] bg-transparent border border-gray-300 cursor-pointer peer-checked:bg-white peer-checked:text-black">
-                                                            XL
-                                                        </label>
-                                                    </div>
-                                                    <div class="">
-                                                        <input type="radio" id="option11" name="option"
-                                                            class="hidden peer">
-                                                        <label for="option11"
-                                                            class="flex items-center justify-center w-[10.698vw] h-[10.698vw] text-white text-[3.256vw] bg-transparent border border-gray-300 cursor-pointer peer-checked:bg-white peer-checked:text-black">
-                                                            XXL
-                                                        </label>
-                                                    </div>
-                                                    <div class="">
-                                                        <input type="radio" id="option12" name="option"
-                                                            class="hidden peer">
-                                                        <label for="option12"
-                                                            class="flex items-center justify-center w-[10.698vw] h-[10.698vw] text-white text-[3.256vw] bg-transparent border border-gray-300 cursor-pointer peer-checked:bg-white peer-checked:text-black">
-                                                            XXXL
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
+                                            <h2 class="text-[4.651vw] font-medium">
+                                                Rp.{{ number_format($barang->harga_sewa, 0, ',', '.') }}</h2>
+                                            <h2 class="text-[3.256vw] opacity-50">
+                                                <s>{{ number_format($barang->harga_sewa * 2, 0, ',', '.') }}</s>
+                                            </h2>
                                         </div>
                                         <div class="">
                                             <h2 class="text-[4.651vw] font-normal pb-[1vw]">Quantity</h2>
                                             <div
                                                 class="flex items-center justify-between w-[29.767vw] h-[11.628vw] border border-white text-[3.256vw]">
-                                                <button class="text-white px-[4.651vw]"
-                                                    onclick="decrement()">-</button>
+                                                <button class="text-white px-[4.651vw]" onclick="decrement()">-</button>
                                                 <span id="quantity" class="text-white">1</span>
-                                                <button class="text-white px-[4.651vw]"
-                                                    onclick="increment()">+</button>
+                                                <button class="text-white px-[4.651vw]" onclick="increment()">+</button>
                                             </div>
                                         </div>
                                         <div class="text-dark space-y-[2.791vw] flex flex-col">
@@ -142,8 +99,7 @@
                                 </div>
                                 <div class="flex flex-col space-y-[9.302vw] pt-[9.302vw] w-full">
                                     <div class="">
-                                        <a href="javascript:void(0)" onclick="productDetails()"
-                                            class="space-y-[1vw]">
+                                        <a href="javascript:void(0)" onclick="productDetails()" class="space-y-[1vw]">
                                             <div class="flex items-center justify-between">
                                                 <h2 class="text-[4.651vw] font-semibold">Product Details</h2>
                                                 <img id="arrowIcon9" src="src/assets/icons/arrow-icon.svg"
@@ -610,8 +566,8 @@
                 <div class="ps-[2.344vw]">
                     <div class="w-full grid gap-y-[1vw]">
                         <div class="">
-                            <h2 class="text-[1.458vw] font-semibold">Soft Green Oversized</h2>
-                            <p class="text-[0.938vw] opacity-60">T - Shirt</p>
+                            <h2 class="text-[1.458vw] font-semibold">{{ $barang->nama_barang }}</h2>
+                            <p class="text-[0.938vw] opacity-60">{{ $barang->nama_kategori }}</p>
                             <div class="flex gap-x-[0.4vw] pt-[0.4vw]">
                                 <img src="src/assets/icons/stars-icon.svg" alt=""
                                     class="w-[0.938vw] h-[0.938vw]">
@@ -626,10 +582,13 @@
                             </div>
                         </div>
                         <div class="flex items-center space-x-[0.313vw]">
-                            <h2 class="text-[1.146vw] font-medium">Rp. 175.000</h2>
-                            <h2 class="text-[0.938vw] opacity-50"><s>Rp. 350.000</s></h2>
+                            <h2 class="text-[1.146vw] font-medium">
+                                {{ number_format($barang->harga_sewa, 0, ',', '.') }}</h2>
+                            <h2 class="text-[0.938vw] opacity-50">
+                                <s>{{ number_format($barang->harga_sewa * 2, 0, ',', '.') }}</s>
+                            </h2>
                         </div>
-                    
+
                         <div class="">
                             <h2 class="text-[1.146vw] font-medium pb-[1vw]">Quantity</h2>
                             <div
@@ -640,9 +599,13 @@
                             </div>
                         </div>
                         <div class="text-dark space-y-[1.5vw]">
-                            <button class="bg-white w-[23.958vw] py-[1vw] text-[1.302vw] mt-[0.833vw]">
-                                <h2 class="font-medium"><a href="bag.html">Add to Bag</h2></a>
-                            </button>
+                            <div class="text-dark space-y-[1.5vw]">
+                                <button type="button"
+                                    class="bg-white w-[23.958vw] py-[1vw] text-[1.302vw] mt-[0.833vw] add-to-bag"
+                                    data-id-barang="{{ $barang->id_barang }}">
+                                    <h2 class="font-medium">Add to Bag</h2>
+                                </button>
+                            </div>
                             <button class="border border-white text-white w-[23.958vw] py-[1vw] text-[1.302vw]">
                                 <div class="flex justify-center items-center gap-x-[0.8vw]">
                                     <img src="src/assets/icons/love-icon.svg" alt=""
@@ -749,10 +712,12 @@
                         Treadwear</li>
                     <li
                         class="sm:text-[1.042vw] text-[3.686vw] sm:leading-[2.188vw] leading-[9.628vw] sm:font-normal font-light">
-                        <a href="location.html">Location</a></li>
+                        <a href="location.html">Location</a>
+                    </li>
                     <li
                         class="sm:text-[1.042vw] text-[3.686vw] sm:leading-[2.188vw] leading-[9.628vw] sm:font-normal font-light">
-                        <a href="about.html">About Us</a></li>
+                        <a href="about.html">About Us</a>
+                    </li>
                     <li onclick="togglePopup(true)"
                         class="sm:text-[1.042vw] text-[3.686vw] sm:leading-[2.188vw] leading-[9.628vw] sm:font-normal font-light cursor-pointer">
                         Contact Us</li>
@@ -794,7 +759,8 @@
                         Sale</li>
                     <li
                         class="sm:text-[1.042vw] text-[3.686vw] sm:leading-[2.188vw] leading-[9.628vw] sm:font-normal font-light cursor-pointer">
-                        <a href="collection.html">New Collections</a></li>
+                        <a href="collection.html">New Collections</a>
+                    </li>
                 </ul>
             </div>
             <div data-aos="fade-up" data-aos-duration="500" data-aos-delay="800"
@@ -854,6 +820,68 @@
                 class="sm:px-[0.833vw] px-[3.721vw] sm:py-[0.208vw] py-[0.93vw] bg-red-500 text-white sm:text-[0.729vw] text-[3.256vw] rounded-md">Close</button>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const addToBagButtons = document.querySelectorAll('.add-to-bag');
+
+            addToBagButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const idBarang = button.getAttribute('data-id-barang');
+                    const quantity = document.getElementById('quantity1').textContent;
+
+                    fetch("{{ route('keranjang.store') }}", {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                            },
+                            body: JSON.stringify({
+                                id_barang: idBarang,
+                                jumlah_barang: quantity
+                            })
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Berhasil',
+                                    text: data.message,
+                                });
+                            } else {
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Gagal',
+                                    text: data.message,
+                                });
+                            }
+                        })
+                        .catch(error => {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Error',
+                                text: 'Terjadi kesalahan saat menambahkan ke keranjang.',
+                            });
+                            console.error(error);
+                        });
+                });
+            });
+        });
+
+        function increment1(id) {
+            const quantityElement = document.getElementById(id);
+            quantityElement.textContent = parseInt(quantityElement.textContent) + 1;
+        }
+
+        function decrement1(id) {
+            const quantityElement = document.getElementById(id);
+            if (parseInt(quantityElement.textContent) > 1) {
+                quantityElement.textContent = parseInt(quantityElement.textContent) - 1;
+            }
+        }
+    </script>
+
     <script>
         function togglePopup(show) {
             const popup = document.getElementById('popup');
