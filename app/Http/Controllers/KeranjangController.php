@@ -8,6 +8,28 @@ use Illuminate\Support\Facades\DB;
 
 class KeranjangController extends Controller
 {
+    public function keranjangview()
+    {
+        $userId = Auth::user()->id_user;
+
+        $keranjang = DB::select(
+            'SELECT
+            k.id_keranjang,
+            k.jumlah_barang,
+            b.nama_barang,
+            b.harga_sewa,
+            b.link_foto,
+            b.deskripsi
+        FROM keranjangs k
+        JOIN barangs b ON k.id_barang = b.id_barang
+        WHERE k.id_user = ?
+    ',
+            [$userId],
+        );
+
+        return response()->json($keranjang); // Mengembalikan data dalam format JSON
+    }
+
     public function store(Request $request)
     {
         try {
@@ -31,11 +53,14 @@ class KeranjangController extends Controller
                 'message' => 'Barang berhasil ditambahkan ke keranjang!',
             ]);
         } catch (\Exception $e) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Gagal menambahkan barang ke keranjang.',
-                'error' => $e->getMessage(),
-            ], 500);
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => 'Gagal menambahkan barang ke keranjang.',
+                    'error' => $e->getMessage(),
+                ],
+                500,
+            );
         }
     }
 }

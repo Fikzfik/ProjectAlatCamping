@@ -37,6 +37,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('kategori/destroy/{id}', [KategoriController::class, 'destroy'])->name('kategori.destroy');
 
     Route::post('/keranjang/store', [KeranjangController::class, 'store'])->name('keranjang.store');
+    Route::get('/keranjang', [KeranjangController::class, 'keranjangview'])->name('keranjang.view');
+
 
     Route::get('/menu', [ViewController::class, 'menuview'])->name('menu');
     Route::get('/settingmenu', [ViewController::class, 'settingmenuview'])->name('settingmenu');

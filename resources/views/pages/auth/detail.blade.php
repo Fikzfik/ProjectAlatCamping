@@ -86,14 +86,6 @@
                                             <button class="bg-white w-full h-[16.047vw] text-[4.651vw] mt-[0.833vw]">
                                                 <h2 class="font-medium"><a href="bag.html">Add to Bag</a></h2>
                                             </button>
-                                            <button
-                                                class="border border-white text-white w-full h-[16.047vw] text-[4.651vw]">
-                                                <div class="flex justify-center items-center gap-x-[0.8vw]">
-                                                    <img src="src/assets/icons/love-icon.svg" alt=""
-                                                        class="w-[6.977vw] h-[6.977vw]">
-                                                    <h2 class="font-medium">Favorite</h2>
-                                                </div>
-                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -601,18 +593,11 @@
                         <div class="text-dark space-y-[1.5vw]">
                             <div class="text-dark space-y-[1.5vw]">
                                 <button type="button"
-                                    class="bg-white w-[23.958vw] py-[1vw] text-[1.302vw] mt-[0.833vw] add-to-bag"
+                                    class="bg-white w-[23.958vw] py-[1vw] text-[1.302vw] mt-[0.833vw] add-to-bag z-10"
                                     data-id-barang="{{ $barang->id_barang }}">
                                     <h2 class="font-medium">Add to Bag</h2>
                                 </button>
                             </div>
-                            <button class="border border-white text-white w-[23.958vw] py-[1vw] text-[1.302vw]">
-                                <div class="flex justify-center items-center gap-x-[0.8vw]">
-                                    <img src="src/assets/icons/love-icon.svg" alt=""
-                                        class="w-[1.563vw] h-[1.302vw]">
-                                    <h2 class="font-medium">Favorite</h2>
-                                </div>
-                            </button>
                         </div>
                     </div>
                 </div>
@@ -973,6 +958,7 @@
     <script>
         AOS.init();
     </script>
+    @include('pages.layout.script');
 </body>
 
 </html>

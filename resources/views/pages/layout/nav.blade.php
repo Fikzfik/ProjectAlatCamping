@@ -146,7 +146,7 @@
                 <!-- Admin Menu -->
                 <li class="relative group" data-aos="fade-right" data-aos-duration="500" data-aos-delay="600">
                     <a href="javascript:void(0)" onclick="toggleAdminMenu()" class="flex items-center">
-                    Admin
+                        Admin
                         <svg class="ml-2 w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none"
                             viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -156,11 +156,16 @@
                     <!-- Dropdown -->
                     <ul id="adminDropdown"
                         class="hidden absolute left-0 bg-gray-800 text-white text-sm rounded shadow-lg mt-2 z-10">
-                        <li class="px-4 py-2 hover:bg-gray-700"><a href="{{ route('stock') }}">Stock Management</a></li>
-                        <li class="px-4 py-2 hover:bg-gray-700"><a href="{{ route('barang') }}">Barang Management</a></li>
-                        <li class="px-4 py-2 hover:bg-gray-700"><a href="{{ route('kategori') }}">Kategori Management</a></li>
-                        <li class="px-4 py-2 hover:bg-gray-700"><a href="{{ route('menu') }}">Menu Management</a></li>
-                        <li class="px-4 py-2 hover:bg-gray-700"><a href="{{ route('settingmenu') }}">Setting Menu Management</a></li>
+                        <li class="px-4 py-2 hover:bg-gray-700"><a href="{{ route('stock') }}">Stock Management</a>
+                        </li>
+                        <li class="px-4 py-2 hover:bg-gray-700"><a href="{{ route('barang') }}">Barang Management</a>
+                        </li>
+                        <li class="px-4 py-2 hover:bg-gray-700"><a href="{{ route('kategori') }}">Kategori
+                                Management</a></li>
+                        <li class="px-4 py-2 hover:bg-gray-700"><a href="{{ route('menu') }}">Menu Management</a>
+                        </li>
+                        <li class="px-4 py-2 hover:bg-gray-700"><a href="{{ route('settingmenu') }}">Setting Menu
+                                Management</a></li>
                     </ul>
                 </li>
 
@@ -193,17 +198,17 @@
                 </button>
             </div>
             <div data-aos="fade-left" data-aos-duration="500" data-aos-delay="350">
-                <button>
-                    <a href="bag.html">
-                        <img src="{{ asset('src/assets/icons/bag-icon.svg') }}" alt="" class="sm:w-[2.083vw] w-[4.651vw]">
-
+                <button id="keranjangButton">
+                    <a href="javascript:void(0)">
+                        <img src="{{ asset('src/assets/icons/bag-icon.svg') }}" alt=""
+                            class="sm:w-[2.083vw] w-[4.651vw]">
                     </a>
                 </button>
             </div>
             <div data-aos="fade-left" data-aos-duration="500" data-aos-delay="300" class="relative">
                 <button class="flex items-center justify-center" id="profile-button">
                     <img src="{{ asset('src/assets/icons/profile-icon.svg') }}" alt="Profile Icon"
-                    class="sm:w-[2.083vw] w-[4.651vw] transition duration-300 ease-in-out hover:scale-110">
+                        class="sm:w-[2.083vw] w-[4.651vw] transition duration-300 ease-in-out hover:scale-110">
                 </button>
                 <div id="submenu"
                     class="submenu absolute right-0 hidden bg-white shadow-lg rounded-lg mt-2 p-4 w-48">
@@ -216,6 +221,28 @@
             </div>
         </div>
     </nav>
+
+    <!-- Overlay untuk menutupi halaman -->
+    <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+        <div id="keranjangModal"
+            class="fixed top-0 right-0 w-2/3 h-full bg-white p-6 shadow-lg transform transition-transform duration-500 ease-in-out z-60 opacity-0 invisible">
+            <div class="flex justify-between items-center">
+                <h2 class="text-2xl font-semibold">Your Cart</h2>
+                <button id="closeModal" class="text-xl text-gray-600 hover:text-red-600">X</button>
+            </div>
+            <div id="keranjangContent" class="mt-4 space-y-6">
+                <!-- Data Keranjang akan ditampilkan di sini -->
+            </div>
+            <div class="mt-6">
+                <div class="flex justify-between items-center font-semibold text-lg">
+                    <span>Total:</span>
+                    <span id="totalAmount">Rp 0</span>
+                </div>
+                <button class="mt-4 w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600">Checkout</button>
+            </div>
+        </div>
+    </div>
+
     <div class="sm:hidden block px-[8.372vw] mb-[6.302vw]">
         <div id="searchBar"
             class="sm:hidden hidden items-center sm:w-[16.25vw] w-[83.256vw] sm:h-[2.917vw] h-[13.023vw] sm:pl-[1.042vw] pl-[4.651vw] bg-transparent border border-white ">
