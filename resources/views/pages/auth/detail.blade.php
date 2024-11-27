@@ -12,6 +12,9 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <link href="{{ asset('node_modules/aos/dist/aos.css') }}" rel="stylesheet">
     <script src="{{ asset('node_modules/aos/dist/aos.js') }}"></script>
+    <!-- Tambahkan ini di dalam tag <head> -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.3/dist/tailwind.min.css" rel="stylesheet">
+
     <title>Detail</title>
     <style>
         #dropdownList5,
@@ -21,6 +24,32 @@
             /* Default tertutup */
             overflow: hidden;
             transition: max-height 0.5s ease-in-out;
+        }
+
+        /* Overlay dan Modal */
+        #overlay {
+            z-index: 9999;
+            /* Pastikan overlay selalu di atas */
+        }
+
+        #keranjangModal {
+            z-index: 10000;
+            max-height: 100vh; /* Maksimal tinggi modal 80% dari tinggi layar */
+            overflow-y: auto;
+        }
+
+        /* Elemen Halaman Utama */
+        body>*:not(#overlay):not(#keranjangModal) {
+            z-index: auto;
+            /* Pastikan elemen halaman utama tidak mengganggu */
+        }
+
+        .keranjang-item img {
+            width: 80px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 4px;
+            /* Opsional: untuk membuat sudut gambar melengkung */
         }
     </style>
 </head>
@@ -593,7 +622,7 @@
                         <div class="text-dark space-y-[1.5vw]">
                             <div class="text-dark space-y-[1.5vw]">
                                 <button type="button"
-                                    class="bg-white w-[23.958vw] py-[1vw] text-[1.302vw] mt-[0.833vw] add-to-bag z-10"
+                                    class="bg-white w-[23.958vw] py-[1vw] text-[1.302vw] mt-[0.833vw] add-to-bag"
                                     data-id-barang="{{ $barang->id_barang }}">
                                     <h2 class="font-medium">Add to Bag</h2>
                                 </button>
@@ -806,66 +835,6 @@
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const addToBagButtons = document.querySelectorAll('.add-to-bag');
-
-            addToBagButtons.forEach(button => {
-                button.addEventListener('click', () => {
-                    const idBarang = button.getAttribute('data-id-barang');
-                    const quantity = document.getElementById('quantity1').textContent;
-
-                    fetch("{{ route('keranjang.store') }}", {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'X-CSRF-TOKEN': "{{ csrf_token() }}"
-                            },
-                            body: JSON.stringify({
-                                id_barang: idBarang,
-                                jumlah_barang: quantity
-                            })
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                Swal.fire({
-                                    icon: 'success',
-                                    title: 'Berhasil',
-                                    text: data.message,
-                                });
-                            } else {
-                                Swal.fire({
-                                    icon: 'error',
-                                    title: 'Gagal',
-                                    text: data.message,
-                                });
-                            }
-                        })
-                        .catch(error => {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Error',
-                                text: 'Terjadi kesalahan saat menambahkan ke keranjang.',
-                            });
-                            console.error(error);
-                        });
-                });
-            });
-        });
-
-        function increment1(id) {
-            const quantityElement = document.getElementById(id);
-            quantityElement.textContent = parseInt(quantityElement.textContent) + 1;
-        }
-
-        function decrement1(id) {
-            const quantityElement = document.getElementById(id);
-            if (parseInt(quantityElement.textContent) > 1) {
-                quantityElement.textContent = parseInt(quantityElement.textContent) - 1;
-            }
-        }
-    </script>
 
     <script>
         function togglePopup(show) {

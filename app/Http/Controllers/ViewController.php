@@ -43,6 +43,10 @@ class ViewController extends Controller
     {
         return view('pages.auth.blog');
     }
+    public function dashboard(): view
+    {
+        return view('pages.auth.dashboard');
+    }
     public function barangview(): view
     {
         $kategori = DB::select('SELECT * FROM kategori_barangs');
