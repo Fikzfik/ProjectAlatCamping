@@ -33,7 +33,7 @@ class ViewController extends Controller
     JOIN kategori_barangs k
     ON b.id_kategori = k.id_kategori
 ');
-        return view('pages.auth.home', compact('barang','kategori'));
+        return view('pages.auth.home', compact('barang', 'kategori'));
     }
     public function locationview(): view
     {
@@ -42,6 +42,10 @@ class ViewController extends Controller
     public function blogview(): view
     {
         return view('pages.auth.blog');
+    }
+    public function dashboard(): view
+    {
+        return view('pages.auth.dashboard');
     }
     public function barangview(): view
     {

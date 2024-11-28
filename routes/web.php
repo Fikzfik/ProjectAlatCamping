@@ -3,6 +3,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ViewController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\KeranjangController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'guest'], function () {
@@ -11,12 +12,8 @@ Route::group(['middleware' => 'guest'], function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/register', [ViewController::class, 'registerview'])->name('register');
     Route::post('/register', [AuthController::class, 'register'])->name('register.post');
-    Route::get('/register', function () {
-        return view('pages.register');
-    });
-    Route::get('/dashboard', function () {
-        return view('pages.auth.dashboard');
-    });
+
+    Route::get('/dashboard',[ViewController::class, 'dashboard'])->name('dashboard');
 });
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/stock', [ViewController::class, 'stockview'])->name('stock');
@@ -27,11 +24,16 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('barang/{id}', [BarangController::class, 'updateModal'])->name('barang.showmodal');
     Route::delete('barang/destroy/{id}', [BarangController::class, 'destroy'])->name('barang.destroy');
 
+    Route::get('/detailbarang/{id}', [BarangController::class, 'show'])->name('detailbarang');
+
     Route::get('/kategori', [ViewController::class, 'kategoriview'])->name('kategori');
     Route::post('kategori/store', [KategoriController::class, 'store'])->name('kategori.store');
     Route::post('kategori/update/{id}', [KategoriController::class, 'update'])->name('kategori.update');
     Route::get('kategori/{id}', [KategoriController::class, 'updateModal'])->name('kategori.showmodal');
     Route::delete('kategori/destroy/{id}', [KategoriController::class, 'destroy'])->name('kategori.destroy');
+
+    Route::post('/keranjang/store', [KeranjangController::class, 'store'])->name('keranjang.store');
+    Route::get('/keranjang', [KeranjangController::class, 'keranjangview'])->name('keranjang.view');
 
     Route::get('/menu', [ViewController::class, 'menuview'])->name('menu');
     Route::get('/settingmenu', [ViewController::class, 'settingmenuview'])->name('settingmenu');

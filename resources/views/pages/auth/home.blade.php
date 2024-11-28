@@ -177,8 +177,9 @@
             <div
                 class="grid sm:grid-cols-4 grid-cols-2 sm:place-items-start place-items-center sm:gap-y-[2.344vw] gap-y-[9.767vw] sm:gap-x-[1.146vw] gap-x-[3.256vw]">
                 @foreach ($barang as $item)
-                    <div data-aos="fade-up" data-aos-duration="500" data-aos-delay="300"
-                        class="flex justify-center items-center sm:col-span-1 col-span-2 md:col-span-1">
+                    <a href="{{ route('detailbarang', ['id' => $item->id_barang]) }}"
+                        class="flex justify-center items-center sm:col-span-1 col-span-2 md:col-span-1"
+                        data-aos="fade-up" data-aos-duration="500" data-aos-delay="300">
                         <div class="space-y-[0.885vw] relative overflow-hidden">
                             <img src="{{ asset('storage/' . $item->link_foto) }}" alt=""
                                 class="sm:w-[15.555vw] w-[83.256vw] sm:h-[20.859vw] h-[111.628vw] object-cover object-top transform transition-transform duration-300 ease-in-out hover:scale-110">
@@ -196,15 +197,18 @@
                                         class="flex items-center sm:space-x-[0.313vw] space-x-[3.721vw] sm:mt-[0.938vw] mt-[2.181vw]">
                                         <h2 class="sm:text-[1.25vw] text-[6.047vw]">Rp.
                                             {{ number_format($item->harga_sewa, 0, ',', '.') }}</h2>
-                                        <h2 class="sm:text-[0.938vw] text-[4.651vw] opacity-50"><s> {{ number_format($item->harga_sewa*2, 0, ',', '.') }}</s></h2>
+                                        <h2 class="sm:text-[0.938vw] text-[4.651vw] opacity-50">
+                                            <s>{{ number_format($item->harga_sewa * 2, 0, ',', '.') }}</s>
+                                        </h2>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </a>
                 @endforeach
             </div>
         </div>
+
 
     </div>
     @include('pages.layout.footer')
