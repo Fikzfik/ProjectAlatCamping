@@ -44,25 +44,32 @@
                         data.forEach(item => {
                             const keranjangItem = `
                     <div class="flex justify-between items-center border-b pb-4 mb-4">
+                        <!-- Gambar Barang -->
+                        <img src="${item.link_foto}" alt="${item.nama_barang}" class="sm:w-[30vw] w-[70vw] sm:h-[40vw] h-[80vw] object-cover rounded-lg">
                         
-                        <img src="${item.link_foto}" alt="${item.nama_barang}" class="sm:w-[30vw] w-[70vw] sm:h-[40vw] h-[80vw] object-cover">
+                        <!-- Info Barang -->
                         <div class="flex-1 ml-4">
-                            <h3 class="font-semibold">${item.nama_barang}</h3>
+                            <h3 class="font-semibold text-lg text-gray-800 truncate">${item.nama_barang}</h3>
                             <p class="text-sm text-gray-600">Rp ${item.harga_sewa}</p>
-                            <div class="flex items-center">
-                                <button class="decrease-quantity bg-gray-200 px-2 py-1 rounded" data-id="${item.id_keranjang}">-</button>
-                                <span class="mx-2">${item.jumlah_barang}</span>
-                                <button class="increase-quantity bg-gray-200 px-2 py-1 rounded" data-id="${item.id_keranjang}">+</button>
+                            <div class="flex items-center mt-2 space-x-4">
+                                <!-- Tombol Kurang -->
+                                <button class="decrease-quantity bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-600 transition duration-200" data-id="${item.id_keranjang}">-</button>
+                                <!-- Tampilkan jumlah barang -->
+                                <span class="text-lg">${item.jumlah_barang}</span>
+                                <!-- Tombol Tambah -->
+                                <button class="increase-quantity bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 transition duration-200" data-id="${item.id_keranjang}">+</button>
                             </div>
                         </div>
+
+                        <!-- Tombol Remove -->
                         <div>
-                            <button class="remove-item text-red-500 hover:text-red-600" data-id="${item.id_keranjang}">Remove</button>
+                            <button class="remove-item bg-red-500 hover:text-red-600 text-sm font-semibold" data-id="${item.id_keranjang}">Remove</button>
                         </div>
                     </div>
-                    <hr class="my-2">
+                    <hr class="my-4">
                 `;
                             keranjangContent.innerHTML += keranjangItem;
-                            total += item.harga_sewa * item.jumlah_barang;
+                            total += parseFloat(item.harga_sewa) * item.jumlah_barang;
                         });
                     } else {
                         keranjangContent.innerHTML = '<p class="text-center">Your cart is empty.</p>';
@@ -74,6 +81,8 @@
                     keranjangContent.innerHTML = '<p class="text-center">Failed to load cart data.</p>';
                 });
         }
+
+
     });
 </script>
 <script>

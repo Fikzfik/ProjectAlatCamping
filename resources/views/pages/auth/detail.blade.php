@@ -927,6 +927,9 @@
     <script>
         AOS.init();
     </script>
+    <script src="path/to/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aos@next/dist/aos.js"></script>
+
     @include('pages.layout.script');
 </body>
 
