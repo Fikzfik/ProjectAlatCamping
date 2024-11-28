@@ -14,7 +14,7 @@
     <script src="{{ asset('node_modules/aos/dist/aos.js') }}"></script>
     <!-- Tambahkan ini di dalam tag <head> -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.3/dist/tailwind.min.css" rel="stylesheet">
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>Detail</title>
     <style>
         #dropdownList5,
