@@ -87,9 +87,6 @@
                                     <button class="increase-quantity bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 transition duration-200" data-id="${item.id_keranjang}">+</button>
                                 </div>
                             </div>
-                            <div>
-                                <button class="remove-item bg-red-500 hover:text-red-600 text-sm font-semibold" data-id="${item.id_keranjang}">Remove</button>
-                            </div>
                         </div>
                         <hr class="my-4">
                     `;

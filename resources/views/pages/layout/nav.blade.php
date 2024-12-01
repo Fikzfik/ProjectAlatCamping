@@ -222,29 +222,33 @@
         </div>
     </nav>
 
-    <!-- Overlay untuk menutupi halaman -->
     <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
         <div id="overlay-content" class="relative w-full h-full">
             <div id="keranjangModal"
-                class="absolute top-0 right-0 w-2/3 md:w-1/3 h-full bg-white p-6 shadow-lg transform transition-transform duration-500 ease-in-out z-60 opacity-0 invisible">
-                <div class="flex justify-between items-center">
-                    <h2 class="text-2xl font-semibold">Your Cart</h2>
-                    <button id="closeModal" class="text-xl text-gray-600 hover:text-red-600">X</button>
+                class="absolute top-0 right-0 w-full sm:w-1/4 md:w-1/6 h-auto bg-white p-8 shadow-lg rounded-lg transform transition-transform duration-500 ease-in-out z-60 opacity-0 invisible">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-3xl font-semibold text-gray-800">Your Cart</h2>
+                    <button id="closeModal"
+                        class="text-2xl text-gray-600 hover:text-red-600 transition duration-200">X</button>
                 </div>
                 <div id="keranjangContent" class="mt-4 space-y-6">
                     <!-- Data Keranjang akan ditampilkan di sini -->
                 </div>
-                <div class="mt-6">
+                <div class="mt-6 flex flex-col space-y-4">
                     <div class="flex justify-between items-center font-semibold text-lg">
                         <span>Total:</span>
-                        <span id="totalAmount">Rp 0</span>
+                        <span id="totalAmount" class="font-semibold text-xl text-gray-800">Rp 0</span>
                     </div>
-                    <button class="mt-4 w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600">Checkout</button>
+                    <button
+                        class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300">
+                        Checkout
+                    </button>
                 </div>
             </div>
         </div>
     </div>
-    
+
+
 
     <div class="sm:hidden block px-[8.372vw] mb-[6.302vw]">
         <div id="searchBar"

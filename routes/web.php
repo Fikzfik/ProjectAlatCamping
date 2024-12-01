@@ -37,6 +37,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/keranjang/increase', [KeranjangController::class, 'increaseQuantity'])->name('keranjang.increase');
     Route::post('/keranjang/decrease', [KeranjangController::class, 'decreaseQuantity'])->name('keranjang.decrease');
 
+    Route::get('/penyewaan', [ViewController::class,'penyewaan'])->name('penyewaan');
+    Route::post('/penyewaan/store', [PenyewaanController::class, 'store'])->name('penyewaan.store');
+
     Route::get('/menu', [ViewController::class, 'menuview'])->name('menu');
     Route::get('/settingmenu', [ViewController::class, 'settingmenuview'])->name('settingmenu');
     Route::get('/blog', [ViewController::class, 'blogview'])->name('blog');
