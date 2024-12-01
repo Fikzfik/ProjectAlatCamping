@@ -102,9 +102,15 @@ class KeranjangController extends Controller
                 ->where('id_keranjang', $request->id_keranjang)
                 ->increment('jumlah_barang');
 
+            // Ambil jumlah barang terbaru
+            $updatedItem = DB::table('keranjangs')
+                ->where('id_keranjang', $request->id_keranjang)
+                ->first();
+
             return response()->json([
                 'success' => true,
                 'message' => 'Jumlah barang berhasil ditambah!',
+                'jumlah_barang' => $updatedItem->jumlah_barang, // Kirim jumlah terbaru
             ]);
         } catch (\Exception $e) {
             return response()->json(
@@ -131,15 +137,31 @@ class KeranjangController extends Controller
                 ->where('id_keranjang', $request->id_keranjang)
                 ->first();
 
+            if (!$item) {
+                return response()->json(
+                    [
+                        'success' => false,
+                        'message' => 'Data keranjang tidak ditemukan!',
+                    ],
+                    404,
+                );
+            }
+
             if ($item->jumlah_barang > 1) {
                 // Kurangi jumlah barang
                 DB::table('keranjangs')
                     ->where('id_keranjang', $request->id_keranjang)
                     ->decrement('jumlah_barang');
 
+                // Ambil jumlah barang terbaru
+                $updatedItem = DB::table('keranjangs')
+                    ->where('id_keranjang', $request->id_keranjang)
+                    ->first();
+
                 return response()->json([
                     'success' => true,
                     'message' => 'Jumlah barang berhasil dikurangi!',
+                    'jumlah_barang' => $updatedItem->jumlah_barang, // Kirim jumlah terbaru
                 ]);
             } else {
                 // Hapus jika jumlah barang <= 1
@@ -150,6 +172,7 @@ class KeranjangController extends Controller
                 return response()->json([
                     'success' => true,
                     'message' => 'Barang dihapus dari keranjang!',
+                    'jumlah_barang' => 0, // Barang dihapus, kirim jumlah sebagai 0
                 ]);
             }
         } catch (\Exception $e) {

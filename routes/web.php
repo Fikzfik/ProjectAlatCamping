@@ -4,6 +4,7 @@ use App\Http\Controllers\ViewController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\KeranjangController;
+use App\Http\Controllers\PenyewaanController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'guest'], function () {
@@ -36,6 +37,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/keranjang', [KeranjangController::class, 'keranjangview'])->name('keranjang.view');
     Route::post('/keranjang/increase', [KeranjangController::class, 'increaseQuantity'])->name('keranjang.increase');
     Route::post('/keranjang/decrease', [KeranjangController::class, 'decreaseQuantity'])->name('keranjang.decrease');
+    
 
     Route::get('/penyewaan', [ViewController::class,'penyewaan'])->name('penyewaan');
     Route::post('/penyewaan/store', [PenyewaanController::class, 'store'])->name('penyewaan.store');

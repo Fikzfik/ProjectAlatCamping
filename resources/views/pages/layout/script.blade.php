@@ -77,7 +77,7 @@
                     data.forEach(item => {
                         const keranjangItem = `
                         <div class="flex justify-between items-center border-b pb-4 mb-4">
-                            <img src="${item.link_foto}" alt="${item.nama_barang}" class="sm:w-[30vw] w-[70vw] sm:h-[40vw] h-[80vw] object-cover rounded-lg">
+                            <img src="${item.link_foto}" alt="${item.nama_barang}" class="sm:w-[12vw] w-[25vw] sm:h-[12vw] h-[25vw] object-cover rounded-lg">
                             <div class="flex-1 ml-4">
                                 <h3 class="font-semibold text-lg text-gray-800 truncate">${item.nama_barang}</h3>
                                 <p class="text-sm text-gray-600">Rp ${item.harga_sewa}</p>

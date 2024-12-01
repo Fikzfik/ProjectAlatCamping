@@ -221,11 +221,10 @@
             </div>
         </div>
     </nav>
-
     <div id="overlay" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
         <div id="overlay-content" class="relative w-full h-full">
             <div id="keranjangModal"
-                class="absolute top-0 right-0 w-full sm:w-1/4 md:w-1/6 h-auto bg-white p-8 shadow-lg rounded-lg transform transition-transform duration-500 ease-in-out z-60 opacity-0 invisible">
+                class="absolute top-0 right-0 w-full sm:w-1/2 md:w-2/5 h-auto bg-white p-12 shadow-lg rounded-lg transform transition-transform duration-500 ease-in-out z-60 opacity-0 invisible">
                 <div class="flex justify-between items-center mb-6">
                     <h2 class="text-3xl font-semibold text-gray-800">Your Cart</h2>
                     <button id="closeModal"
@@ -243,37 +242,6 @@
                         class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300">
                         Checkout
                     </button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-
-    <div class="sm:hidden block px-[8.372vw] mb-[6.302vw]">
-        <div id="searchBar"
-            class="sm:hidden hidden items-center sm:w-[16.25vw] w-[83.256vw] sm:h-[2.917vw] h-[13.023vw] sm:pl-[1.042vw] pl-[4.651vw] bg-transparent border border-white ">
-            <button><img src="src/assets/icons/search-white.svg" alt="" class="w-[3.721vw]"></button>
-            <input type="text" placeholder="Search"
-                class="w-full pl-[0.521vw] pr-[1.302vw] text-white text-[4.186vw] placeholder-white focus:outline-none bg-transparent ml-[2.326vw]" />
-        </div>
-    </div>
-    <div class="sm:px-[4.271vw] px-[8.372vw] pt-[2.604vw]">
-        <div class="text-white text-[0.938vw] flex sm:flex-row flex-col justify-between">
-            <ul class="sm:text-[0.938vw] text-[3.291vw] space-x-[0.417vw] flex">
-                <a data-aos="fade-right" data-aos-duration="500" data-aos-delay="200" href="index.html">
-                    <li>Home</li>
-                </a>
-                <li data-aos="fade-right" data-aos-duration="500" data-aos-delay="200">/</li>
-                <li data-aos="fade-right" data-aos-duration="500" data-aos-delay="300">All Products</li>
-                <li data-aos="fade-right" data-aos-duration="500" data-aos-delay="300">/</li>
-            </ul>
-            <div class="flex items-center sm:justify-start justify-between sm:mt-0 mt-[3.953vw] sm:mb-0 mb-[5.116vw]">
-                <button data-aos="fade-right" data-aos-duration="500" data-aos-delay="300" id="filter"
-                    class="sm:hidden inline w-[5.581vw]"><img src="assets/icons/filters.svg" alt=""></button>
-                <div class="flex items-center sm:text-[0.938vw] text-[2.791vw] sm:space-x-[2.135vw] space-x-[4.186vw]">
-                    <p>Sort by: Best Selling</p>
-                    <p class="opacity-60 font-light">189 Products</p>
                 </div>
             </div>
         </div>
