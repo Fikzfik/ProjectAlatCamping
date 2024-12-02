@@ -54,6 +54,7 @@
                     @foreach ($keranjangs as $keranjang)
                         <div
                             class="flex items-start border-b border-gray-300 pb-6 gap-6 hover:shadow-lg hover:scale-105 transform transition duration-300">
+                            <input type="hidden" name="keranjangs[]" value="{{ $keranjang->id_keranjang }}">
                             <!-- Gambar Barang -->
                             <div
                                 class="w-[15vw] h-[15vw] sm:w-[10vw] sm:h-[10vw] overflow-hidden rounded-lg relative group shadow-md">
@@ -111,30 +112,34 @@
             <div class="w-full sm:w-[30vw] space-y-[3vw] sticky sm:inline-block overflow-x-hidden overflow-y-auto max-h-[100vh] scrollbar-hide top-[1.2vw] p-4 bg-gray-800 rounded-lg shadow-lg"
                 data-aos="fade-left" data-aos-delay="400" data-aos-duration="500">
                 <h2 class="text-[1.5vw] font-semibold mb-4">Pilih Metode Pembayaran</h2>
-                <div class="space-y-4">
-                    <label
-                        class="flex items-center space-x-4 p-2 bg-gray-700 rounded-lg hover:bg-gray-600 transition duration-200">
-                        <input class="form-radio text-blue-500" name="payment_method" type="radio"
-                            value="bank_transfer" />
-                        <span>Bank Transfer</span>
-                    </label>
-                    <label
-                        class="flex items-center space-x-4 p-2 bg-gray-700 rounded-lg hover:bg-gray-600 transition duration-200">
-                        <input class="form-radio text-blue-500" name="payment_method" type="radio"
-                            value="credit_card" />
-                        <span>Kartu Kredit</span>
-                    </label>
-                    <label
-                        class="flex items-center space-x-4 p-2 bg-gray-700 rounded-lg hover:bg-gray-600 transition duration-200">
-                        <input class="form-radio text-blue-500" name="payment_method" type="radio" value="ewallet" />
-                        <span>E-Wallet (OVO, GoPay, dll)</span>
-                    </label>
-                </div>
-                <button
-                    class="bg-blue-500 text-white w-full py-2 mt-6 rounded-lg hover:bg-blue-600 transition duration-200"
-                    type="submit">
-                    Bayar Sekarang
-                </button>
+                <form id="paymentForm" onsubmit="return false;">
+                    @csrf
+                    <div class="space-y-4">
+                        <label
+                            class="flex items-center space-x-4 p-2 bg-gray-700 rounded-lg hover:bg-gray-600 transition duration-200">
+                            <input class="form-radio text-blue-500" name="payment_method" type="radio"
+                                value="bank_transfer" required />
+                            <span>Bank Transfer</span>
+                        </label>
+                        <label
+                            class="flex items-center space-x-4 p-2 bg-gray-700 rounded-lg hover:bg-gray-600 transition duration-200">
+                            <input class="form-radio text-blue-500" name="payment_method" type="radio"
+                                value="credit_card" required />
+                            <span>Kartu Kredit</span>
+                        </label>
+                        <label
+                            class="flex items-center space-x-4 p-2 bg-gray-700 rounded-lg hover:bg-gray-600 transition duration-200">
+                            <input class="form-radio text-blue-500" name="payment_method" type="radio" value="gopay"
+                                required />
+                            <span>E-Wallet (OVO, GoPay, dll)</span>
+                        </label>
+                    </div>
+                    <button
+                        class="bg-blue-500 text-white w-full py-2 mt-6 rounded-lg hover:bg-blue-600 transition duration-200"
+                        type="button" id="submitPayment">
+                        Bayar Sekarang
+                    </button>
+                </form>
             </div>
         </div>
 
@@ -162,6 +167,77 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
     <script>
+        document.getElementById('submitPayment').addEventListener('click', () => {
+            const selectedPaymentMethod = document.querySelector('input[name="payment_method"]:checked');
+            if (!selectedPaymentMethod) {
+                Swal.fire({
+                    title: 'Metode Pembayaran',
+                    text: 'Pilih metode pembayaran sebelum melanjutkan!',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+                return;
+            }
+
+            const paymentMethod = selectedPaymentMethod.value;
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+
+            fetch('/pembayaran', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    body: JSON.stringify({
+                        payment_method: paymentMethod
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire({
+                            title: 'Berhasil',
+                            text: 'Metode pembayaran berhasil dipilih!',
+                            icon: 'success',
+                            confirmButtonText: 'OK'
+                        }).then(() => {
+                            // Redirect atau lakukan sesuatu
+                            window.location.href = data.redirect_url;
+                        });
+                    } else {
+                        Swal.fire({
+                            title: 'Gagal',
+                            text: data.message || 'Terjadi kesalahan.',
+                            icon: 'error',
+                            confirmButtonText: 'OK'
+                        });
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    Swal.fire({
+                        title: 'Error',
+                        text: 'Terjadi kesalahan saat memproses pembayaran.',
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                });
+        });
+
+        function validatePaymentMethod() {
+            const selectedPaymentMethod = document.querySelector('input[name="payment_method"]:checked');
+            if (!selectedPaymentMethod) {
+                Swal.fire({
+                    title: 'Metode Pembayaran',
+                    text: 'Pilih metode pembayaran sebelum melanjutkan!',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+                return false;
+            }
+            return true;
+        }
+
         function updateQuantity(idKeranjang, change) {
             const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
             const endpoint = change > 0 ? '/keranjang/increase' : '/keranjang/decrease';
@@ -191,23 +267,23 @@
                 .catch(error => {
                     console.error('Error:', error);
                 });
+        }
+
+
+
+        function togglePopup(show) {
+            const popup = document.getElementById('popup');
+            const body = document.body;
+            if (show) {
+                popup.classList.remove('hidden');
+                popup.classList.add('flex');
+                body.style.overflow = 'hidden'; // Disable scrolling
+            } else {
+                popup.classList.add('hidden');
+                popup.classList.remove('flex');
+                body.style.overflow = ''; // Enable scrolling
             }
-
-
-
-            function togglePopup(show) {
-                const popup = document.getElementById('popup');
-                const body = document.body;
-                if (show) {
-                    popup.classList.remove('hidden');
-                    popup.classList.add('flex');
-                    body.style.overflow = 'hidden'; // Disable scrolling
-                } else {
-                    popup.classList.add('hidden');
-                    popup.classList.remove('flex');
-                    body.style.overflow = ''; // Enable scrolling
-                }
-            }
+        }
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
