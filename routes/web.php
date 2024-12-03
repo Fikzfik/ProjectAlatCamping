@@ -40,13 +40,16 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/keranjang/decrease', [KeranjangController::class, 'decreaseQuantity'])->name('keranjang.decrease');
 
     Route::post('/pembayaran', [PembayaranController::class, 'index'])->name('pembayaran.index');
+    Route::post('/webhook', [PembayaranController::class, 'webhook'])->name('webhook');
 
     Route::get('/penyewaan', [ViewController::class, 'penyewaan'])->name('penyewaan');
     Route::post('/penyewaan/store', [PenyewaanController::class, 'store'])->name('penyewaan.store');
-
+    
     Route::get('/menu', [ViewController::class, 'menuview'])->name('menu');
     Route::get('/settingmenu', [ViewController::class, 'settingmenuview'])->name('settingmenu');
     Route::get('/blog', [ViewController::class, 'blogview'])->name('blog');
     Route::get('/home', [ViewController::class, 'homeview'])->name('home');
     Route::get('/location', [ViewController::class, 'locationview'])->name('location');
+
+    Route::get('/test', [ViewController::class, 'test'])->name('test');
 });

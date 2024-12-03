@@ -7,7 +7,9 @@ use Illuminate\Support\Facades\DB;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Str;
 use GuzzleHttp\Exception\RequestException;
+use Illuminate\Support\Facades\Http;
 
 class PembayaranController extends Controller
 {
@@ -74,12 +76,12 @@ class PembayaranController extends Controller
 
             Log::info('Payment Method: ' . $paymentType);
             Log::info('Total Harga: ' . $totalHarga);
-
+            $orderId = Str::uuid()->toString();
             // Payload untuk Midtrans
             $transactionData = [
                 'payment_type' => $paymentType,
                 'transaction_details' => [
-                    'order_id' => 'ORDER-' . $idPenyewaan,
+                    'order_id' => 'ORDER-' . $orderId,
                     'gross_amount' => $totalHarga,
                 ],
                 'customer_details' => [
@@ -91,7 +93,7 @@ class PembayaranController extends Controller
 
             // Kirim request ke Midtrans
             $client = new Client();
-            $response = $client->post('https://api.sandbox.midtrans.com/v2/charge', [
+            $response = $client->post('https://app.sandbox.midtrans.com/snap/v1/transactions', [
                 'headers' => [
                     'Authorization' => 'Basic ' . base64_encode(env('MIDTRANS_SERVER_KEY') . ':'),
                     'Content-Type' => 'application/json',
@@ -99,30 +101,63 @@ class PembayaranController extends Controller
                 'json' => $transactionData,
             ]);
 
-            // Jika response tidak OK, lakukan rollback
-            if ($response->getStatusCode() != 200) {
-                Log::error('Midtrans Error: ' . $response->getBody());
-                DB::rollBack(); // Rollback transaksi jika terjadi kesalahan
+            // Parsing respons
+            $responseBody = json_decode($response->getBody(), true);
+            Log::info('Full Midtrans Response: ' . json_encode($responseBody));
+
+            // Periksa apakah respons dari Midtrans mengandung token dan redirect_url
+            if (!isset($responseBody['token']) || empty($responseBody['token'])) {
+                Log::error('Midtrans Error: Token tidak ditemukan');
+                DB::rollBack(); // Rollback transaksi jika tidak ada token
                 return response()->json(
                     [
                         'success' => false,
                         'message' => 'Terjadi kesalahan saat memproses pembayaran.',
-                        'error' => 'Midtrans response error: ' . $response->getBody(),
+                        'error' => 'Token tidak ditemukan.',
                     ],
                     500,
                 );
             }
 
-            // Jika tidak ada error, commit transaksi
+            // Pastikan actions[1]['url'] ada dalam respons
+            if (isset($responseBody['redirect_url'])) {
+                $checkoutLink = $responseBody['redirect_url']; // Deeplink URL
+            } else {
+                Log::error('Midtrans Error: redirect_url tidak ditemukan');
+                DB::rollBack(); // Rollback transaksi jika tidak ada redirect_url
+                return response()->json(
+                    [
+                        'success' => false,
+                        'message' => 'Terjadi kesalahan saat memproses pembayaran.',
+                        'error' => 'Redirect URL tidak ditemukan.',
+                    ],
+                    500,
+                );
+            }
+
+            // Simpan data pembayaran ke tabel pembayarans
+            DB::table('pembayarans')->insert([
+                'checkout_link' => $checkoutLink,
+                'order_id' => 'ORDER-' . $orderId,
+                'id_penyewaan' => $idPenyewaan,
+                'tanggal_pembayaran' => now(),
+                'jumlah_pembayaran' => $totalHarga,
+                'metode_pembayaran' => $paymentType,
+                'status_pembayaran' => 'belum lunas',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            // Commit transaksi
             DB::commit();
 
-            $responseBody = json_decode($response->getBody(), true);
-            Log::info('Response from Midtrans: ' . json_encode($responseBody));
-
+            // Response berhasil
             return response()->json([
                 'success' => true,
                 'message' => 'Transaksi berhasil dibuat!',
-                'data' => $responseBody,
+                'data' => [
+                    'redirect_url' => $checkoutLink, // Pastikan field ini ada
+                ],
             ]);
         } catch (\Exception $e) {
             // Jika terjadi error, rollback transaksi
@@ -137,5 +172,85 @@ class PembayaranController extends Controller
                 500,
             );
         }
-    }   
+    }
+    public function webhook(Request $request)
+    {
+        try {
+            // Ambil order_id dari request
+            $orderId = $request->input('order_id');
+
+            // Validasi jika order_id kosong
+            if (empty($orderId)) {
+                return response()->json(['success' => false, 'message' => 'Order ID tidak ditemukan'], 400);
+            }
+
+            // Ambil status transaksi dari Midtrans
+            $response = Http::withHeaders([
+                'Authorization' => 'Basic ' . base64_encode(env('MIDTRANS_SERVER_KEY') . ':'),
+                'Content-Type' => 'application/json',
+            ])->get("https://api.sandbox.midtrans.com/v2/$orderId/status");
+
+            // Parsing response dari Midtrans
+            $responseBody = json_decode($response->body(), true);
+
+            if (!$response->successful()) {
+                Log::error('Error mendapatkan status dari Midtrans', $responseBody);
+                return response()->json(['success' => false, 'message' => 'Gagal mengambil status dari Midtrans'], 500);
+            }
+
+            // Cari data pembayaran berdasarkan order_id di database
+            $pembayaran = DB::table('pembayarans')->where('order_id', $orderId)->first();
+
+            // Validasi jika pembayaran tidak ditemukan
+            if (!$pembayaran) {
+                Log::warning('Pembayaran dengan Order ID tidak ditemukan: ' . $orderId);
+                return response()->json(['success' => false, 'message' => 'Pembayaran tidak ditemukan'], 404);
+            }
+
+            // Perbarui status pembayaran berdasarkan status transaksi dari Midtrans
+            $transactionStatus = $responseBody['transaction_status'];
+            $status = null;
+
+            if ($transactionStatus === 'capture') {
+                $status = 'capture';
+            } elseif ($transactionStatus === 'settlement') {
+                $status = 'settlement';
+            } elseif ($transactionStatus === 'pending') {
+                $status = 'pending';
+            } elseif ($transactionStatus === 'deny') {
+                $status = 'deny';
+            } elseif ($transactionStatus === 'expire') {
+                $status = 'expire';
+            } elseif ($transactionStatus === 'cancel') {
+                $status = 'cancel';
+            }
+
+            if (!$status) {
+                Log::error('Status transaksi tidak valid: ' . $transactionStatus);
+                return response()->json(['success' => false, 'message' => 'Status transaksi tidak valid'], 400);
+            }
+
+            // Update status pembayaran di database
+            DB::table('pembayarans')
+                ->where('order_id', $orderId)
+                ->update(['status_pembayaran' => $status, 'updated_at' => now()]);
+
+            // Jika status adalah settlement, ubah status penyewaan menjadi "aktif"
+            if ($transactionStatus === 'settlement') {
+                DB::table('penyewaans')
+                    ->where('id_penyewaan', $pembayaran->id_penyewaan)
+                    ->update(['status_sewa' => 'aktif', 'updated_at' => now()]);
+            }
+
+            Log::info('Status pembayaran berhasil diperbarui', [
+                'order_id' => $orderId,
+                'status' => $status,
+            ]);
+
+            return response()->json(['success' => true, 'message' => 'Status pembayaran berhasil diperbarui']);
+        } catch (\Exception $e) {
+            Log::error('Error pada webhook: ' . $e->getMessage());
+            return response()->json(['success' => false, 'message' => 'Terjadi kesalahan', 'error' => $e->getMessage()], 500);
+        }
+    }
 }
