@@ -123,12 +123,16 @@
                         </label>
                         <div id="bankTransferOptions" class="hidden space-y-4 pl-8">
                             <select name="bank" class="form-select bg-gray-600 text-white rounded-lg p-2 w-full">
-                                <option value="bank_a">Bank A</option>
-                                <option value="bank_b">Bank B</option>
-                                <option value="bank_c">Bank C</option>
+                                <option value="bca">BCA</option>
+                                <option value="mandiri">Mandiri</option>
+                                <option value="bni">BNI</option>
+                                <option value="bri">BRI</option>
+                                <option value="permata">Permata</option>
+                                <option value="cimb">CIMB</option>
                             </select>
                         </div>
 
+                        <!-- Credit Card -->
                         <label
                             class="flex items-center space-x-4 p-2 bg-gray-700 rounded-lg hover:bg-gray-600 transition duration-200">
                             <input class="form-radio text-blue-500" name="payment_method" type="radio"
@@ -143,20 +147,30 @@
                             </select>
                         </div>
 
+                        <!-- GoPay -->
                         <label
                             class="flex items-center space-x-4 p-2 bg-gray-700 rounded-lg hover:bg-gray-600 transition duration-200">
                             <input class="form-radio text-blue-500" name="payment_method" type="radio" value="gopay"
                                 required />
-                            <span>E-Wallet (OVO, GoPay, dll)</span>
+                            <span>GoPay</span>
                         </label>
-                        <div id="ewalletOptions" class="hidden space-y-4 pl-8">
-                            <select name="ewallet" class="form-select bg-gray-600 text-white rounded-lg p-2 w-full">
-                                <option value="gopay">GoPay</option>
-                                <option value="ovo">OVO</option>
-                                <option value="shopeepay">ShopeePay</option>
-                                <option value="dana">Dana</option>
-                            </select>
-                        </div>
+
+                        <!-- ShopeePay -->
+                        <label
+                            class="flex items-center space-x-4 p-2 bg-gray-700 rounded-lg hover:bg-gray-600 transition duration-200">
+                            <input class="form-radio text-blue-500" name="payment_method" type="radio"
+                                value="shopeepay" required />
+                            <span>ShopeePay</span>
+                        </label>
+
+                        <!-- QRIS -->
+                        <label
+                            class="flex items-center space-x-4 p-2 bg-gray-700 rounded-lg hover:bg-gray-600 transition duration-200">
+                            <input class="form-radio text-blue-500" name="payment_method" type="radio" value="qris"
+                                required />
+                            <span>QRIS</span>
+                        </label>
+
                     </div>
                     <button
                         class="bg-blue-500 text-white w-full py-2 mt-6 rounded-lg hover:bg-blue-600 transition duration-200"
@@ -164,6 +178,7 @@
                         Bayar Sekarang
                     </button>
                 </form>
+
             </div>
         </div>
 
@@ -225,6 +240,13 @@
             }
 
             const paymentMethod = selectedPaymentMethod.value;
+            let bank = null;
+
+            // Jika metode pembayaran adalah bank_transfer, ambil nilai bank yang dipilih
+            if (paymentMethod === 'bank_transfer') {
+                bank = document.querySelector('select[name="bank"]').value;
+            }
+
             const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
 
             fetch('/pembayaran', {
@@ -234,7 +256,8 @@
                         'X-CSRF-TOKEN': csrfToken
                     },
                     body: JSON.stringify({
-                        payment_method: paymentMethod
+                        payment_method: paymentMethod,
+                        bank: bank // Kirim data bank jika metode pembayaran adalah bank_transfer
                     })
                 })
                 .then(response => response.json())
@@ -248,7 +271,7 @@
                         }).then(() => {
                             // Redirect ke Midtrans checkout link
                             window.location.href = data.data
-                                .redirect_url; // Pastikan 'data.data.redirect_url' sesuai dengan yang dikirimkan dari server
+                            .redirect_url; // Pastikan 'data.data.redirect_url' sesuai dengan yang dikirimkan dari server
                         });
                     } else {
                         Swal.fire({

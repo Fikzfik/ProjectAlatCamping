@@ -18,6 +18,18 @@
 
 <body id="body" class="relative">
     @include('pages.layout.nav');
+    @if (session('notif'))
+        <div class="alert alert-success">
+            {{ session('notif') }}
+        </div>
+    @endif
+
+    <!-- Jika ada error -->
+    @if (session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
     <div class="text-white flex justify-between sm:px-[4.271vw] px-[8.372vw] pt-[2.604vw]">
         <div class="w-[23.031vw] overflow-y-auto max-h-[100vh] scrollbar-hide sticky top-[0.833vw] sm:inline hidden">
             <div class="space-y-[1.198vw]">

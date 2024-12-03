@@ -11,26 +11,26 @@
     <form id="webhookForm">
         <textarea id="jsonData" rows="20" cols="80">
 {
-    "transaction_time": "2024-12-03 18:37:10",
+    "transaction_time": "2024-12-03 21:04:03",
     "transaction_status": "capture",
-    "transaction_id": "f1a36f35-a1a9-4b55-a614-5481e1ef59d4",
+    "transaction_id": "4a04d4b9-b791-4b11-83fd-66c44875ad14",
     "status_message": "midtrans payment notification",
     "status_code": "200",
-    "signature_key": "3f827ae97a0ec80c308603a2af03a12a2d6b5de550c59125b9e29c6f88d814e9170c0efdf71dffb2c6b0e3f3e6b20bf9a13fd7ed7a5870c76546694ceef869be",
+    "signature_key": "ca43eb45f925944bf0309115dba129f4a006e6d6010a50eccea4df6575e6d9d36e3f43be6567b7d7bf0eb04be5c4a88fa585d5c0c098e652c240b880ec9cbcf7",
     "payment_type": "credit_card",
-    "order_id": "ORDER-644b4775-c7dd-499c-bc46-913c5bb4332c",
+    "order_id": "ORDER-2b5f23a8-4fff-43a2-92ed-d921c6a8080e",
     "metadata": {},
     "merchant_id": "G660469192",
     "masked_card": "48111111-1114",
-    "gross_amount": "250000.00",
+    "gross_amount": "450000.00",
     "fraud_status": "accept",
-    "expiry_time": "2024-12-11 18:37:10",
+    "expiry_time": "2024-12-11 21:04:03",
     "currency": "IDR",
     "channel_response_message": "Approved",
     "channel_response_code": "00",
     "card_type": "credit",
     "bank": "cimb",
-    "approval_code": "1733225831436"
+    "approval_code": "1733234644512"
 }
         </textarea>
         <br><br>

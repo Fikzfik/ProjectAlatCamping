@@ -118,13 +118,37 @@ class PembayaranController extends Controller
                     500,
                 );
             }
+            $paymentType = $request->input('payment_method');
+            $redirectFragment = '';
+            $bank = $request->input('bank'); // Pilihan bank
+            Log::error('Bank : ' . $bank);
+            // Tentukan fragment URL berdasarkan payment_method
+            switch ($paymentType) {
+                case 'credit_card':
+                    $redirectFragment = '#/credit-card';
+                    break;
+                case 'bank_transfer':
+                    $redirectFragment = '#/bank-transfer/' . $bank . '-va';
+                    break;
+                case 'gopay':
+                    $redirectFragment = '#/gopay-qris';
+                    break;
+                case 'shopeepay':
+                    $redirectFragment = '#/shopeepay-qris';
+                    break;
+                case 'qris':
+                    $redirectFragment = '#/other-qris';
+                    break;
+                default:
+                    $redirectFragment = ''; // Default, jika tidak ada
+                    break;
+            }
 
-            // Pastikan actions[1]['url'] ada dalam respons
             if (isset($responseBody['redirect_url'])) {
-                $checkoutLink = $responseBody['redirect_url']; // Deeplink URL
+                $checkoutLink = $responseBody['redirect_url'] . $redirectFragment; // Tambahkan fragment
             } else {
                 Log::error('Midtrans Error: redirect_url tidak ditemukan');
-                DB::rollBack(); // Rollback transaksi jika tidak ada redirect_url
+                DB::rollBack(); // Rollback jika tidak ada redirect_url
                 return response()->json(
                     [
                         'success' => false,
@@ -134,19 +158,33 @@ class PembayaranController extends Controller
                     500,
                 );
             }
-
+            // Pastikan actions[1]['url'] ada dalam respons
+            if ($paymentType == 'bank_transfer') {
+                DB::table('pembayarans')->insert([
+                    'checkout_link' => $checkoutLink,
+                    'order_id' => 'ORDER-' . $orderId,
+                    'id_penyewaan' => $idPenyewaan,
+                    'tanggal_pembayaran' => now(),
+                    'jumlah_pembayaran' => $totalHarga,
+                    'metode_pembayaran' => $bank,
+                    'status_pembayaran' => 'belum lunas',
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            } else {
+                DB::table('pembayarans')->insert([
+                    'checkout_link' => $checkoutLink,
+                    'order_id' => 'ORDER-' . $orderId,
+                    'id_penyewaan' => $idPenyewaan,
+                    'tanggal_pembayaran' => now(),
+                    'jumlah_pembayaran' => $totalHarga,
+                    'metode_pembayaran' => $paymentType,
+                    'status_pembayaran' => 'belum lunas',
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
             // Simpan data pembayaran ke tabel pembayarans
-            DB::table('pembayarans')->insert([
-                'checkout_link' => $checkoutLink,
-                'order_id' => 'ORDER-' . $orderId,
-                'id_penyewaan' => $idPenyewaan,
-                'tanggal_pembayaran' => now(),
-                'jumlah_pembayaran' => $totalHarga,
-                'metode_pembayaran' => $paymentType,
-                'status_pembayaran' => 'belum lunas',
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
 
             // Commit transaksi
             DB::commit();
@@ -252,5 +290,24 @@ class PembayaranController extends Controller
             Log::error('Error pada webhook: ' . $e->getMessage());
             return response()->json(['success' => false, 'message' => 'Terjadi kesalahan', 'error' => $e->getMessage()], 500);
         }
+    }
+    public function finish(Request $request)
+    {
+        // Cek status pembayaran dari request
+        $statusPembayaran = $request->input('transaction_status'); // Sesuaikan dengan data yang diterima
+
+        if ($statusPembayaran === 'settlement') {
+            // Mengambil ID user yang sedang login
+            $userId = auth()->user()->id;
+
+            // Menggunakan DB untuk menghapus semua keranjang user
+            DB::table('keranjangs')->where('user_id', $userId)->delete();
+
+            // Menampilkan view dengan notifikasi pembayaran berhasil
+            return view('pages.auth.home')->with('notif', 'Pembayaran berhasil, silahkan ambil barang');
+        }
+
+        // Jika status pembayaran tidak berhasil, redirect ke halaman utama dengan error
+        return redirect()->route('home')->with('error', 'Pembayaran gagal');
     }
 }
