@@ -16,7 +16,7 @@ class PembayaranController extends Controller
     public function index(Request $request)
     {
         DB::beginTransaction(); // Mulai transaksi database
-
+        Log::info('Full Midtrans Response: Index1');
         try {
             $userId = Auth::user()->id_user;
 
@@ -118,72 +118,147 @@ class PembayaranController extends Controller
                     500,
                 );
             }
-            $paymentType = $request->input('payment_method');
-            $redirectFragment = '';
-            $bank = $request->input('bank'); // Pilihan bank
-            Log::error('Bank : ' . $bank);
-            // Tentukan fragment URL berdasarkan payment_method
-            switch ($paymentType) {
-                case 'credit_card':
-                    $redirectFragment = '#/credit-card';
-                    break;
-                case 'bank_transfer':
-                    $redirectFragment = '#/bank-transfer/' . $bank . '-va';
-                    break;
-                case 'gopay':
-                    $redirectFragment = '#/gopay-qris';
-                    break;
-                case 'shopeepay':
-                    $redirectFragment = '#/shopeepay-qris';
-                    break;
-                case 'qris':
-                    $redirectFragment = '#/other-qris';
-                    break;
-                default:
-                    $redirectFragment = ''; // Default, jika tidak ada
-                    break;
+            // Commit transaksi
+            DB::commit();
+
+            // Response berhasil
+            return response()->json([
+                'success' => true,
+                'message' => 'Transaksi berhasil dibuat!',
+                'data' => [
+                    'token' => $responseBody['token'], // Token yang diterima dari Midtrans
+                ],
+            ]);
+        } catch (\Exception $e) {
+            // Jika terjadi error, rollback transaksi
+            DB::rollBack();
+            Log::error('Error: ' . $e->getMessage());
+            return response()->json(
+                [
+                    'success' => false,
+                    'message' => 'Terjadi kesalahan.',
+                    'error' => $e->getMessage(),
+                ],
+                500,
+            );
+        }
+    }
+    public function index1(Request $request)
+    {
+        DB::beginTransaction(); // Mulai transaksi database
+        Log::info('Full Midtrans Response: Index');
+        try {
+            $userId = Auth::user()->id_user;
+
+            // Ambil data keranjang user yang sedang login
+            $keranjang = DB::table('keranjangs')->join('barangs', 'keranjangs.id_barang', '=', 'barangs.id_barang')->where('keranjangs.id_user', $userId)->select('keranjangs.id_keranjang', 'barangs.nama_barang', 'keranjangs.jumlah_barang', 'barangs.harga_sewa', DB::raw('keranjangs.jumlah_barang * barangs.harga_sewa as subtotal'))->get();
+
+            if ($keranjang->isEmpty()) {
+                Log::info('Keranjang kosong untuk user dengan ID: ' . $userId);
+                return response()->json(
+                    [
+                        'success' => false,
+                        'message' => 'Keranjang kosong! Tidak ada barang untuk dibayar.',
+                    ],
+                    400,
+                );
             }
 
-            if (isset($responseBody['redirect_url'])) {
-                $checkoutLink = $responseBody['redirect_url'] . $redirectFragment; // Tambahkan fragment
-            } else {
-                Log::error('Midtrans Error: redirect_url tidak ditemukan');
-                DB::rollBack(); // Rollback jika tidak ada redirect_url
+            // Hitung total harga dari keranjang
+            $totalHarga = $keranjang->sum('subtotal');
+
+            // Ambil payment_type dari request
+            $paymentType = $request->input('payment_method');
+
+            // Buat penyewaan baru
+            $idPenyewaan = DB::table('penyewaans')->insertGetId([
+                'tanggal_sewa' => now(),
+                'tanggal_kembali' => now()->addDays(7), // Contoh durasi sewa 7 hari
+                'status_sewa' => 'dalam proses',
+                'total_harga' => $totalHarga,
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            // Buat detail penyewaan berdasarkan keranjang
+            foreach ($keranjang as $item) {
+                DB::table('detail_penyewaans')->insert([
+                    'id_penyewaan' => $idPenyewaan,
+                    'id_keranjang' => $item->id_keranjang,
+                    'jumlah_barang' => $item->jumlah_barang,
+                    'harga_sewa' => $item->harga_sewa,
+                    'subtotal' => $item->subtotal,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
+            }
+
+            // Format item untuk Midtrans
+            $items = [];
+            foreach ($keranjang as $item) {
+                $items[] = [
+                    'id' => $item->id_keranjang,
+                    'price' => $item->harga_sewa,
+                    'quantity' => $item->jumlah_barang,
+                    'name' => $item->nama_barang,
+                ];
+            }
+            Log::info('Items : ' . json_encode($items));
+            Log::info('Total Harga: ' . $totalHarga);
+            $orderId = Str::uuid()->toString();
+            // Payload untuk Midtrans
+            $transactionData = [
+                'payment_type' => $paymentType,
+                'transaction_details' => [
+                    'order_id' => 'ORDER-' . $orderId,
+                    'gross_amount' => $totalHarga,
+                ],
+                'customer_details' => [
+                    'first_name' => Auth::user()->name ?? 'Penyewa',
+                    'email' => Auth::user()->email ?? 'penyewa@example.com',
+                ],
+                'item_details' => $items,
+            ];
+
+            // Kirim request ke Midtrans
+            $client = new Client();
+            $response = $client->post('https://app.sandbox.midtrans.com/snap/v1/transactions', [
+                'headers' => [
+                    'Authorization' => 'Basic ' . base64_encode(env('MIDTRANS_SERVER_KEY') . ':'),
+                    'Content-Type' => 'application/json',
+                ],
+                'json' => $transactionData,
+            ]);
+
+            // Parsing respons
+            $responseBody = json_decode($response->getBody(), true);
+            Log::info('Full Midtrans Response: ' . json_encode($responseBody));
+
+            // Periksa apakah respons dari Midtrans mengandung token dan redirect_url
+            if (!isset($responseBody['token']) || empty($responseBody['token'])) {
+                Log::error('Midtrans Error: Token tidak ditemukan');
+                DB::rollBack(); // Rollback transaksi jika tidak ada token
                 return response()->json(
                     [
                         'success' => false,
                         'message' => 'Terjadi kesalahan saat memproses pembayaran.',
-                        'error' => 'Redirect URL tidak ditemukan.',
+                        'error' => 'Token tidak ditemukan.',
                     ],
                     500,
                 );
             }
-            // Pastikan actions[1]['url'] ada dalam respons
-            if ($paymentType == 'bank_transfer') {
-                DB::table('pembayarans')->insert([
-                    'checkout_link' => $checkoutLink,
-                    'order_id' => 'ORDER-' . $orderId,
-                    'id_penyewaan' => $idPenyewaan,
-                    'tanggal_pembayaran' => now(),
-                    'jumlah_pembayaran' => $totalHarga,
-                    'metode_pembayaran' => $bank,
-                    'status_pembayaran' => 'belum lunas',
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ]);
-            } else {
-                DB::table('pembayarans')->insert([
-                    'checkout_link' => $checkoutLink,
-                    'order_id' => 'ORDER-' . $orderId,
-                    'id_penyewaan' => $idPenyewaan,
-                    'tanggal_pembayaran' => now(),
-                    'jumlah_pembayaran' => $totalHarga,
-                    'metode_pembayaran' => $paymentType,
-                    'status_pembayaran' => 'belum lunas',
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                ]);
-            }
+    
+            DB::table('pembayarans')->insert([
+                'order_id' => 'ORDER-' . $orderId,
+                'id_penyewaan' => $idPenyewaan,
+                'tanggal_pembayaran' => now(),
+                'jumlah_pembayaran' => $totalHarga,
+                'metode_pembayaran' => 'unknown',
+                'status_pembayaran' => 'pending',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
             // Simpan data pembayaran ke tabel pembayarans
 
             // Commit transaksi
@@ -194,7 +269,7 @@ class PembayaranController extends Controller
                 'success' => true,
                 'message' => 'Transaksi berhasil dibuat!',
                 'data' => [
-                    'redirect_url' => $checkoutLink, // Pastikan field ini ada
+                    'token' => $responseBody['token'], // Token yang diterima dari Midtrans
                 ],
             ]);
         } catch (\Exception $e) {
@@ -213,11 +288,12 @@ class PembayaranController extends Controller
     }
     public function webhook(Request $request)
     {
+        Log::info('Full Midtrans Response: webhook');
         try {
             // Ambil order_id dari request
             $orderId = $request->input('order_id');
+            Log::info('Order ID : ' . $orderId);
 
-            // Validasi jika order_id kosong
             if (empty($orderId)) {
                 return response()->json(['success' => false, 'message' => 'Order ID tidak ditemukan'], 400);
             }
@@ -228,7 +304,6 @@ class PembayaranController extends Controller
                 'Content-Type' => 'application/json',
             ])->get("https://api.sandbox.midtrans.com/v2/$orderId/status");
 
-            // Parsing response dari Midtrans
             $responseBody = json_decode($response->body(), true);
 
             if (!$response->successful()) {
@@ -236,54 +311,40 @@ class PembayaranController extends Controller
                 return response()->json(['success' => false, 'message' => 'Gagal mengambil status dari Midtrans'], 500);
             }
 
-            // Cari data pembayaran berdasarkan order_id di database
+            // Cari data pembayaran
             $pembayaran = DB::table('pembayarans')->where('order_id', $orderId)->first();
 
-            // Validasi jika pembayaran tidak ditemukan
             if (!$pembayaran) {
-                Log::warning('Pembayaran dengan Order ID tidak ditemukan: ' . $orderId);
+                Log::warning('Pembayaran tidak ditemukan: ' . $orderId);
                 return response()->json(['success' => false, 'message' => 'Pembayaran tidak ditemukan'], 404);
             }
 
-            // Perbarui status pembayaran berdasarkan status transaksi dari Midtrans
+            // Update status pembayaran
             $transactionStatus = $responseBody['transaction_status'];
-            $status = null;
-
-            if ($transactionStatus === 'capture') {
-                $status = 'capture';
-            } elseif ($transactionStatus === 'settlement') {
-                $status = 'settlement';
-            } elseif ($transactionStatus === 'pending') {
-                $status = 'pending';
-            } elseif ($transactionStatus === 'deny') {
-                $status = 'deny';
-            } elseif ($transactionStatus === 'expire') {
-                $status = 'expire';
-            } elseif ($transactionStatus === 'cancel') {
-                $status = 'cancel';
-            }
+            $status = match ($transactionStatus) {
+                'capture' => 'capture',
+                'settlement' => 'settlement',
+                'pending' => 'pending',
+                'deny' => 'deny',
+                'expire' => 'expire',
+                'cancel' => 'cancel',
+                default => null,
+            };
 
             if (!$status) {
-                Log::error('Status transaksi tidak valid: ' . $transactionStatus);
                 return response()->json(['success' => false, 'message' => 'Status transaksi tidak valid'], 400);
             }
 
-            // Update status pembayaran di database
             DB::table('pembayarans')
                 ->where('order_id', $orderId)
                 ->update(['status_pembayaran' => $status, 'updated_at' => now()]);
 
-            // Jika status adalah settlement, ubah status penyewaan menjadi "aktif"
-            if ($transactionStatus === 'settlement') {
+            // Ubah status penyewaan jika "settlement"
+            if ($transactionStatus === 'settlement'||$transactionStatus === 'capture') {
                 DB::table('penyewaans')
                     ->where('id_penyewaan', $pembayaran->id_penyewaan)
                     ->update(['status_sewa' => 'aktif', 'updated_at' => now()]);
             }
-
-            Log::info('Status pembayaran berhasil diperbarui', [
-                'order_id' => $orderId,
-                'status' => $status,
-            ]);
 
             return response()->json(['success' => true, 'message' => 'Status pembayaran berhasil diperbarui']);
         } catch (\Exception $e) {
@@ -291,23 +352,86 @@ class PembayaranController extends Controller
             return response()->json(['success' => false, 'message' => 'Terjadi kesalahan', 'error' => $e->getMessage()], 500);
         }
     }
+
     public function finish(Request $request)
     {
-        // Cek status pembayaran dari request
-        $statusPembayaran = $request->input('transaction_status'); // Sesuaikan dengan data yang diterima
+        Log::info('Full Midtrans Response: finish');
+        try {
+            // Ambil order_id dan status transaksi dari query string
+            $orderId = $request->input('order_id');
+            $statusCode = $request->input('status_code');
+            $transactionStatus = $request->input('transaction_status');
 
-        if ($statusPembayaran === 'settlement') {
-            // Mengambil ID user yang sedang login
-            $userId = auth()->user()->id;
+            // Validasi order_id dan status transaksi
+            if (empty($orderId)) {
+                return redirect()->route('home')->with('error', 'Order ID tidak ditemukan');
+            }
 
-            // Menggunakan DB untuk menghapus semua keranjang user
-            DB::table('keranjangs')->where('user_id', $userId)->delete();
+            // Cek apakah transaksi berhasil
+            if ($transactionStatus === 'capture' || $transactionStatus === 'settlement') {
+                // Ambil data pembayaran berdasarkan order_id
+                $pembayaran = DB::table('pembayarans')->where('order_id', $orderId)->first();
 
-            // Menampilkan view dengan notifikasi pembayaran berhasil
-            return view('pages.auth.home')->with('notif', 'Pembayaran berhasil, silahkan ambil barang');
+                // Validasi pembayaran
+                if (!$pembayaran) {
+                    return redirect()->route('home')->with('error', 'Pembayaran tidak ditemukan');
+                }
+
+                // Pembayaran berhasil, hapus keranjang user
+                $userId = auth()->user()->id_user;
+                DB::table('keranjangs')->where('user_id', $userId)->delete();
+
+                // Perbarui status pembayaran di database
+                DB::table('pembayarans')
+                    ->where('order_id', $orderId)
+                    ->update(['status_pembayaran' => 'settlement']);
+
+                // Redirect ke halaman home dengan notifikasi pembayaran berhasil
+                return redirect()->route('home')->with('notif', 'Pembayaran berhasil, silahkan ambil barang');
+            }
+
+            // Jika transaksi tidak berhasil, tampilkan pesan error
+            return redirect()->route('home')->with('error', 'Pembayaran gagal atau status tidak valid');
+        } catch (\Exception $e) {
+            Log::error('Error pada finish: ' . $e->getMessage());
+            return redirect()->route('home')->with('error', 'Terjadi kesalahan, silahkan coba lagi');
         }
+    }
+    public function notfinish(Request $request)
+    {
+        Log::info('Full Midtrans Response: notfinish');
+        try {
+            // Ambil order_id dari query string
+            $orderId = $request->input('order_id');
 
-        // Jika status pembayaran tidak berhasil, redirect ke halaman utama dengan error
-        return redirect()->route('home')->with('error', 'Pembayaran gagal');
+            // Validasi order_id
+            if (empty($orderId)) {
+                return redirect()->route('home')->with('error', 'Order ID tidak ditemukan');
+            }
+
+            // Cek apakah data pembayaran ada di database
+            $pembayaran = DB::table('pembayarans')->where('order_id', $orderId)->first();
+
+            if (!$pembayaran) {
+                return redirect()->route('home')->with('error', 'Pembayaran tidak ditemukan');
+            }
+
+            // Update status pembayaran menjadi batal
+            DB::table('pembayarans')
+                ->where('order_id', $orderId)
+                ->update([
+                    'status_pembayaran' => 'batal',
+                    'updated_at' => now(),
+                ]);
+
+            // Redirect ke halaman home dengan pesan notifikasi
+            return redirect()->route('home')->with('notif', 'Pembayaran tidak diselesaikan. Silakan coba lagi!');
+        } catch (\Exception $e) {
+            // Log error jika ada
+            Log::error('Error pada notfinish: ' . $e->getMessage());
+
+            // Redirect dengan pesan error
+            return redirect()->route('home')->with('error', 'Terjadi kesalahan saat memproses pembatalan pembayaran.');
+        }
     }
 }

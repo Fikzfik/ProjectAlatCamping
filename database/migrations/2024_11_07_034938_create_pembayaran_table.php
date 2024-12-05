@@ -12,15 +12,14 @@ return new class extends Migration {
     {
         Schema::create('pembayarans', function (Blueprint $table) {
             $table->id('id_pembayaran');
-            $table->text('checkout_link'); // Tipe text untuk URL panjang
             $table->string('order_id', 255);
             $table->unsignedBigInteger('id_penyewaan');
             $table->foreign('id_penyewaan')->references('id_penyewaan')->on('penyewaans')->onDelete('cascade')->onUpdate('cascade');
             $table->date('tanggal_pembayaran');
             $table->decimal('jumlah_pembayaran', 10, 2);
             // Tambahkan metode pembayaran Midtrans seperti 'gopay' ke enum
-            $table->enum('metode_pembayaran', ['credit_card', 'gopay', 'shopeepay', 'qris', 'bca', 'bni', 'bri', 'mandiri', 'echannel', 'permata','cmib', 'danamon', 'akulaku', 'indomaret', 'alfamart', 'uob_ezpay', 'dana']);
-            $table->enum('status_pembayaran', ['lunas', 'belum lunas', 'capture', 'settlement', 'pending', 'deny', 'expire', 'cancel']);
+            $table->enum('metode_pembayaran', ['unknown','credit_card', 'gopay', 'shopeepay', 'qris', 'bca', 'bni', 'bri', 'mandiri', 'echannel', 'permata','cmib', 'danamon', 'akulaku', 'indomaret', 'alfamart', 'uob_ezpay', 'dana']);
+            $table->enum('status_pembayaran', ['lunas', 'capture', 'settlement', 'pending', 'deny', 'expire', 'cancel']);
             $table->timestamps();
         });
     }

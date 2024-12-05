@@ -18,4 +18,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::post('/webhook', [PembayaranController::class, 'webhook'])->name('webhook');
-Route::post('/finish', [PembayaranController::class, 'finish'])->name('finish');
+Route::get('/finish', [PembayaranController::class, 'finish'])->name('finish');
+Route::get('/notfinish', [PembayaranController::class, 'notfinish'])->name('notfinish');
