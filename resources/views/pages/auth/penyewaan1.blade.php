@@ -138,7 +138,18 @@
                 <div class="text-2xl font-bold text-blue-400 mb-6" id="totalPembayaran">
                     Rp
                 </div>
-
+                <div class="mb-4">
+                    <label for="tanggalSewa" class="block text-white font-medium">Tanggal Sewa</label>
+                    <input type="date" id="tanggalSewa" name="tanggal_sewa"
+                        class="w-full px-4 py-2 mt-2 bg-gray-700 text-white rounded-lg"
+                        onchange="updateTotalPembayaran()">
+                </div>
+                <div class="mb-4">
+                    <label for="tanggalKembali" class="block text-white font-medium">Tanggal Pengembalian</label>
+                    <input type="date" id="tanggalKembali" name="tanggal_kembali"
+                        class="w-full px-4 py-2 mt-2 bg-gray-700 text-white rounded-lg"
+                        onchange="updateTotalPembayaran()">
+                </div>
                 <button id="submitPayment"
                     class="bg-gradient-to-r from-blue-500 to-purple-600 text-white w-full py-2 rounded-lg hover:from-blue-600 hover:to-purple-700 transition duration-200">
                     Lakukan Pembayaran
@@ -166,6 +177,11 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             updateTotalPembayaran(); // Memanggil fungsi untuk update subtotal saat halaman dimuat
+            updateItemSubtotal(); // Memanggil fungsi untuk update subtotal saat halaman dimuat
+
+            // Event listener untuk perubahan tanggal
+            document.getElementById('tanggalSewa').addEventListener('input', updateTotalPembayaran);
+            document.getElementById('tanggalKembali').addEventListener('input', updateTotalPembayaran);
         });
 
         function updateTotalPembayaran() {
@@ -174,28 +190,39 @@
             const subtotalList = document.getElementById('subtotalList');
             subtotalList.innerHTML = ''; // Kosongkan daftar subtotal sebelum di-update
 
-            keranjangItems.forEach(item => {
-                const jumlahElement = item.querySelector('span[id^="jumlah-barang-"]');
-                const harga = parseInt(item.querySelector('.text-blue-400').textContent.replace('Rp', '').replace(
-                    /\./g, ''));
-                const jumlah = parseInt(jumlahElement.textContent);
-                const namaBarang = item.querySelector('h2').textContent; // Ambil nama barang
+            const tanggalSewa = document.getElementById('tanggalSewa').value;
+            const tanggalKembali = document.getElementById('tanggalKembali').value;
 
-                // Hitung subtotal per item
-                const subtotal = harga * jumlah;
-                total += subtotal;
+            if (tanggalSewa && tanggalKembali) {
+                const startDate = new Date(tanggalSewa);
+                const endDate = new Date(tanggalKembali);
+                const diffTime = Math.abs(endDate - startDate);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // Menghitung jumlah hari
 
-                // Tambahkan subtotal item ke daftar subtotal dengan nama barang
-                const subtotalDiv = document.createElement('div');
-                subtotalDiv.classList.add('text-lg');
-                subtotalDiv.textContent =
-                    `${namaBarang}: Rp${subtotal.toLocaleString('id-ID')}`; // Menambahkan nama barang
-                subtotalList.appendChild(subtotalDiv);
-            });
+                keranjangItems.forEach(item => {
+                    const jumlahElement = item.querySelector('span[id^="jumlah-barang-"]');
+                    const harga = parseInt(item.querySelector('.text-blue-400').textContent.replace('Rp', '')
+                        .replace(/\./g, ''));
+                    const jumlah = parseInt(jumlahElement.textContent);
+                    const namaBarang = item.querySelector('h2').textContent; // Ambil nama barang
+
+                    // Hitung subtotal per item berdasarkan jumlah hari
+                    const subtotal = harga * jumlah * diffDays;
+                    total += subtotal;
+
+                    // Tambahkan subtotal item ke daftar subtotal dengan nama barang
+                    const subtotalDiv = document.createElement('div');
+                    subtotalDiv.classList.add('text-lg');
+                    subtotalDiv.textContent =
+                        `${namaBarang}: Rp${subtotal.toLocaleString('id-ID')} (${diffDays} hari)`; // Menambahkan nama barang
+                    subtotalList.appendChild(subtotalDiv);
+                });
+            }
 
             // Update tampilan total pembayaran
             document.getElementById('totalPembayaran').textContent = `Rp${total.toLocaleString('id-ID')}`;
         }
+
 
 
         // Fungsi untuk menambah atau mengurangi jumlah barang
@@ -301,40 +328,66 @@
         document.addEventListener('DOMContentLoaded', hitungTotalPembayaran);
 
         document.getElementById('submitPayment').addEventListener('click', () => {
-            console.log('Tombol "Lakukan Pembayaran" diklik'); // Cek apakah ini muncul di console
             const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
             const selectedItems = document.querySelectorAll('.selected'); // Ambil barang yang dipilih
             const selectedData = [];
             let totalPembayaran = 0;
 
-            // Ambil data dari barang yang dipilih dan hitung total pembayaran
-            selectedItems.forEach(item => {
-                const idKeranjang = item.getAttribute('data-id');
-                const jumlahElement = item.querySelector('span[id^="jumlah-barang-"]');
-                const jumlah = parseInt(jumlahElement.textContent);
-                const harga = parseInt(item.querySelector('.text-blue-400').textContent.replace('Rp', '')
-                    .replace(/\./g, ''));
+            const tanggalSewa = document.getElementById('tanggalSewa').value;
+            const tanggalKembali = document.getElementById('tanggalKembali').value;
 
-                const subtotal = harga * jumlah;
-                totalPembayaran += subtotal; // Tambahkan subtotal ke total pembayaran
-
-                selectedData.push({
-                    id_keranjang: idKeranjang,
-                    jumlah: jumlah,
-                    harga_sewa: harga
-                });
-            });
-
-            // Periksa apakah ada item yang dipilih
-            if (selectedData.length === 0) {
+            // Validasi tanggal
+            if (!tanggalSewa || !tanggalKembali) {
                 Swal.fire({
-                    title: 'Pilih Barang',
-                    text: 'Anda belum memilih barang untuk dibayar.',
+                    title: 'Tanggal tidak lengkap',
+                    text: 'Harap pilih tanggal sewa dan tanggal pengembalian.',
                     icon: 'error',
                     confirmButtonText: 'OK'
                 });
                 return;
             }
+
+            // Validasi barang yang dipilih
+            if (selectedItems.length === 0) {
+                Swal.fire({
+                    title: 'Tidak ada barang dipilih',
+                    text: 'Pilih minimal satu barang untuk melanjutkan pembayaran.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+                return;
+            }
+
+            // Hitung total pembayaran
+            selectedItems.forEach(item => {
+                const idKeranjang = item.dataset.id; // Menggunakan dataset
+                const jumlahElement = item.querySelector('span[id^="jumlah-barang-"]');
+                const jumlah = parseInt(jumlahElement.textContent);
+                const harga = parseInt(item.querySelector('.text-blue-400').textContent.replace('Rp', '')
+                    .replace(/\./g, ''));
+
+                // Ambil nama barang dari elemen h2
+                const namaBarang = item.querySelector('h2').textContent.trim();
+
+                // Menghitung subtotal berdasarkan jumlah hari sewa
+                const startDate = new Date(tanggalSewa);
+                const endDate = new Date(tanggalKembali);
+                const diffTime = Math.abs(endDate - startDate);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                const subtotal = harga * jumlah * diffDays;
+                totalPembayaran += subtotal;
+
+                selectedData.push({
+                    id_keranjang: idKeranjang,
+                    jumlah: jumlah,
+                    harga_sewa: harga,
+                    tanggal_sewa: tanggalSewa,
+                    tanggal_kembali: tanggalKembali,
+                    subtotal: subtotal,
+                    nama_barang: namaBarang
+                });
+            });
 
             // Kirim data pembayaran ke server
             fetch('/pembayaran1', {
@@ -359,15 +412,17 @@
                         }).then(() => {
                             window.snap.pay(data.data.token, {
                                 onSuccess: function(result) {
-                                    console.log('Payment success:', result);
-                                    window.location.href = data.data.redirect_url;
+                                    window.location.href =
+                                        'https://abd9-103-47-133-70.ngrok-free.app/api/finish';
                                 },
                                 onPending: function(result) {
-                                    console.log('Payment pending:', result);
+                                    window.location.href =
+                                        'https://abd9-103-47-133-70.ngrok-free.app/api/notfinish';
                                 },
                                 onError: function(result) {
-                                    console.log('Payment error:', result);
-                                }
+                                    window.location.href =
+                                        'https://abd9-103-47-133-70.ngrok-free.app/api/error';
+                                },
                             });
                         });
                     } else {
@@ -389,6 +444,9 @@
                     });
                 });
         });
+
+
+
 
 
         function toggleSelection(element) {

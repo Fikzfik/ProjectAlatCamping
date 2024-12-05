@@ -150,25 +150,19 @@ class PembayaranController extends Controller
         try {
             $userId = Auth::user()->id_user;
 
-            // Ambil data keranjang user yang sedang login
-            $keranjang = DB::table('keranjangs')->join('barangs', 'keranjangs.id_barang', '=', 'barangs.id_barang')->where('keranjangs.id_user', $userId)->select('keranjangs.id_keranjang', 'barangs.nama_barang', 'keranjangs.jumlah_barang', 'barangs.harga_sewa', DB::raw('keranjangs.jumlah_barang * barangs.harga_sewa as subtotal'))->get();
+            // Ambil data barang yang dipilih dari request
+            $selectedData = $request->input('items');
+            $totalHarga = $request->input('total_pembayaran'); // Total pembayaran yang dikirim frontend
 
-            if ($keranjang->isEmpty()) {
-                Log::info('Keranjang kosong untuk user dengan ID: ' . $userId);
+            if (empty($selectedData)) {
                 return response()->json(
                     [
                         'success' => false,
-                        'message' => 'Keranjang kosong! Tidak ada barang untuk dibayar.',
+                        'message' => 'Tidak ada barang yang dipilih.',
                     ],
                     400,
                 );
             }
-
-            // Hitung total harga dari keranjang
-            $totalHarga = $keranjang->sum('subtotal');
-
-            // Ambil payment_type dari request
-            $paymentType = $request->input('payment_method');
 
             // Buat penyewaan baru
             $idPenyewaan = DB::table('penyewaans')->insertGetId([
@@ -180,14 +174,22 @@ class PembayaranController extends Controller
                 'updated_at' => now(),
             ]);
 
-            // Buat detail penyewaan berdasarkan keranjang
-            foreach ($keranjang as $item) {
+            // Buat detail penyewaan berdasarkan barang yang dipilih
+            foreach ($selectedData as $item) {
+                // Menghitung subtotal berdasarkan jumlah hari sewa
+                $startDate = new \DateTime($item['tanggal_sewa']);
+                $endDate = new \DateTime($item['tanggal_kembali']);
+                $diffDays = $endDate->diff($startDate)->days;
+
+                Log::info('Id keranjang : ' . $item['id_keranjang']);
+                $subtotal = $item['harga_sewa'] * $item['jumlah'] * $diffDays;
+
                 DB::table('detail_penyewaans')->insert([
                     'id_penyewaan' => $idPenyewaan,
-                    'id_keranjang' => $item->id_keranjang,
-                    'jumlah_barang' => $item->jumlah_barang,
-                    'harga_sewa' => $item->harga_sewa,
-                    'subtotal' => $item->subtotal,
+                    'id_keranjang' => $item['id_keranjang'],
+                    'jumlah_barang' => $item['jumlah'],
+                    'harga_sewa' => $item['harga_sewa'],
+                    'subtotal' => $subtotal,
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);
@@ -195,29 +197,33 @@ class PembayaranController extends Controller
 
             // Format item untuk Midtrans
             $items = [];
-            foreach ($keranjang as $item) {
+            foreach ($selectedData as $item) {
+                // Log::info('itemsnya ' . $item['id_keranjang'] . ' ' . $item['harga_sewa'] . ' ' . $item['jumlah_barang'] . ' ' . $item['nama_barang']);
+
                 $items[] = [
-                    'id' => $item->id_keranjang,
-                    'price' => $item->harga_sewa,
-                    'quantity' => $item->jumlah_barang,
-                    'name' => $item->nama_barang,
+                    'id' => $item['id_keranjang'],
+                    'price' => $item['harga_sewa'],
+                    'quantity' => $item['jumlah'],
+                    'name' => $item['nama_barang'],
                 ];
             }
-            Log::info('Items : ' . json_encode($items));
-            Log::info('Total Harga: ' . $totalHarga);
-            $orderId = Str::uuid()->toString();
+
             // Payload untuk Midtrans
+            $orderId = Str::uuid()->toString();
             $transactionData = [
-                'payment_type' => $paymentType,
+                'payment_type' => 'credit_card', // Adjust with the payment method you want to use
                 'transaction_details' => [
-                    'order_id' => 'ORDER-' . $orderId,
-                    'gross_amount' => $totalHarga,
+                    'order_id' => 'ORDER-' . $orderId, // Unique order ID
+                    'gross_amount' => $totalHarga, // Total price for the transaction
                 ],
                 'customer_details' => [
-                    'first_name' => Auth::user()->name ?? 'Penyewa',
-                    'email' => Auth::user()->email ?? 'penyewa@example.com',
+                    'first_name' => Auth::user()->name ?? 'Penyewa', // Customer's name, fallback to 'Penyewa'
+                    'email' => Auth::user()->email ?? 'penyewa@example.com', // Customer's email, fallback to a default one
                 ],
-                'item_details' => $items,
+                'item_details' => $items, // Array of items, should contain 'id', 'price', 'quantity', 'name'
+                'callbacks' => [
+                    'finish' => 'https://abd9-103-47-133-70.ngrok-free.app/api/finish', // Custom callback URL after payment
+                ],
             ];
 
             // Kirim request ke Midtrans
@@ -247,19 +253,18 @@ class PembayaranController extends Controller
                     500,
                 );
             }
-    
+
+            // Simpan data pembayaran ke tabel pembayarans
             DB::table('pembayarans')->insert([
                 'order_id' => 'ORDER-' . $orderId,
                 'id_penyewaan' => $idPenyewaan,
                 'tanggal_pembayaran' => now(),
                 'jumlah_pembayaran' => $totalHarga,
-                'metode_pembayaran' => 'unknown',
+                'metode_pembayaran' => 'credit_card', // Sesuaikan dengan metode pembayaran yang dipilih
                 'status_pembayaran' => 'pending',
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
-
-            // Simpan data pembayaran ke tabel pembayarans
 
             // Commit transaksi
             DB::commit();
@@ -286,6 +291,7 @@ class PembayaranController extends Controller
             );
         }
     }
+
     public function webhook(Request $request)
     {
         Log::info('Full Midtrans Response: webhook');
@@ -340,10 +346,10 @@ class PembayaranController extends Controller
                 ->update(['status_pembayaran' => $status, 'updated_at' => now()]);
 
             // Ubah status penyewaan jika "settlement"
-            if ($transactionStatus === 'settlement'||$transactionStatus === 'capture') {
+            if ($transactionStatus === 'settlement' || $transactionStatus === 'capture') {
                 DB::table('penyewaans')
                     ->where('id_penyewaan', $pembayaran->id_penyewaan)
-                    ->update(['status_sewa' => 'aktif', 'updated_at' => now()]);
+                    ->update(['status_sewa' => 'tersewa', 'updated_at' => now()]);
             }
 
             return response()->json(['success' => true, 'message' => 'Status pembayaran berhasil diperbarui']);
