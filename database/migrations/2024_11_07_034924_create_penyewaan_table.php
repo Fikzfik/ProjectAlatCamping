@@ -16,6 +16,8 @@ return new class extends Migration {
             $table->date('tanggal_kembali');
             $table->enum('status_sewa', ['dalam proses', 'selesai', 'batal','tersewa']);
             $table->decimal('total_harga', 10, 2);
+            $table->unsignedBigInteger('id_user');
+            $table->foreign('id_user')->references('id_user')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
             
         });

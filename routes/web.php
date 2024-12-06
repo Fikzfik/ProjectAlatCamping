@@ -42,7 +42,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::post('/pembayaran', [PembayaranController::class, 'index'])->name('pembayaran.index');
 
-    Route::get('/transaksi', [HistoryController::class, 'transaksi'])->name('transaksi');
+    Route::get('/history', [HistoryController::class, 'history'])->name('history');
     
 
     Route::get('/penyewaan', [ViewController::class, 'penyewaan'])->name('penyewaan');
