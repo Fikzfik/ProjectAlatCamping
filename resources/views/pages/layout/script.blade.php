@@ -1,120 +1,147 @@
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        const keranjangButton = document.getElementById("keranjangButton");
-        const keranjangModal = document.getElementById("keranjangModal");
-        const closeModal = document.getElementById("closeModal");
-        const overlay = document.getElementById("overlay");
+        const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        console.log(csrfToken); // Pastikan token berhasil diambil
+    });
 
-        // Ketika tombol keranjang diklik, tampilkan modal dan overlay
-        keranjangButton.addEventListener("click", function() {
-            overlay.classList.remove("hidden"); // Menampilkan overlay
-            keranjangModal.classList.remove("opacity-0", "invisible");
-            keranjangModal.classList.add("opacity-100", "visible");
-            keranjangModal.classList.remove("translate-x-full");
-            keranjangModal.classList.add("translate-x-0");
-            loadKeranjang(); // Fungsi untuk mengambil dan menampilkan data keranjang
+    function rebindEventListeners() {
+        document.querySelectorAll('.increase-quantity').forEach(button => {
+            button.addEventListener('click', () => {
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute(
+                    'content');
+                console.log('CSRF Token:', csrfToken); // Pastikan ini mencetak token yang valid
+
+                const idKeranjang = button.getAttribute('data-id');
+                console.log('ID Keranjang:', idKeranjang);
+
+                fetch('/keranjang/increase', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': csrfToken, // Kirim token CSRF di header
+                        },
+                        body: JSON.stringify({
+                            id_keranjang: idKeranjang
+                        }),
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            loadKeranjang();
+                        } else {
+                            console.error(data.message);
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            });
         });
 
-        // Menutup modal dan overlay saat klik X atau overlay
-        closeModal.addEventListener("click", function() {
-            keranjangModal.classList.remove("opacity-100", "visible");
-            keranjangModal.classList.add("opacity-0", "invisible");
-            keranjangModal.classList.remove("translate-x-0");
-            keranjangModal.classList.add("translate-x-full");
-            overlay.classList.add("hidden"); // Menyembunyikan overlay
-        });
 
-        // Menutup modal jika overlay diklik
-        overlay.addEventListener("click", function() {
-            keranjangModal.classList.remove("opacity-100", "visible");
-            keranjangModal.classList.add("opacity-0", "invisible");
-            keranjangModal.classList.remove("translate-x-0");
-            keranjangModal.classList.add("translate-x-full");
-            overlay.classList.add("hidden"); // Menyembunyikan overlay
-        });
+        document.querySelectorAll('.decrease-quantity').forEach(button => {
+            button.addEventListener('click', () => {
+                console.log('Event listener added to button:', button);
 
-        // Fungsi untuk mengambil data keranjang melalui Ajax (menggunakan PDO di Controller)
-        function loadKeranjang() {
-            fetch("{{ route('keranjang.view') }}")
-                .then(response => response.json())
-                .then(data => {
-                    keranjangContent.innerHTML = '';
-                    let total = 0;
-                    if (data.length > 0) {
-                        data.forEach(item => {
-                            const keranjangItem = `
-                    <div class="flex justify-between items-center border-b pb-4 mb-4">
-                        <!-- Gambar Barang -->
-                        <img src="${item.link_foto}" alt="${item.nama_barang}" class="sm:w-[30vw] w-[70vw] sm:h-[40vw] h-[80vw] object-cover rounded-lg">
-                        
-                        <!-- Info Barang -->
-                        <div class="flex-1 ml-4">
-                            <h3 class="font-semibold text-lg text-gray-800 truncate">${item.nama_barang}</h3>
-                            <p class="text-sm text-gray-600">Rp ${item.harga_sewa}</p>
-                            <div class="flex items-center mt-2 space-x-4">
-                                <!-- Tombol Kurang -->
-                                <button class="decrease-quantity bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-600 transition duration-200" data-id="${item.id_keranjang}">-</button>
-                                <!-- Tampilkan jumlah barang -->
-                                <span class="text-lg">${item.jumlah_barang}</span>
-                                <!-- Tombol Tambah -->
-                                <button class="increase-quantity bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 transition duration-200" data-id="${item.id_keranjang}">+</button>
+                const idKeranjang = button.getAttribute('data-id');
+                console.log('Event listener added to button:', idKeranjang);
+                fetch('/keranjang/decrease', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                .getAttribute('content'),
+                        },
+                        body: JSON.stringify({
+                            id_keranjang: idKeranjang
+                        }),
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            loadKeranjang();
+                        } else {
+                            console.error(data.message);
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            });
+        });
+    }
+    // Pindahkan fungsi loadKeranjang ke luar dari event listener
+    function loadKeranjang() {
+        fetch("{{ route('keranjang.view') }}")
+            .then(response => response.json())
+            .then(data => {
+                keranjangContent.innerHTML = '';
+                let total = 0;
+                if (data.length > 0) {
+                    data.forEach(item => {
+                        const keranjangItem = `
+                        <div class="flex justify-between items-center border-b pb-4 mb-4">
+                            <img src="${item.link_foto}" alt="${item.nama_barang}" class="sm:w-[12vw] w-[25vw] sm:h-[12vw] h-[25vw] object-cover rounded-lg">
+                            <div class="flex-1 ml-4">
+                                <h3 class="font-semibold text-lg text-gray-800 truncate">${item.nama_barang}</h3>
+                                <p class="text-sm text-gray-600">Rp ${item.harga_sewa}</p>
+                                <div class="flex items-center mt-2 space-x-4">
+                                    <button class="decrease-quantity bg-red-500 text-white px-4 py-2 rounded-full hover:bg-red-600 transition duration-200" data-id="${item.id_keranjang}">-</button>
+                                    <span class="text-lg">${item.jumlah_barang}</span>
+                                    <button class="increase-quantity bg-blue-500 text-white px-4 py-2 rounded-full hover:bg-blue-600 transition duration-200" data-id="${item.id_keranjang}">+</button>
+                                </div>
                             </div>
                         </div>
+                        <hr class="my-4">
+                    `;
+                        keranjangContent.innerHTML += keranjangItem;
+                        total += parseFloat(item.harga_sewa) * item.jumlah_barang;
+                    });
+                } else {
+                    keranjangContent.innerHTML = '<p class="text-center">Your cart is empty.</p>';
+                }
+                totalAmount.innerHTML = `Rp ${total.toLocaleString()}`;
 
-                        <!-- Tombol Remove -->
-                        <div>
-                            <button class="remove-item bg-red-500 hover:text-red-600 text-sm font-semibold" data-id="${item.id_keranjang}">Remove</button>
-                        </div>
-                    </div>
-                    <hr class="my-4">
-                `;
-                            keranjangContent.innerHTML += keranjangItem;
-                            total += parseFloat(item.harga_sewa) * item.jumlah_barang;
-                        });
-                    } else {
-                        keranjangContent.innerHTML = '<p class="text-center">Your cart is empty.</p>';
-                    }
-                    totalAmount.innerHTML = `Rp ${total.toLocaleString()}`;
-                })
-                .catch(error => {
-                    console.error("Error loading keranjang data:", error);
-                    keranjangContent.innerHTML = '<p class="text-center">Failed to load cart data.</p>';
-                });
-        }
+                // Re-inisialisasi event listener
+                rebindEventListeners();
+            })
+            .catch(error => {
+                console.error("Error loading keranjang data:", error);
+                keranjangContent.innerHTML = '<p class="text-center">Failed to load cart data.</p>';
+            });
+    }
 
+    document.addEventListener("DOMContentLoaded", function() {
+        const overlay = document.getElementById('overlay');
+        const modal = document.getElementById('keranjangModal');
+        const closeModalButton = document.getElementById('closeModal');
+        const keranjangContent = document.getElementById('keranjangContent');
+        const totalAmount = document.getElementById('totalAmount');
+        const openModalButton = document.getElementById('keranjangButton'); // Tombol buka modal
 
-    });
-</script>
-<script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const overlay = document.getElementById("overlay");
-        const modal = document.getElementById("keranjangModal");
-        const closeModal = document.getElementById("closeModal");
-
+        // Fungsi untuk membuka/menutup modal
         const toggleModal = (show) => {
             if (show) {
-                overlay.classList.remove("hidden");
-                modal.classList.remove("translate-x-full", "opacity-0", "invisible");
+                overlay.classList.remove('hidden');
+                modal.classList.remove('translate-x-full', 'opacity-0', 'invisible');
             } else {
-                overlay.classList.add("hidden");
-                modal.classList.add("translate-x-full", "opacity-0", "invisible");
+                overlay.classList.add('hidden');
+                modal.classList.add('translate-x-full', 'opacity-0', 'invisible');
             }
         };
 
-        // Tombol untuk membuka modal
-        document.getElementById("openModalButton").addEventListener("click", () => toggleModal(true));
+        // Event buka modal
+        if (openModalButton) {
+            openModalButton.addEventListener('click', () => {
+                toggleModal(true);
+                loadKeranjang(); // Ambil data keranjang
+            });
+        }
 
-        // Tombol untuk menutup modal
-        closeModal.addEventListener("click", () => toggleModal(false));
-
-        // Klik overlay untuk menutup modal
-        overlay.addEventListener("click", (e) => {
-            if (e.target.id === "overlay") {
-                toggleModal(false);
-            }
+        // Event tutup modal
+        closeModalButton.addEventListener('click', () => toggleModal(false));
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) toggleModal(false);
         });
     });
-
+</script>
+<script>
     document.addEventListener('DOMContentLoaded', () => {
         const addToBagButtons = document.querySelectorAll('.add-to-bag');
 

@@ -4,6 +4,9 @@ use App\Http\Controllers\ViewController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\KeranjangController;
+use App\Http\Controllers\PenyewaanController;
+use App\Http\Controllers\PembayaranController;
+use App\Http\Controllers\HistoryController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'guest'], function () {
@@ -13,7 +16,7 @@ Route::group(['middleware' => 'guest'], function () {
     Route::get('/register', [ViewController::class, 'registerview'])->name('register');
     Route::post('/register', [AuthController::class, 'register'])->name('register.post');
 
-    Route::get('/dashboard',[ViewController::class, 'dashboard'])->name('dashboard');
+    Route::get('/dashboard', [ViewController::class, 'dashboard'])->name('dashboard');
 });
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/stock', [ViewController::class, 'stockview'])->name('stock');
@@ -34,10 +37,22 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::post('/keranjang/store', [KeranjangController::class, 'store'])->name('keranjang.store');
     Route::get('/keranjang', [KeranjangController::class, 'keranjangview'])->name('keranjang.view');
+    Route::post('/keranjang/increase', [KeranjangController::class, 'increaseQuantity'])->name('keranjang.increase');
+    Route::post('/keranjang/decrease', [KeranjangController::class, 'decreaseQuantity'])->name('keranjang.decrease');
 
+    Route::post('/pembayaran', [PembayaranController::class, 'index'])->name('pembayaran.index');
+
+    Route::get('/history', [HistoryController::class, 'history'])->name('history');
+    
+
+    Route::get('/penyewaan', [ViewController::class, 'penyewaan'])->name('penyewaan');
+    Route::post('/penyewaan/store', [PenyewaanController::class, 'store'])->name('penyewaan.store');
+    
     Route::get('/menu', [ViewController::class, 'menuview'])->name('menu');
     Route::get('/settingmenu', [ViewController::class, 'settingmenuview'])->name('settingmenu');
     Route::get('/blog', [ViewController::class, 'blogview'])->name('blog');
     Route::get('/home', [ViewController::class, 'homeview'])->name('home');
     Route::get('/location', [ViewController::class, 'locationview'])->name('location');
+
+    Route::get('/test', [ViewController::class, 'test'])->name('test');
 });
