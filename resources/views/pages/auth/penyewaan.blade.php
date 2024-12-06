@@ -3,8 +3,19 @@
 
 <head>
     @include('pages.layout.head')
+    <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js"
+        data-client-key="SB-Mid-client-jM8424hiu2OrzsAl"></script>
     <title>Detail</title>
     <style>
+        .opacity-50 {
+            opacity: 0.5;
+        }
+
+        .selected {
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
         #dropdownList5,
         #dropdownList6,
         #dropdownList7 {
@@ -12,6 +23,12 @@
             /* Default tertutup */
             overflow: hidden;
             transition: max-height 0.5s ease-in-out;
+        }
+
+        .subtotal {
+            min-width: 150px;
+            /* Ganti dengan lebar yang sesuai */
+            overflow: hidden;
         }
 
         /* Overlay dan Modal */
@@ -49,11 +66,11 @@
         <div class="w-full flex sm:flex-row flex-col">
             <!-- Bagian Daftar Barang -->
             <div class="sm:w-[70vw] w-full px-4 sm:px-0">
-                <div class="border border-white sm:px-6 px-4 sm:py-6 py-4 sm:w-[64.74vw] w-full space-y-6">
+                <div class="border border-gray-300 sm:px-6 px-4 sm:py-6 py-4 sm:w-[64.74vw] w-full space-y-6">
                     <!-- Looping Barang -->
                     @foreach ($keranjangs as $keranjang)
-                        <div
-                            class="flex items-start border-b border-gray-300 pb-6 gap-6 hover:shadow-lg hover:scale-105 transform transition duration-300">
+                        <div class="flex items-start border-b border-gray-300 pb-6 gap-6 hover:shadow-lg hover:scale-105 transform transition duration-300 selected"
+                            data-id="{{ $keranjang->id_keranjang }}" data-selected="true" onclick="toggleSelection(this)">
                             <input type="hidden" name="keranjangs[]" value="{{ $keranjang->id_keranjang }}">
                             <!-- Gambar Barang -->
                             <div
@@ -83,10 +100,9 @@
                                 <h3 class="font-medium text-gray-300 mb-1">Jumlah:</h3>
                                 <div class="flex items-center space-x-2">
                                     <!-- Tombol - -->
-                                    <!-- Tombol - -->
                                     <button
                                         class="bg-gray-700 text-white px-2 py-1 rounded-lg hover:bg-gray-600 transition duration-200"
-                                        onclick="updateQuantity('{{ $keranjang->id_keranjang }}', -1)">
+                                        onclick="updateQuantity('{{ $keranjang->id_keranjang }}', -1, event)">
                                         -
                                     </button>
                                     <!-- Jumlah Barang -->
@@ -97,96 +113,50 @@
                                     <!-- Tombol + -->
                                     <button
                                         class="bg-gray-700 text-white px-2 py-1 rounded-lg hover:bg-gray-600 transition duration-200"
-                                        onclick="updateQuantity('{{ $keranjang->id_keranjang }}', 1)">
+                                        onclick="updateQuantity('{{ $keranjang->id_keranjang }}', 1, event)">
                                         +
                                     </button>
-
                                 </div>
                             </div>
                         </div>
                     @endforeach
+
                 </div>
             </div>
 
-            <!-- Bagian Metode Pembayaran -->
-            <div class="w-full sm:w-[30vw] space-y-[3vw] sticky sm:inline-block overflow-x-hidden overflow-y-auto max-h-[100vh] scrollbar-hide top-[1.2vw] p-4 bg-gray-800 rounded-lg shadow-lg"
-                data-aos="fade-left" data-aos-delay="400" data-aos-duration="500">
-                <h2 class="text-[1.5vw] font-semibold mb-4">Pilih Metode Pembayaran</h2>
-                <form id="paymentForm" onsubmit="return false;">
-                    @csrf
-                    <div class="space-y-4">
-                        <label
-                            class="flex items-center space-x-4 p-2 bg-gray-700 rounded-lg hover:bg-gray-600 transition duration-200">
-                            <input class="form-radio text-blue-500" name="payment_method" type="radio"
-                                value="bank_transfer" required />
-                            <span>Bank Transfer</span>
-                        </label>
-                        <div id="bankTransferOptions" class="hidden space-y-4 pl-8">
-                            <select name="bank" class="form-select bg-gray-600 text-white rounded-lg p-2 w-full">
-                                <option value="bca">BCA</option>
-                                <option value="mandiri">Mandiri</option>
-                                <option value="bni">BNI</option>
-                                <option value="bri">BRI</option>
-                                <option value="permata">Permata</option>
-                                <option value="cimb">CIMB</option>
-                            </select>
-                        </div>
+            <!-- Bagian Total Pembayaran -->
+            <div class="w-full sm:w-[30vw] p-4 bg-gray-800 rounded-lg shadow-lg sticky top-[1.2vw]" data-aos="fade-left"
+                data-aos-delay="400" data-aos-duration="500">
+                <h2 class="text-lg font-semibold mb-4">Total Pembayaran</h2>
 
-                        <!-- Credit Card -->
-                        <label
-                            class="flex items-center space-x-4 p-2 bg-gray-700 rounded-lg hover:bg-gray-600 transition duration-200">
-                            <input class="form-radio text-blue-500" name="payment_method" type="radio"
-                                value="credit_card" required />
-                            <span>Kartu Kredit</span>
-                        </label>
-                        <div id="creditCardOptions" class="hidden space-y-4 pl-8">
-                            <select name="credit_card_type"
-                                class="form-select bg-gray-600 text-white rounded-lg p-2 w-full">
-                                <option value="visa">Visa</option>
-                                <option value="mastercard">MasterCard</option>
-                            </select>
-                        </div>
+                <!-- Subtotal list -->
+                <div id="subtotalList" class="mb-4 text-white space-y-2">
+                    <!-- Subtotal tiap item akan ditampilkan di sini -->
+                </div>
 
-                        <!-- GoPay -->
-                        <label
-                            class="flex items-center space-x-4 p-2 bg-gray-700 rounded-lg hover:bg-gray-600 transition duration-200">
-                            <input class="form-radio text-blue-500" name="payment_method" type="radio" value="gopay"
-                                required />
-                            <span>GoPay</span>
-                        </label>
-
-                        <!-- ShopeePay -->
-                        <label
-                            class="flex items-center space-x-4 p-2 bg-gray-700 rounded-lg hover:bg-gray-600 transition duration-200">
-                            <input class="form-radio text-blue-500" name="payment_method" type="radio"
-                                value="shopeepay" required />
-                            <span>ShopeePay</span>
-                        </label>
-
-                        <!-- QRIS -->
-                        <label
-                            class="flex items-center space-x-4 p-2 bg-gray-700 rounded-lg hover:bg-gray-600 transition duration-200">
-                            <input class="form-radio text-blue-500" name="payment_method" type="radio" value="qris"
-                                required />
-                            <span>QRIS</span>
-                        </label>
-
-                    </div>
-                    <button
-                        class="bg-blue-500 text-white w-full py-2 mt-6 rounded-lg hover:bg-blue-600 transition duration-200"
-                        type="button" id="submitPayment">
-                        Bayar Sekarang
-                    </button>
-                </form>
+                <!-- Total Pembayaran -->
+                <div class="text-2xl font-bold text-blue-400 mb-6" id="totalPembayaran">
+                    Rp
+                </div>
+                <div class="mb-4">
+                    <label for="tanggalSewa" class="block text-white font-medium">Tanggal Sewa</label>
+                    <input type="date" id="tanggalSewa" name="tanggal_sewa"
+                        class="w-full px-4 py-2 mt-2 bg-gray-700 text-white rounded-lg"
+                        onchange="updateTotalPembayaran()">
+                </div>
+                <div class="mb-4">
+                    <label for="tanggalKembali" class="block text-white font-medium">Tanggal Pengembalian</label>
+                    <input type="date" id="tanggalKembali" name="tanggal_kembali"
+                        class="w-full px-4 py-2 mt-2 bg-gray-700 text-white rounded-lg"
+                        onchange="updateTotalPembayaran()">
+                </div>
+                <button id="submitPayment"
+                    class="bg-gradient-to-r from-blue-500 to-purple-600 text-white w-full py-2 rounded-lg hover:from-blue-600 hover:to-purple-700 transition duration-200">
+                    Lakukan Pembayaran
+                </button>
 
             </div>
         </div>
-
-        <!-- Background Teks Besar -->
-        <h1
-            class="absolute top-[-6vw] left-0 right-0 bottom-0 text-[13.021vw] md:text-[12.7vw] font-extrabold text-text_dark flex justify-center z-[-1] shadow__text">
-            T SHIRT
-        </h1>
     </section>
 
     </div>
@@ -204,44 +174,222 @@
         </div>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
     <script>
-        document.querySelectorAll('input[name="payment_method"]').forEach(input => {
-            input.addEventListener('change', function() {
-                if (this.value === 'bank_transfer') {
-                    document.getElementById('bankTransferOptions').classList.remove('hidden');
-                    document.getElementById('creditCardOptions').classList.add('hidden');
-                    document.getElementById('ewalletOptions').classList.add('hidden');
-                } else if (this.value === 'credit_card') {
-                    document.getElementById('creditCardOptions').classList.remove('hidden');
-                    document.getElementById('bankTransferOptions').classList.add('hidden');
-                    document.getElementById('ewalletOptions').classList.add('hidden');
-                } else if (this.value === 'gopay') {
-                    document.getElementById('ewalletOptions').classList.remove('hidden');
-                    document.getElementById('bankTransferOptions').classList.add('hidden');
-                    document.getElementById('creditCardOptions').classList.add('hidden');
-                } else {
-                    document.getElementById('bankTransferOptions').classList.add('hidden');
-                    document.getElementById('creditCardOptions').classList.add('hidden');
-                    document.getElementById('ewalletOptions').classList.add('hidden');
-                }
-            });
+        document.addEventListener('DOMContentLoaded', function() {
+            updateTotalPembayaran(); // Memanggil fungsi untuk update subtotal saat halaman dimuat
+            updateItemSubtotal(); // Memanggil fungsi untuk update subtotal saat halaman dimuat
+
+            // Event listener untuk perubahan tanggal
+            document.getElementById('tanggalSewa').addEventListener('input', updateTotalPembayaran);
+            document.getElementById('tanggalKembali').addEventListener('input', updateTotalPembayaran);
         });
+
+        function updateTotalPembayaran() {
+            const keranjangItems = document.querySelectorAll('.selected'); // hanya barang yang dipilih
+            let total = 0;
+            const subtotalList = document.getElementById('subtotalList');
+            subtotalList.innerHTML = ''; // Kosongkan daftar subtotal sebelum di-update
+
+            const tanggalSewa = document.getElementById('tanggalSewa').value;
+            const tanggalKembali = document.getElementById('tanggalKembali').value;
+
+            if (tanggalSewa && tanggalKembali) {
+                const startDate = new Date(tanggalSewa);
+                const endDate = new Date(tanggalKembali);
+                const diffTime = Math.abs(endDate - startDate);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // Menghitung jumlah hari
+
+                keranjangItems.forEach(item => {
+                    const jumlahElement = item.querySelector('span[id^="jumlah-barang-"]');
+                    const harga = parseInt(item.querySelector('.text-blue-400').textContent.replace('Rp', '')
+                        .replace(/\./g, ''));
+                    const jumlah = parseInt(jumlahElement.textContent);
+                    const namaBarang = item.querySelector('h2').textContent; // Ambil nama barang
+
+                    // Hitung subtotal per item berdasarkan jumlah hari
+                    const subtotal = harga * jumlah * diffDays;
+                    total += subtotal;
+
+                    // Tambahkan subtotal item ke daftar subtotal dengan nama barang
+                    const subtotalDiv = document.createElement('div');
+                    subtotalDiv.classList.add('text-lg');
+                    subtotalDiv.textContent =
+                        `${namaBarang}: Rp${subtotal.toLocaleString('id-ID')} (${diffDays} hari)`; // Menambahkan nama barang
+                    subtotalList.appendChild(subtotalDiv);
+                });
+            }
+
+            // Update tampilan total pembayaran
+            document.getElementById('totalPembayaran').textContent = `Rp${total.toLocaleString('id-ID')}`;
+        }
+
+
+
+        // Fungsi untuk menambah atau mengurangi jumlah barang
+        function updateQuantity(idKeranjang, change, event) {
+            event.stopPropagation(); // Agar tidak memicu toggleSelection
+            const jumlahElement = document.getElementById(`jumlah-barang-${idKeranjang}`);
+            let jumlah = parseInt(jumlahElement.textContent);
+
+            jumlah = Math.max(0, jumlah + change); // Menjamin jumlah tidak negatif
+            jumlahElement.textContent = jumlah;
+
+            // Update subtotal item berdasarkan jumlah baru
+
+
+            // Perbarui total pembayaran setelah jumlah berubah
+            updateTotalPembayaran();
+
+            // Kirim perubahan ke server (jika perlu)
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            const endpoint = change > 0 ? '/keranjang/increase' : '/keranjang/decrease';
+
+            fetch(endpoint, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken,
+                    },
+                    body: JSON.stringify({
+                        id_keranjang: idKeranjang,
+                    }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Update jumlah barang pada UI jika server berhasil memproses
+                        jumlahElement.innerText = data.jumlah_barang;
+                        updateTotalPembayaran();
+                    } else {
+                        alert(data.message || 'Terjadi kesalahan.');
+                    }
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+            event.preventDefault();
+        }
+
+        // Fungsi untuk memperbarui subtotal untuk satu item
+        function updateItemSubtotal(idKeranjang, jumlah) {
+            const item = document.querySelector(`[data-id="${idKeranjang}"]`);
+            const harga = parseInt(item.querySelector('.text-blue-400').textContent.replace('Rp', '').replace(/\./g, ''));
+            const namaBarang = item.querySelector('h2').textContent; // Ambil nama barang dari elemen h2
+            let subtotalElement = item.querySelector('.subtotal'); // Elemen untuk subtotal
+
+            if (!subtotalElement) {
+                // Buat elemen subtotal baru jika belum ada
+                subtotalElement = document.createElement('div');
+                subtotalElement.classList.add('subtotal');
+                item.appendChild(subtotalElement);
+            }
+
+            // Hitung subtotal
+            const subtotal = harga * jumlah;
+
+            // Update subtotal dengan nama barang dan harga
+            subtotalElement.textContent =
+                `${namaBarang}: Rp${subtotal.toLocaleString('id-ID')}`; // Menampilkan nama barang dan subtotal
+
+            // Memperbarui total pembayaran setelah update subtotal
+            updateTotalPembayaran();
+        }
+        // Fungsi untuk toggle pemilihan barang
+
+        // Fungsi untuk menghitung total pembayaran berdasarkan keranjang
+        function hitungTotalPembayaran() {
+            const keranjangItems = @json($keranjangs); // Data keranjang dari Laravel
+            let total = 0;
+
+            keranjangItems.forEach(item => {
+                total += item.harga_sewa * item.jumlah_barang;
+            });
+
+            document.getElementById('totalPembayaran').textContent = `Rp${total.toLocaleString('id-ID')}`;
+        }
+
+        function toggleSelection(element) {
+            const isSelected = element.getAttribute('data-selected') === 'true';
+            element.setAttribute('data-selected', !isSelected);
+
+            // Tambahkan/kurangi kelas untuk efek visual
+            if (isSelected) {
+                element.classList.add('opacity-50');
+                element.classList.remove('selected');
+            } else {
+                element.classList.remove('opacity-50');
+                element.classList.add('selected');
+            }
+
+            // Perbarui total pembayaran
+            updateTotalPembayaran();
+        }
+        // Fungsi yang dijalankan saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', hitungTotalPembayaran);
+
         document.getElementById('submitPayment').addEventListener('click', () => {
-            const selectedPaymentMethod = document.querySelector('input[name="payment_method"]:checked');
-            if (!selectedPaymentMethod) {
+            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            const selectedItems = document.querySelectorAll('.selected'); // Ambil barang yang dipilih
+            const selectedData = [];
+            let totalPembayaran = 0;
+
+            const tanggalSewa = document.getElementById('tanggalSewa').value;
+            const tanggalKembali = document.getElementById('tanggalKembali').value;
+
+            // Validasi tanggal
+            if (!tanggalSewa || !tanggalKembali) {
                 Swal.fire({
-                    title: 'Metode Pembayaran',
-                    text: 'Pilih metode pembayaran sebelum melanjutkan!',
+                    title: 'Tanggal tidak lengkap',
+                    text: 'Harap pilih tanggal sewa dan tanggal pengembalian.',
                     icon: 'error',
                     confirmButtonText: 'OK'
                 });
                 return;
             }
 
-            const paymentMethod = selectedPaymentMethod.value;
-            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            // Validasi barang yang dipilih
+            if (selectedItems.length === 0) {
+                Swal.fire({
+                    title: 'Tidak ada barang dipilih',
+                    text: 'Pilih minimal satu barang untuk melanjutkan pembayaran.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
+                return;
+            }
 
+            // Hitung total pembayaran
+            selectedItems.forEach(item => {
+                const idKeranjang = item.dataset.id; // Menggunakan dataset
+                const jumlahElement = item.querySelector('span[id^="jumlah-barang-"]');
+                const jumlah = parseInt(jumlahElement.textContent);
+                const harga = parseInt(item.querySelector('.text-blue-400').textContent.replace('Rp', '')
+                    .replace(/\./g, ''));
+
+                // Ambil nama barang dari elemen h2
+                const namaBarang = item.querySelector('h2').textContent.trim();
+
+                // Menghitung subtotal berdasarkan jumlah hari sewa
+                const startDate = new Date(tanggalSewa);
+                const endDate = new Date(tanggalKembali);
+                const diffTime = Math.abs(endDate - startDate);
+                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+                const subtotal = harga * jumlah * diffDays;
+                totalPembayaran += subtotal;
+
+                selectedData.push({
+                    id_keranjang: idKeranjang,
+                    jumlah: jumlah,
+                    harga_sewa: harga,
+                    tanggal_sewa: tanggalSewa,
+                    tanggal_kembali: tanggalKembali,
+                    subtotal: subtotal,
+                    nama_barang: namaBarang
+                });
+            });
+
+            // Kirim data pembayaran ke server
             fetch('/pembayaran', {
                     method: 'POST',
                     headers: {
@@ -249,7 +397,8 @@
                         'X-CSRF-TOKEN': csrfToken
                     },
                     body: JSON.stringify({
-                        payment_method: paymentMethod
+                        total_pembayaran: totalPembayaran, // Total pembayaran
+                        items: selectedData // Data barang yang dipilih
                     })
                 })
                 .then(response => response.json())
@@ -257,13 +406,24 @@
                     if (data.success) {
                         Swal.fire({
                             title: 'Berhasil',
-                            text: 'Metode pembayaran berhasil dipilih!',
+                            text: 'Pembayaran berhasil diproses!',
                             icon: 'success',
                             confirmButtonText: 'OK'
                         }).then(() => {
-                            // Redirect ke Midtrans checkout link
-                            window.location.href = data.data
-                                .redirect_url; // Pastikan 'data.data.redirect_url' sesuai dengan yang dikirimkan dari server
+                            window.snap.pay(data.data.token, {
+                                onSuccess: function(result) {
+                                    window.location.href =
+                                        'https://abd9-103-47-133-70.ngrok-free.app/api/finish';
+                                },
+                                onPending: function(result) {
+                                    window.location.href =
+                                        'https://abd9-103-47-133-70.ngrok-free.app/api/notfinish';
+                                },
+                                onError: function(result) {
+                                    window.location.href =
+                                        'https://abd9-103-47-133-70.ngrok-free.app/api/error';
+                                },
+                            });
                         });
                     } else {
                         Swal.fire({
@@ -286,6 +446,26 @@
         });
 
 
+
+
+
+        function toggleSelection(element) {
+            const isSelected = element.getAttribute('data-selected') === 'true';
+            element.setAttribute('data-selected', !isSelected);
+
+            // Tambahkan/kurangi kelas untuk efek visual
+            if (isSelected) {
+                element.classList.add('opacity-50');
+                element.classList.remove('selected');
+            } else {
+                element.classList.remove('opacity-50');
+                element.classList.add('selected');
+            }
+
+            // Perbarui total pembayaran
+            updateTotalPembayaran();
+        }
+
         function validatePaymentMethod() {
             const selectedPaymentMethod = document.querySelector('input[name="payment_method"]:checked');
             if (!selectedPaymentMethod) {
@@ -299,39 +479,6 @@
             }
             return true;
         }
-
-        function updateQuantity(idKeranjang, change) {
-            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-            const endpoint = change > 0 ? '/keranjang/increase' : '/keranjang/decrease';
-
-            fetch(endpoint, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': csrfToken,
-                    },
-                    body: JSON.stringify({
-                        id_keranjang: idKeranjang
-                    }),
-                })
-                .then(response => response.json())
-                .then(data => {
-                    console.log(data); // Pastikan data.jumlah_barang tersedia
-                    if (data.success) {
-                        const jumlahBarangElement = document.getElementById(`jumlah-barang-${idKeranjang}`);
-                        if (jumlahBarangElement) {
-                            jumlahBarangElement.innerText = data.jumlah_barang; // Update UI
-                        }
-                    } else {
-                        alert(data.message || 'Terjadi kesalahan.');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        }
-
-
 
         function togglePopup(show) {
             const popup = document.getElementById('popup');
@@ -347,6 +494,7 @@
             }
         }
     </script>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const sidebar = document.getElementById('sidebar');

@@ -47,7 +47,7 @@ class KeranjangController extends Controller
 
             // Ambil ID user yang login
             $userId = Auth::id();
-
+            \Log::info('User ID'. $userId);
             // Cek apakah barang sudah ada di keranjang
             $existingItem = DB::table('keranjangs')
                 ->where('id_user', $userId)

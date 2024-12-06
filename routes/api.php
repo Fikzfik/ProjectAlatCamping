@@ -14,9 +14,10 @@ use App\Http\Controllers\PembayaranController;
 |
 */
 
+Route::post('/webhook', [PembayaranController::class, 'webhook'])->name('webhook');
+Route::get('/finish', [PembayaranController::class, 'finish'])->name('finish');
+Route::get('/notfinish', [PembayaranController::class, 'notfinish'])->name('notfinish');
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
-    Route::post('/webhook', [PembayaranController::class, 'webhook'])->name('webhook');
-    Route::get('/finish', [PembayaranController::class, 'finish'])->name('finish');
-    Route::get('/notfinish', [PembayaranController::class, 'notfinish'])->name('notfinish');
 });

@@ -16,10 +16,13 @@ return new class extends Migration {
             $table->decimal('harga_sewa', 10, 2);
             $table->decimal('subtotal', 10, 2);
             $table->timestamps();
+            $table->unsignedBigInteger('id_barang');
+            $table->foreign('id_barang')->references('id_barang')->on('barangs')->onDelete('cascade')->onUpdate('cascade');
             $table->unsignedBigInteger('id_penyewaan');
             $table->foreign('id_penyewaan')->references('id_penyewaan')->on('penyewaans')->onDelete('cascade')->onUpdate('cascade');
-            $table->unsignedBigInteger('id_keranjang');
-            $table->foreign('id_keranjang')->references('id_keranjang')->on('keranjangs')->onDelete('cascade')->onUpdate('cascade');
+            $table->unsignedBigInteger('id_keranjang')->nullable(); // Membuat kolom nullable
+            $table->foreign('id_keranjang')->references('id_keranjang')->on('keranjangs')->onDelete('set null')->onUpdate('set null');
+
         });
     }
 
