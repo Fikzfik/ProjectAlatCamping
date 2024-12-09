@@ -229,75 +229,7 @@
         </div>
     </div>
     <script>
-        function toggleAdminMenu() {
-            const dropdown = document.getElementById('adminDropdown');
-            if (dropdown.classList.contains('hidden')) {
-                dropdown.classList.remove('hidden');
-            } else {
-                dropdown.classList.add('hidden');
-            }
-        }
-
-
-        function toggleDropdown5() {
-            const dropdown = document.getElementById('dropdownList5');
-            const arrowIcon = document.getElementById('arrowIcon5');
-            if (dropdown.style.maxHeight) {
-                dropdown.style.maxHeight = null; // Tutup dropdown
-                arrowIcon.style.transform = 'rotate(180deg)'; // Kembalikan panah
-            } else {
-                dropdown.style.maxHeight = dropdown.scrollHeight + 'px'; // Buka dropdown
-                arrowIcon.style.transform = 'rotate(0deg)'; // Rotasi panah ke bawah
-            }
-        }
-
-        function toggleDropdown6() {
-            const dropdown = document.getElementById('dropdownList6');
-            const arrowIcon = document.getElementById('arrowIcon6');
-            if (dropdown.style.maxHeight) {
-                dropdown.style.maxHeight = null;
-                arrowIcon.style.transform = 'rotate(0deg)';
-            } else {
-                dropdown.style.maxHeight = dropdown.scrollHeight + 'px';
-                arrowIcon.style.transform = 'rotate(180deg)';
-            }
-        }
-
-        function toggleDropdown1() {
-            const dropdown = document.getElementById('dropdownList1');
-            const arrowIcon = document.getElementById('arrowIcon1');
-
-            // Toggle dropdown visibility
-            dropdown.classList.toggle('hidden'); // Show or hide the dropdown
-            arrowIcon.classList.toggle('rotate-180'); // Rotate the arrow icon
-        }
-
-        function toggleDropdown2() {
-            const dropdown = document.getElementById('dropdownList2');
-            const arrowIcon = document.getElementById('arrowIcon2');
-
-            // Toggle dropdown visibility
-            dropdown.classList.toggle('max-h-0'); // Toggle dropdown visibility
-            dropdown.classList.toggle('max-h-[20vw]'); // Set maximum height when dropdown is open
-
-            // Toggle the arrow rotation
-            arrowIcon.classList.toggle('rotate-180');
-
-            // Animate the items inside the dropdown
-            const listItems = document.querySelectorAll('#listItems2 li');
-            listItems.forEach((item, index) => {
-                // Add animations for showing items
-                if (dropdown.classList.contains('max-h-[20vw]')) {
-                    item.classList.add('opacity-100', 'translate-x-0'); // Show items
-                    item.classList.remove('opacity-0', 'translate-x-[-100%]');
-                } else {
-                    item.classList.remove('opacity-100', 'translate-x-0'); // Hide items
-                    item.classList.add('opacity-0', 'translate-x-[-100%]');
-                }
-            });
-        }
-
-
+    
         function toggleDropdown7() {
             const dropdown = document.getElementById('dropdownList7');
             const arrowIcon = document.getElementById('arrowIcon7');

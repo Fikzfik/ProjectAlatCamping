@@ -13,17 +13,50 @@ class HistoryController extends Controller
     public function history(): view
     {
         $idUser = Auth::id();
+        $currentDate = date('Y-m-d');
 
-        // Query untuk barang dengan status "tersewa"
-        $barangTersewa = DB::table('detail_penyewaans as dp')->join('barangs as b', 'dp.id_barang', '=', 'b.id_barang')->join('penyewaans as p', 'dp.id_penyewaan', '=', 'p.id_penyewaan')->where('p.status_sewa', 'tersewa')->where('p.id_user', $idUser)->select('dp.id_barang', 'b.nama_barang', 'dp.jumlah_barang', 'dp.harga_sewa', 'dp.subtotal', 'p.tanggal_sewa', 'p.tanggal_kembali')->get();
+        // Query untuk barang yang sudah dibooking
+        $barangBooked = DB::select(
+            "
+    SELECT dp.id_barang, b.nama_barang, dp.jumlah_barang, dp.harga_sewa, dp.subtotal,
+           p.tanggal_sewa, p.tanggal_kembali, b.link_foto, k.nama_kategori
+    FROM detail_penyewaans dp
+    JOIN barangs b ON dp.id_barang = b.id_barang
+    JOIN kategori_barangs k ON b.id_kategori = k.id_kategori
+    JOIN penyewaans p ON dp.id_penyewaan = p.id_penyewaan
+    WHERE p.tanggal_sewa > ? AND p.id_user = ?
+",
+            [$currentDate, $idUser],
+        );
 
-        // Query untuk barang dengan status "selesai"
-        $barangSelesai = DB::table('detail_penyewaans as dp')->join('barangs as b', 'dp.id_barang', '=', 'b.id_barang')->join('penyewaans as p', 'dp.id_penyewaan', '=', 'p.id_penyewaan')->where('p.status_sewa', 'selesai')->where('p.id_user', $idUser)->select('dp.id_barang', 'b.nama_barang', 'dp.jumlah_barang', 'dp.harga_sewa', 'dp.subtotal', 'p.tanggal_sewa', 'p.tanggal_kembali')->get();
+        // Query untuk barang yang sedang disewa
+        $barangRented = DB::select(
+            "
+    SELECT dp.id_barang, b.nama_barang, dp.jumlah_barang, dp.harga_sewa, dp.subtotal,
+           p.tanggal_sewa, p.tanggal_kembali, b.link_foto, k.nama_kategori
+    FROM detail_penyewaans dp
+    JOIN barangs b ON dp.id_barang = b.id_barang
+    JOIN kategori_barangs k ON b.id_kategori = k.id_kategori
+    JOIN penyewaans p ON dp.id_penyewaan = p.id_penyewaan
+    WHERE p.tanggal_sewa <= ? AND p.tanggal_kembali >= ? AND p.id_user = ?
+",
+            [$currentDate, $currentDate, $idUser],
+        );
 
+        // Query untuk barang yang sudah selesai disewa (History)
+        $barangHistory = DB::select(
+            "
+    SELECT dp.id_barang, b.nama_barang, dp.jumlah_barang, dp.harga_sewa, dp.subtotal,
+           p.tanggal_sewa, p.tanggal_kembali, b.link_foto, k.nama_kategori
+    FROM detail_penyewaans dp
+    JOIN barangs b ON dp.id_barang = b.id_barang
+    JOIN kategori_barangs k ON b.id_kategori = k.id_kategori
+    JOIN penyewaans p ON dp.id_penyewaan = p.id_penyewaan
+    WHERE p.tanggal_kembali < ? AND p.id_user = ?
+",
+            [$currentDate, $idUser],
+        );
         // Kirim data ke view
-        return view('pages.auth.history', [
-            'barangTersewa' => $barangTersewa,
-            'barangSelesai' => $barangSelesai,
-        ]);
+        return view('pages.auth.history', compact('barangBooked', 'barangRented', 'barangHistory'));
     }
 }

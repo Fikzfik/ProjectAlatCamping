@@ -37,6 +37,7 @@ class PembayaranController extends Controller
 
             // Buat penyewaan baru
             $idPenyewaan = DB::table('penyewaans')->insertGetId([
+                'id_user' => Auth::user()->id_user,
                 'tanggal_sewa' => now(),
                 'tanggal_kembali' => now()->addDays(7), // Contoh durasi sewa 7 hari
                 'status_sewa' => 'dalam proses',
@@ -72,7 +73,7 @@ class PembayaranController extends Controller
                 $calculatedTotal += $subtotal;
 
                 // Masukkan detail penyewaan ke dalam tabel
-                DB::table('detail_penyewaans')->insert([
+                DB::table('detail_penyewaans')->insert([    
                     'id_penyewaan' => $idPenyewaan,
                     'id_barang' => $idBarang, // Gunakan id_barang dari keranjang
                     'id_keranjang' => $item['id_keranjang'],

@@ -238,10 +238,12 @@
                         <span>Total:</span>
                         <span id="totalAmount" class="font-semibold text-xl text-gray-800">Rp 0</span>
                     </div>
-                    <button
-                        class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300">
-                        Checkout
-                    </button>
+                    <a href="{{ route('penyewaan') }}">
+                        <button
+                            class="w-full bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-600 transition duration-300">
+                            Checkout
+                        </button>
+                    </a>
                 </div>
             </div>
         </div>
