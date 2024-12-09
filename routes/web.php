@@ -52,6 +52,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/blog', [ViewController::class, 'blogview'])->name('blog');
     Route::get('/home', [ViewController::class, 'homeview'])->name('home');
     Route::get('/location', [ViewController::class, 'locationview'])->name('location');
+    Route::get('/userprofil', [ViewController::class, 'userprofil'])->name('userprofil');
 
     Route::get('/test', [ViewController::class, 'test'])->name('test');
 });
