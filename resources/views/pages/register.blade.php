@@ -27,7 +27,7 @@
             <div class="lg:w-[62.5vw] w-full flex items-center justify-center mt-[10vw] lg:mt-0">
                 <div class="w-full lg:max-w-[30vw] max-w-[80vw]">
                     <div data-aos="fade-left" data-aos-duration="500" data-aos-delay="200">
-                        <a href="{{ url('/') }}" class="text-black">
+                        <a href="{{ url('/login') }}" class="text-black">
                             <img src="{{ asset('assets/icons/back-icon.svg') }}" alt="Back" class="w-[8vw] h-[8.2vw] lg:w-[2.302vw] lg:h-[2.448vw]">
                         </a>
                     </div>

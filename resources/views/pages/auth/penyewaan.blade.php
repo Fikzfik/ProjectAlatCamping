@@ -413,7 +413,7 @@
                             window.snap.pay(data.data.token, {
                                 onSuccess: function(result) {
                                     window.location.href =
-                                        'https://abd9-103-47-133-70.ngrok-free.app/api/finish';
+                                        'http://127.0.0.1:8000/penyewaan';
                                 },
                                 onPending: function(result) {
                                     window.location.href =

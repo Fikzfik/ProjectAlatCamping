@@ -20,12 +20,15 @@ Route::group(['middleware' => 'guest'], function () {
 });
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/stock', [ViewController::class, 'stockview'])->name('stock');
+    Route::get('/sempak', [ViewController::class, 'sempak'])->name('sempak');
 
     Route::get('/barang', [ViewController::class, 'barangview'])->name('barang');
     Route::post('barang/store', [BarangController::class, 'store'])->name('barang.store');
     Route::put('/barang/update/{id}', [BarangController::class, 'update'])->name('barang.update');
     Route::get('barang/{id}', [BarangController::class, 'updateModal'])->name('barang.showmodal');
     Route::delete('barang/destroy/{id}', [BarangController::class, 'destroy'])->name('barang.destroy');
+    // web.php
+    Route::get('/barang-by-kategori', [BarangController::class, 'getBarangByKategori'])->name('barang.by.kategori');
 
     Route::get('/detailbarang/{id}', [BarangController::class, 'show'])->name('detailbarang');
 
@@ -46,7 +49,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/penyewaan', [ViewController::class, 'penyewaan'])->name('penyewaan');
     Route::post('/penyewaan/store', [PenyewaanController::class, 'store'])->name('penyewaan.store');
-    
+
     Route::get('/menu', [ViewController::class, 'menuview'])->name('menu');
     Route::get('/settingmenu', [ViewController::class, 'settingmenuview'])->name('settingmenu');
     Route::get('/blog', [ViewController::class, 'blogview'])->name('blog');

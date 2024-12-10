@@ -2,16 +2,7 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Ganti path file CSS dengan asset() -->
-    <link rel="stylesheet" href="{{ asset('src/css/output.css') }}">
-    <link rel="stylesheet" href="{{ asset('src/css/font.css') }}">
-    <link rel="stylesheet" href="{{ asset('src/css/style.css') }}">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <link href="{{ asset('node_modules/aos/dist/aos.css') }}" rel="stylesheet">
-    <script src="{{ asset('node_modules/aos/dist/aos.js') }}"></script>
+    @include('pages.layout.head')
     <title>Blog</title>
 </head>
 
@@ -135,7 +126,6 @@
             BLOG
         </h1>
     </section>
-
     @include('pages.layout.footer')
 </body>
 <div id="popup" class="fixed inset-0 items-center justify-center bg-black bg-opacity-50 hidden"
@@ -168,49 +158,7 @@
 </script>
 <script src="./js/main.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const sidebar = document.getElementById('sidebar');
-        const body = document.getElementById('body');
-        const nav = document.getElementById('nav');
-        const openButton = document.getElementById('hamburger');
-        const closeButton = document.getElementById('cross');
-
-        // Tombol untuk Slide In
-        openButton.addEventListener('click', () => {
-            sidebar.classList.remove('slide-out-left-active');
-            sidebar.classList.add('slide-in-left-active');
-            body.classList.add('overflow-y-hidden');
-            nav.classList.remove('pointer-events-none');
-        });
-
-        // Tombol untuk Slide Out
-        closeButton.addEventListener('click', () => {
-            sidebar.classList.remove('slide-in-left-active');
-            sidebar.classList.add('slide-out-left-active');
-            body.classList.remove('overflow-y-hidden');
-            nav.classList.add('pointer-events-none');
-        });
-    });
-    document.addEventListener('DOMContentLoaded', () => {
-        const profileButton = document.getElementById('profile-button');
-        const submenu = document.getElementById('submenu');
-
-        // Toggle submenu visibility on button click
-        profileButton.addEventListener('click', (event) => {
-            event.preventDefault(); // Prevent default behavior of button
-            submenu.classList.toggle('hidden');
-        });
-
-        // Close submenu when clicking outside
-        document.addEventListener('click', (event) => {
-            if (!profileButton.contains(event.target) && !submenu.contains(event.target)) {
-                submenu.classList.add('hidden');
-            }
-        });
-    });
-</script>
-<script>
     AOS.init();
 </script>
-
+@include('pages.layout.script');
 </html>
