@@ -4,7 +4,7 @@
         <div class="sm:mt-0 mt-[6.512vw]">
             <ul data-aos="fade-up" data-aos-duration="500" data-aos-delay="400" class="space-y-[0.521vw]">
                 <li class="sm:text-[1.042vw] text-[3.686vw] sm:leading-[2.188vw] leading-[9.628vw] font-semibold">
-                    Treadwear</li>
+                    CampRover</li>
                 <li
                     class="sm:text-[1.042vw] text-[3.686vw] sm:leading-[2.188vw] leading-[9.628vw] sm:font-normal font-light">
                     <a href="location.html">Location</a></li>
@@ -58,7 +58,7 @@
         <div data-aos="fade-up" data-aos-duration="500" data-aos-delay="800"
             class="sm:space-y-[0.833vw] space-y-[4.186vw] sm:w-auto w-full sm:col-span-1 col-span-2 flex flex-col sm:items-start items-center sm:mt-0 mt-[6.977vw]">
             <a href="index.html">
-                <h1 class="logo sm:text-[1.458vw] text-[4.651vw]">Treadwear.co</h1>
+                <h1 class="logo sm:text-[1.458vw] text-[4.651vw]">CampRover</h1>
             </a>
             <h2 class="sm:text-[1.25vw] text-[3.186vw] leading-[2.604vw] font-semibold">Follow Us</h2>
             <div class="flex items-center sm:space-x-[1.458vw] space-x-[4.651vw]">
