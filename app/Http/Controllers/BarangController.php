@@ -8,6 +8,57 @@ use Illuminate\Support\Facades\Auth;
 
 class BarangController extends Controller
 {
+    public function getAllBarang()
+    {
+        // Ambil semua barang
+        $barang = DB::select("
+        SELECT
+            b.id_barang,
+            b.nama_barang,
+            b.link_foto,
+            b.deskripsi,
+            b.harga_sewa,
+            b.status,
+            k.nama_kategori
+        FROM
+            barangs b
+        INNER JOIN
+            kategori_barangs k
+        ON
+            b.id_kategori = k.id_kategori
+    ");
+
+        return response()->json($barang); // Kirim data barang dalam format JSON
+    }
+    public function getBarangByKategori(Request $request)
+    {
+        $kategoriId = $request->input('kategori_id'); // ID kategori yang dipilih
+
+        // Gunakan raw SQL untuk mengambil data barang berdasarkan kategori
+        $barang = DB::select(
+            "
+        SELECT
+            b.id_barang,
+            b.nama_barang,
+            b.link_foto,
+            b.deskripsi,
+            b.harga_sewa,
+            b.status,
+            k.nama_kategori
+        FROM
+            barangs b
+        INNER JOIN
+            kategori_barangs k
+        ON
+            b.id_kategori = k.id_kategori
+        WHERE
+            b.id_kategori = ?",
+            [$kategoriId],
+        );
+
+        return response()->json($barang); // Kirim data barang dalam format JSON
+    }
+
     public function store(Request $request)
     {
         // Validasi file yang di-upload

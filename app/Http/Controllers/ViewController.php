@@ -20,19 +20,19 @@ class ViewController extends Controller
     public function homeview(): view
     {
         $kategori = DB::select('SELECT * FROM kategori_barangs');
-        $barang = DB::select('SELECT
-        b.id_barang,
-        b.nama_barang,
-        b.link_foto,
-        b.deskripsi,
-        b.harga_sewa,
-        b.status,
-        b.id_kategori,
-        k.nama_kategori
-    FROM barangs b
-    JOIN kategori_barangs k
-    ON b.id_kategori = k.id_kategori
-');
+            $barang = DB::select('SELECT
+            b.id_barang,
+            b.nama_barang,
+            b.link_foto,
+            b.deskripsi,
+            b.harga_sewa,
+            b.status,
+            b.id_kategori,
+            k.nama_kategori
+        FROM barangs b
+        JOIN kategori_barangs k
+        ON b.id_kategori = k.id_kategori
+    ');
 
         return view('pages.auth.home', compact('barang', 'kategori'));
     }
@@ -106,6 +106,10 @@ class ViewController extends Controller
     public function test(): view
     {
         return view('pages.auth.test');
+    }
+    public function sempak(): view
+    {
+        return view('pages.auth.sempak');
     }
     public function barangview(): view
     {

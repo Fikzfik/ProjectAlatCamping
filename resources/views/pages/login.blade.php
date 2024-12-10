@@ -11,7 +11,7 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <link href="../node_modules/aos/dist/aos.css" rel="stylesheet">
     <script src="../node_modules/aos/dist/aos.js"></script>
-    <title>Home</title>
+    <title>Login</title>
 </head>
 
 <body class="bg-white">
@@ -20,7 +20,6 @@
             <div class="w-full flex lg:flex-row flex-col">
                 <div class="lg:w-[37.5vw] w-full h-[60vw] login-section lg:h-screen flex flex-col justify-center items-center relative"
                     style="background-image: url('src/assets/images/bg1.jpg'); background-size: cover; background-position: center;">
-                    <!-- https://pin.it/7iFmRBHx6 -->
                     <a href="index.html">
                         <h1 data-aos="fade-right" data-aos-duration="500" data-aos-delay="200"
                             class="text-white text-[4vw] lg:text-[1.667vw] logo absolute top-[10vw] left-[8vw] lg:top-[3.5vw] lg:left-[3.5vw] z-20">
@@ -35,7 +34,7 @@
                 <div class="lg:w-[62.5vw] w-full flex items-center justify-center mt-[10vw] lg:mt-0">
                     <div class="w-full lg:max-w-[30vw] max-w-[80vw]">
                         <!-- Back Icon -->
-                        <div data-aos="fade-left" data-aos-duration="500" data-aos-delay="200" class="">
+                        <div data-aos="fade-left" data-aos-duration="500" data-aos-delay="200">
                             <a href="index.html" class="text-black">
                                 <img src="src/assets/icons/back-icon.svg" alt="" width=""
                                     class="w-[8vw] h-[8.2vw] lg:w-[2.302vw] lg:h-[2.448vw]">
@@ -71,9 +70,15 @@
                                         Login
                                     </button>
                                 </div>
+
+                                <!-- Register Link -->
+                                <div class="text-center mt-[2vw]" data-aos="fade-left" data-aos-duration="500" data-aos-delay="500">
+                                    <p class="text-[3vw] lg:text-[1.042vw]">
+                                        Don't have an account? <a href="{{ route('register') }}" class="text-blue-500 font-semibold">Register now</a>
+                                    </p>
+                                </div>
                             </div>
                         </form>
-
                     </div>
                 </div>
             </div>

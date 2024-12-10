@@ -1,7 +1,5 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Ganti path file CSS dengan asset() -->
-
 <link rel="stylesheet" href="{{ asset('src/css/output.css') }}">
 <link rel="stylesheet" href="{{ asset('src/css/font.css') }}">
 <link rel="stylesheet" href="{{ asset('src/css/style.css') }}">
