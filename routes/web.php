@@ -53,7 +53,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', [ViewController::class, 'homeview'])->name('home');
     Route::get('/location', [ViewController::class, 'locationview'])->name('location');
     Route::get('/userprofil', [ViewController::class, 'userprofil'])->name('userprofil');
-    Route::post('/editprofil', [ViewController::class, 'editprofil'])->name('editprofil');
+    Route::put('/editprofil', [ViewController::class, 'editprofil'])->name('editprofil');
+    
 
     Route::get('/test', [ViewController::class, 'test'])->name('test');
 });

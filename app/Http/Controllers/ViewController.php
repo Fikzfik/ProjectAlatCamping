@@ -126,4 +126,27 @@ class ViewController extends Controller
 
         return view('pages.auth.barang', compact('kategori', 'barang'));
     }
+
+    public function userprofil()
+{
+    $user = Auth::user(); // Mengambil data pengguna yang sedang login
+    return view('pages.auth.userprofil', compact('user')); // Menampilkan profil pengguna
+}
+
+
+     // Memproses pembaruan data profil
+     public function editprofil(Request $request)
+     {
+         $request->validate([
+             'name' => 'required|string|max:255',
+             'email' => 'required|email|unique:users,email,' . Auth::id(),
+         ]);
+ 
+         $user = Auth::user(); // Mendapatkan data pengguna yang sedang login
+         $user->name = $request->input('name');
+         $user->email = $request->input('email');
+         $user->save(); // Simpan perubahan ke database
+ 
+         return redirect()->route('editprofil')->with('success', 'Profil berhasil diperbarui!');
+     }
 }

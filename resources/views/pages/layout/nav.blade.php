@@ -213,7 +213,7 @@
                 <div id="submenu"
                     class="submenu absolute right-0 hidden bg-white shadow-lg rounded-lg mt-2 p-4 w-48">
                     <ul>
-                        <li><a href="profile.html" class="block py-2 px-4 hover:bg-gray-200">Profile</a></li>
+                        <li><a href="{{ route('userprofil') }}" class="block py-2 px-4 hover:bg-gray-200">Profile</a></li>
                         <li><a href="settings.html" class="block py-2 px-4 hover:bg-gray-200">Settings</a></li>
                         <li><a href="{{ route('logout') }}" class="block py-2 px-4 hover:bg-gray-200">Logout</a></li>
                     </ul>
