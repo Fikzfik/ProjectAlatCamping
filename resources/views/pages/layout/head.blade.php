@@ -20,14 +20,16 @@
         max-height: 0;
         /* Initially closed */
     }
-
-    .max-h-[20vw] {
-        max-height: 20vw;
-        /* Open state */
+    nav {
+    position: relative; /* atau fixed jika ingin navbar tetap terlihat saat di-scroll */
+    z-index: 50; /* Pastikan nilai ini lebih tinggi dibandingkan elemen lainnya */
     }
 
-    #kategoriModal {
-        z-index: 9999;
+.container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 20px;
+    9999;
         /* Modal harus berada di atas */
     }
 

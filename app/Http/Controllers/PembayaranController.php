@@ -17,7 +17,8 @@ class PembayaranController extends Controller
     public function index(Request $request)
     {
         DB::beginTransaction(); // Mulai transaksi database
-        Log::info('Full Midtrans Response: Index');
+        Log::info('Full Midtrans Response: Index ' . json_encode($request->all()));
+
         try {
             $userId = Auth::user()->id_user;
 

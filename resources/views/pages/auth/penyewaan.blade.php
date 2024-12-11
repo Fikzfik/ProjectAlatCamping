@@ -222,9 +222,6 @@
             // Update tampilan total pembayaran
             document.getElementById('totalPembayaran').textContent = `Rp${total.toLocaleString('id-ID')}`;
         }
-
-
-
         // Fungsi untuk menambah atau mengurangi jumlah barang
         function updateQuantity(idKeranjang, change, event) {
             event.stopPropagation(); // Agar tidak memicu toggleSelection
@@ -234,13 +231,12 @@
             jumlah = Math.max(0, jumlah + change); // Menjamin jumlah tidak negatif
             jumlahElement.textContent = jumlah;
 
-            // Update subtotal item berdasarkan jumlah baru
+            // Menghitung gross amount untuk item
+            const item = document.querySelector(`[data-id="${idKeranjang}"]`);
+            const harga = parseInt(item.querySelector('.text-blue-400').textContent.replace('Rp', '').replace(/\./g, ''));
+            const subtotal = harga * jumlah; // Hitung gross amount
 
-
-            // Perbarui total pembayaran setelah jumlah berubah
-            updateTotalPembayaran();
-
-            // Kirim perubahan ke server (jika perlu)
+            // Kirim perubahan jumlah dan gross amount ke server
             const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
             const endpoint = change > 0 ? '/keranjang/increase' : '/keranjang/decrease';
 
@@ -252,6 +248,8 @@
                     },
                     body: JSON.stringify({
                         id_keranjang: idKeranjang,
+                        jumlah: jumlah,
+                        subtotal: subtotal, // Mengirim gross amount
                     }),
                 })
                 .then(response => response.json())
@@ -259,7 +257,7 @@
                     if (data.success) {
                         // Update jumlah barang pada UI jika server berhasil memproses
                         jumlahElement.innerText = data.jumlah_barang;
-                        updateTotalPembayaran();
+                        updateTotalPembayaran(); // Update total pembayaran setelah pembaruan jumlah
                     } else {
                         alert(data.message || 'Terjadi kesalahan.');
                     }
@@ -267,8 +265,10 @@
                 .catch(error => {
                     console.error('Error:', error);
                 });
+
             event.preventDefault();
         }
+
 
         // Fungsi untuk memperbarui subtotal untuk satu item
         function updateItemSubtotal(idKeranjang, jumlah) {
@@ -294,7 +294,7 @@
             // Memperbarui total pembayaran setelah update subtotal
             updateTotalPembayaran();
         }
-        // Fungsi untuk toggle pemilihan barang
+
 
         // Fungsi untuk menghitung total pembayaran berdasarkan keranjang
         function hitungTotalPembayaran() {
@@ -307,26 +307,6 @@
 
             document.getElementById('totalPembayaran').textContent = `Rp${total.toLocaleString('id-ID')}`;
         }
-
-        function toggleSelection(element) {
-            const isSelected = element.getAttribute('data-selected') === 'true';
-            element.setAttribute('data-selected', !isSelected);
-
-            // Tambahkan/kurangi kelas untuk efek visual
-            if (isSelected) {
-                element.classList.add('opacity-50');
-                element.classList.remove('selected');
-            } else {
-                element.classList.remove('opacity-50');
-                element.classList.add('selected');
-            }
-
-            // Perbarui total pembayaran
-            updateTotalPembayaran();
-        }
-        // Fungsi yang dijalankan saat halaman dimuat
-        document.addEventListener('DOMContentLoaded', hitungTotalPembayaran);
-
         document.getElementById('submitPayment').addEventListener('click', () => {
             const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
             const selectedItems = document.querySelectorAll('.selected'); // Ambil barang yang dipilih
@@ -413,7 +393,7 @@
                             window.snap.pay(data.data.token, {
                                 onSuccess: function(result) {
                                     window.location.href =
-                                        'http://127.0.0.1:8000/penyewaan';
+                                        'http://127.0.0.1:8000/history';
                                 },
                                 onPending: function(result) {
                                     window.location.href =
@@ -445,10 +425,6 @@
                 });
         });
 
-
-
-
-
         function toggleSelection(element) {
             const isSelected = element.getAttribute('data-selected') === 'true';
             element.setAttribute('data-selected', !isSelected);
@@ -465,20 +441,9 @@
             // Perbarui total pembayaran
             updateTotalPembayaran();
         }
+        // Fungsi yang dijalankan saat halaman dimuat
+        document.addEventListener('DOMContentLoaded', hitungTotalPembayaran);
 
-        function validatePaymentMethod() {
-            const selectedPaymentMethod = document.querySelector('input[name="payment_method"]:checked');
-            if (!selectedPaymentMethod) {
-                Swal.fire({
-                    title: 'Metode Pembayaran',
-                    text: 'Pilih metode pembayaran sebelum melanjutkan!',
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                });
-                return false;
-            }
-            return true;
-        }
 
         function togglePopup(show) {
             const popup = document.getElementById('popup');
@@ -493,80 +458,6 @@
                 body.style.overflow = ''; // Enable scrolling
             }
         }
-    </script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const sidebar = document.getElementById('sidebar');
-            const body = document.getElementById('body');
-            const nav = document.getElementById('nav');
-            const openButton = document.getElementById('hamburger');
-            const closeButton = document.getElementById('cross');
-
-            // Tombol untuk Slide In
-            openButton.addEventListener('click', () => {
-                sidebar.classList.remove('slide-out-left-active');
-                sidebar.classList.add('slide-in-left-active');
-                body.classList.add('overflow-y-hidden');
-                nav.classList.remove('pointer-events-none');
-            });
-
-            // Tombol untuk Slide Out
-            closeButton.addEventListener('click', () => {
-                sidebar.classList.remove('slide-in-left-active');
-                sidebar.classList.add('slide-out-left-active');
-                body.classList.remove('overflow-y-hidden');
-                nav.classList.add('pointer-events-none');
-            });
-
-            const slider = document.getElementById('sliderContainer');
-            const prevBtn = document.getElementById('prevBtn');
-            const nextBtn = document.getElementById('nextBtn');
-
-            function vwToPx(vw) {
-                return (vw / 100) * window.innerWidth;
-            }
-
-            // Inisialisasi nilai awal
-            let scrollAmountVW = 20.573;
-            let scrollAmountPx = vwToPx(scrollAmountVW);
-
-            // Fungsi untuk meng-update nilai scrollAmountVW dan scrollAmountPx berdasarkan lebar layar
-            function updateScrollAmount() {
-                if (window.innerWidth <= 460) {
-                    scrollAmountVW = 55.814;
-                } else {
-                    scrollAmountVW = 20.573;
-                }
-                scrollAmountPx = vwToPx(scrollAmountVW);
-            }
-
-            // Event listener untuk tombol next
-            nextBtn.addEventListener('click', () => {
-                slider.scrollBy({
-                    left: -scrollAmountPx,
-                    behavior: 'smooth'
-                });
-            });
-
-            // Event listener untuk tombol prev
-            prevBtn.addEventListener('click', () => {
-                slider.scrollBy({
-                    left: scrollAmountPx,
-                    behavior: 'smooth'
-                });
-            });
-
-            // Panggil fungsi sekali untuk inisialisasi awal
-            updateScrollAmount();
-
-            window.addEventListener('resize', () => {
-                scrollAmountPx = vwToPx(scrollAmountVW);
-                updateScrollAmount();
-            });
-
-
-        });
     </script>
     <script>
         AOS.init();
