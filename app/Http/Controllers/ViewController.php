@@ -38,7 +38,8 @@ class ViewController extends Controller
     }
     public function locationview(): view
     {
-        return view('pages.auth.location');
+        $stores = DB::select('SELECT * FROM stores');
+        return view('pages.auth.location',compact('stores'));
     }
     public function penyewaan(): View
     {

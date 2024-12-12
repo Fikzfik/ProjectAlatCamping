@@ -265,7 +265,7 @@
                 .catch(error => {
                     console.error('Error:', error);
                 });
-
+            updateTotalPembayaran();
             event.preventDefault();
         }
 

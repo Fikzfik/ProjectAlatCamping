@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Http;
 
 class PembayaranController extends Controller
 {
-
     public function index(Request $request)
     {
         DB::beginTransaction(); // Mulai transaksi database
@@ -36,11 +35,16 @@ class PembayaranController extends Controller
                 );
             }
 
-            // Buat penyewaan baru
+            // Ambil tanggal_sewa dan tanggal_kembali dari item pertama
+            $firstItem = $selectedData[0]; // Ambil item pertama dari array selectedData
+            $tanggalSewa = $firstItem['tanggal_sewa']; // Tanggal sewa dari item pertama
+            $tanggalKembali = $firstItem['tanggal_kembali']; // Tanggal kembali dari item pertama
+
+            // Buat penyewaan baru dengan tanggal_sewa dan tanggal_kembali dari request
             $idPenyewaan = DB::table('penyewaans')->insertGetId([
                 'id_user' => Auth::user()->id_user,
-                'tanggal_sewa' => now(),
-                'tanggal_kembali' => now()->addDays(7), // Contoh durasi sewa 7 hari
+                'tanggal_sewa' => $tanggalSewa, // Menggunakan tanggal_sewa dari item pertama
+                'tanggal_kembali' => $tanggalKembali, // Menggunakan tanggal_kembali dari item pertama
                 'status_sewa' => 'dalam proses',
                 'total_harga' => $totalHarga,
                 'created_at' => now(),
@@ -74,7 +78,7 @@ class PembayaranController extends Controller
                 $calculatedTotal += $subtotal;
 
                 // Masukkan detail penyewaan ke dalam tabel
-                DB::table('detail_penyewaans')->insert([    
+                DB::table('detail_penyewaans')->insert([
                     'id_penyewaan' => $idPenyewaan,
                     'id_barang' => $idBarang, // Gunakan id_barang dari keranjang
                     'id_keranjang' => $item['id_keranjang'],
@@ -109,13 +113,16 @@ class PembayaranController extends Controller
                 ];
             }
 
+            // Pastikan `gross_amount` sesuai dengan totalHarga yang dihitung
+            $grossAmount = $calculatedTotal;
+
             // Payload untuk Midtrans
             $orderId = Str::uuid()->toString();
             $transactionData = [
                 'payment_type' => 'credit_card', // Sesuaikan dengan metode pembayaran yang ingin digunakan
                 'transaction_details' => [
                     'order_id' => 'ORDER-' . $orderId, // Unique order ID
-                    'gross_amount' => $totalHarga, // Total price for the transaction
+                    'gross_amount' => $grossAmount, // Total price for the transaction
                 ],
                 'customer_details' => [
                     'first_name' => Auth::user()->name ?? 'Penyewa', // Customer's name, fallback to 'Penyewa'
@@ -160,7 +167,7 @@ class PembayaranController extends Controller
                 'order_id' => 'ORDER-' . $orderId,
                 'id_penyewaan' => $idPenyewaan,
                 'tanggal_pembayaran' => now(),
-                'jumlah_pembayaran' => $totalHarga,
+                'jumlah_pembayaran' => $grossAmount,
                 'metode_pembayaran' => 'credit_card', // Sesuaikan dengan metode pembayaran yang dipilih
                 'status_pembayaran' => 'pending',
                 'created_at' => now(),
