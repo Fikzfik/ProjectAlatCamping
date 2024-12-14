@@ -60,7 +60,15 @@
     </style>
 </head>
 
-<body id="body" class="">
+<body id="body" class="relative">
+    <div class="absolute inset-0 -z-10"
+        style="background-image: url('{{ asset('src/assets/images/bgwebsite.jpeg') }}'); 
+           background-size: cover; 
+           background-position: center; 
+           filter: blur(10px); 
+           opacity: 0.9;
+           pointer-events: none;">
+    </div>
     @include('pages.layout.nav')
     <section class="sm:px-[4.271vw] px-[8.372vw] text-white pt-[3.1vw] relative">
         <div class="w-full flex sm:flex-row flex-col">

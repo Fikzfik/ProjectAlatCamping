@@ -24,11 +24,6 @@ class KategoriController extends Controller
 
     public function update(Request $request, $id)
     {
-        // Validasi data
-        $request->validate([
-            'nama_kategori' => 'required|string|max:255',
-            'deskripsi' => 'nullable|string',
-        ]);
 
         // Update kategori
         $kategori = DB::table('kategori_barangs')
