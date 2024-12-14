@@ -91,48 +91,85 @@ class ViewController extends Controller
         return view('pages.auth.barang', compact('kategori', 'barang'));
     }
 
-    /**
-     * Menampilkan profil pengguna yang sedang login.
-     */
     public function userprofil()
     {
-        $user = Auth::user(); // Mendapatkan data pengguna yang sedang login
+        $user = Auth::user();
         return view('pages.auth.userprofil', compact('user'));
     }
 
-    /**
-     * Memproses pembaruan data profil pengguna.
-     */
     public function editprofil(Request $request)
-{
-    // Validasi data input
-    $request->validate([
-        'name' => 'required|string|max:255',
-        'email' => 'required|email|unique:users,email,' . Auth::user()->id_user . ',id_user',
-        'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048', // Validasi foto opsional
-    ]);
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . Auth::user()->id_user . ',id_user',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
 
-    // Mendapatkan data pengguna yang sedang login
-    $user = Auth::user();
-    $user->name = $request->input('name');
-    $user->email = $request->input('email');
+        $user = Auth::user();
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
 
-    // Jika ada file foto yang diupload
-    if ($request->hasFile('photo')) {
-        // Hapus foto lama jika ada
-        if ($user->photo && \Storage::exists('public/' . $user->photo)) {
-            \Storage::delete('public/' . $user->photo);
+        if ($request->hasFile('photo')) {
+            if ($user->photo && \Storage::exists('public/' . $user->photo)) {
+                \Storage::delete('public/' . $user->photo);
+            }
+
+            $photo = $request->file('photo');
+            $photoPath = $photo->store('profile_photos', 'public');
+            $user->photo = $photoPath;
         }
 
-        // Simpan foto baru
-        $photo = $request->file('photo');
-        $photoPath = $photo->store('profile_photos', 'public'); // Simpan foto ke direktori storage/app/public/profile_photos
-        $user->photo = $photoPath;
+        $user->save();
+
+        return redirect()->route('userprofil')->with('success', 'Profil berhasil diperbarui!');
     }
 
-    $user->save(); // Simpan perubahan ke database
+    // Menampilkan semua data stok
+    public function stockview()
+    {
+        $stocks = DB::table('stok_barangs')->get();
+        return view('pages.auth.stock', compact('stocks'));
+    }
 
-    return redirect()->route('userprofil')->with('success', 'Profil berhasil diperbarui!');
-}
+    // Menyimpan data stok baru
+    public function store(Request $request)
+    {
+        $request->validate([
+            'jumlah_stok' => 'required|integer',
+            'id_barang' => 'required|integer',
+        ]);
 
+        StokBarang::create([
+            'jumlah_stok' => $request->jumlah_stok,
+            'id_barang' => $request->id_barang,
+        ]);
+
+        return redirect()->back()->with('success', 'Stok berhasil ditambahkan!');
+    }
+
+    // Mengupdate data stok
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'jumlah_stok' => 'required|integer',
+            'id_barang' => 'required|integer',
+        ]);
+
+        $stok = StokBarang::findOrFail($id);
+        $stok->update([
+            'jumlah_stok' => $request->jumlah_stok,
+            'id_barang' => $request->id_barang,
+        ]);
+
+        return redirect()->back()->with('success', 'Stok berhasil diperbarui!');
+    }
+
+    // Menghapus data stok
+    public function destroy($id)
+    {
+        $stok = StokBarang::findOrFail($id);
+        $stok->delete();
+
+        return redirect()->back()->with('success', 'Stok berhasil dihapus!');
+    }
 }

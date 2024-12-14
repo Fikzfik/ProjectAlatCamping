@@ -18,9 +18,18 @@ Route::group(['middleware' => 'guest'], function () {
 
     Route::get('/dashboard', [ViewController::class, 'dashboard'])->name('dashboard');
 });
+
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/stock', [ViewController::class, 'stockview'])->name('stock');
+    Route::post('/stock', [ViewController::class, 'store'])->name('stock.store');
+    Route::put('/stock/{id}', [ViewController::class, 'update'])->name('stock.update');
+    Route::delete('/stock{id}', [ViewController::class, 'destroy'])->name('stock.destroy');
+ 
 
+});
+
+
+    // Barang
     Route::get('/barang', [ViewController::class, 'barangview'])->name('barang');
     Route::post('barang/store', [BarangController::class, 'store'])->name('barang.store');
     Route::put('/barang/update/{id}', [BarangController::class, 'update'])->name('barang.update');
@@ -29,24 +38,30 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/detailbarang/{id}', [BarangController::class, 'show'])->name('detailbarang');
 
+    // Kategori
     Route::get('/kategori', [ViewController::class, 'kategoriview'])->name('kategori');
     Route::post('kategori/store', [KategoriController::class, 'store'])->name('kategori.store');
     Route::post('kategori/update/{id}', [KategoriController::class, 'update'])->name('kategori.update');
     Route::get('kategori/{id}', [KategoriController::class, 'updateModal'])->name('kategori.showmodal');
     Route::delete('kategori/destroy/{id}', [KategoriController::class, 'destroy'])->name('kategori.destroy');
 
+    // Keranjang
     Route::post('/keranjang/store', [KeranjangController::class, 'store'])->name('keranjang.store');
     Route::get('/keranjang', [KeranjangController::class, 'keranjangview'])->name('keranjang.view');
     Route::post('/keranjang/increase', [KeranjangController::class, 'increaseQuantity'])->name('keranjang.increase');
     Route::post('/keranjang/decrease', [KeranjangController::class, 'decreaseQuantity'])->name('keranjang.decrease');
 
+    // Pembayaran
     Route::post('/pembayaran', [PembayaranController::class, 'index'])->name('pembayaran.index');
 
+    // History
     Route::get('/history', [HistoryController::class, 'history'])->name('history');
 
+    // Penyewaan
     Route::get('/penyewaan', [ViewController::class, 'penyewaan'])->name('penyewaan');
     Route::post('/penyewaan/store', [PenyewaanController::class, 'store'])->name('penyewaan.store');
     
+    // Lain-lain
     Route::get('/menu', [ViewController::class, 'menuview'])->name('menu');
     Route::get('/settingmenu', [ViewController::class, 'settingmenuview'])->name('settingmenu');
     Route::get('/blog', [ViewController::class, 'blogview'])->name('blog');
@@ -55,6 +70,4 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/userprofil', [ViewController::class, 'userprofil'])->name('userprofil');
     Route::put('/editprofil', [ViewController::class, 'editprofil'])->name('editprofil');
     
-
     Route::get('/test', [ViewController::class, 'test'])->name('test');
-});
