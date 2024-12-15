@@ -18,22 +18,30 @@
             display: none;
         }
     </style>
+
+    </style>
 </head>
 
 <body id="body" class="relative">
+    <!-- Background Blur -->
+    <div class="absolute inset-0 -z-10"
+        style="background-image: url('{{ asset('src/assets/images/bgwebsite.jpeg') }}'); 
+               background-size: cover; 
+               background-position: center; 
+               filter: blur(10px); 
+               opacity: 0.9;">
+    </div>
     @include('pages.layout.nav');
     <div class="fixed top-4 right-4 bg-green-500 text-white p-4 rounded-lg shadow-lg">
         {{ session('notif') }}
     </div>
-
-
-    <!-- Jika ada error -->
     @if (session('error'))
         <div class="alert alert-danger">
             {{ session('error') }}
         </div>
     @endif
-    <div class="text-white flex justify-between sm:px-[4.271vw] px-[8.372vw] pt-[2.604vw]">
+    <div class="text-white flex justify-between sm:px-[4.271vw] px-[8.372vw] pt-[2.604vw] relative">
+
         <div class="w-[23.031vw] overflow-y-auto max-h-[100vh] scrollbar-hide sticky top-[0.833vw] sm:inline hidden">
             <div class="space-y-[1.198vw]">
                 <div data-aos="fade-right" data-aos-duration="500" data-aos-delay="100" class="space-y-[0.729vw]">

@@ -58,7 +58,26 @@ class BarangController extends Controller
 
         return response()->json($barang); // Kirim data barang dalam format JSON
     }
+    public function index()
+    {
+        try {
+            // Query raw SQL untuk mengambil kategori
+            $categories = DB::select('SELECT id_kategori, nama_kategori, deskripsi FROM kategori_barangs');
 
+            // Mengembalikan response dalam format JSON
+            return response()->json([
+                'categories' => $categories,
+            ]);
+        } catch (\Exception $e) {
+            // Jika terjadi error, kirimkan error message
+            return response()->json(
+                [
+                    'error' => 'Terjadi kesalahan: ' . $e->getMessage(),
+                ],
+                500,
+            );
+        }
+    }
     public function store(Request $request)
     {
         // Validasi file yang di-upload

@@ -39,6 +39,15 @@
 </head>
 
 <body id="body" class="relative">
+    <!-- Background Blur -->
+    <div class="absolute inset-0 -z-10"
+        style="background-image: url('{{ asset('src/assets/images/bgwebsite.jpeg') }}'); 
+               background-size: cover; 
+               background-position: center; 
+               filter: blur(10px); 
+               opacity: 0.9;
+               pointer-events: none;">
+    </div>
     @include('pages.layout.nav');
     @if (session('notif'))
         <div class="alert alert-success">
@@ -52,11 +61,11 @@
             {{ session('error') }}
         </div>
     @endif
-    <div class="container mx-auto p-4">
+    <div class="container mx-auto p-4 relative z-20">
         <!-- Tabs -->
         <div class="flex border-b border-gray-500">
             <button onclick="showTab('booked')" id="tab-booked"
-                class="flex-1 py-2 px-4 bg-gradient-to-r from-gray-700 to-gray-500 text-white text-center">
+                class="flex-1 py-2 px-4 text-gray-400 text-center hover:text-white hover:bg-gray-500 cursor-pointer">
                 Sudah Dibooking
             </button>
             <button onclick="showTab('rented')" id="tab-rented"
@@ -73,7 +82,7 @@
         <div class="mt-4">
             <!-- Sudah Dibooking -->
             <div id="content-booked" class="grid sm:grid-cols-2 grid-cols-1 gap-6">
-                @foreach ($barangBooked as $item)
+                @forelse ($barangBooked as $item)
                     <div class="bg-white shadow-md rounded-lg overflow-hidden">
                         <a href="{{ route('detailbarang', ['id' => $item->id_barang]) }}">
                             <img src="{{ asset('storage/' . $item->link_foto) }}" alt="Barang Image"
@@ -85,12 +94,15 @@
                             <p class="text-gray-500 text-sm">Tanggal Booking: {{ $item->tanggal_booking }}</p>
                         </div>
                     </div>
-                @endforeach
+                @empty
+                    <div class="col-span-full text-center py-10 text-white">
+                        Kamu tidak mempunyai barang yang dibooking.
+                    </div>
+                @endforelse
             </div>
 
-            <!-- Sedang Disewa -->
             <div id="content-rented" class="hidden grid sm:grid-cols-2 grid-cols-1 gap-6">
-                @foreach ($barangRented as $item)
+                @forelse ($barangRented as $item)
                     <div class="bg-white shadow-md rounded-lg overflow-hidden">
                         <a href="{{ route('detailbarang', ['id' => $item->id_barang]) }}">
                             <img src="{{ asset('storage/' . $item->link_foto) }}" alt="Barang Image"
@@ -103,12 +115,15 @@
                             <p class="text-gray-500 text-sm">Tanggal Kembali: {{ $item->tanggal_kembali }}</p>
                         </div>
                     </div>
-                @endforeach
+                @empty
+                    <div class="col-span-full text-center py-10 text-white">
+                        Kamu tidak mempunyai barang yang sedang disewa.
+                    </div>
+                @endforelse
             </div>
 
-            <!-- History Penyewaan -->
             <div id="content-history" class="hidden grid sm:grid-cols-2 grid-cols-1 gap-6">
-                @foreach ($barangHistory as $item)
+                @forelse ($barangHistory as $item)
                     <div class="bg-white shadow-md rounded-lg overflow-hidden">
                         <a href="{{ route('detailbarang', ['id' => $item->id_barang]) }}">
                             <img src="{{ asset('storage/' . $item->link_foto) }}" alt="Barang Image"
@@ -121,8 +136,13 @@
                             <p class="text-gray-500 text-sm">Tanggal Kembali: {{ $item->tanggal_kembali }}</p>
                         </div>
                     </div>
-                @endforeach
+                @empty
+                    <div class="col-span-full text-center py-10 text-white">
+                        Kamu tidak mempunyai sejarah penyewaan barang.
+                    </div>
+                @endforelse
             </div>
+
         </div>
     </div>
 
