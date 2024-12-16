@@ -30,45 +30,19 @@ class ViewController extends Controller
             b.status,
             b.id_kategori,
             k.nama_kategori
-        FROM barangs b
-        JOIN kategori_barangs k ON b.id_kategori = k.id_kategori');
+            FROM barangs b
+            JOIN kategori_barangs k
+            ON b.id_kategori = k.id_kategori
+        ');
 
         return view('pages.auth.home', compact('barang', 'kategori'));
     }
-
-    public function locationview()
+    public function locationview(): view
     {
-        return view('pages.auth.location');
+        $stores = DB::select('SELECT * FROM stores');
+        return view('pages.auth.location', compact('stores'));
     }
-
-    public function penyewaan()
-    {
-        $userId = auth()->id();
-        $keranjangs = DB::select('SELECT
-            k.id_keranjang,
-            b.id_barang,
-            b.nama_barang,
-            b.link_foto,
-            b.deskripsi,
-            b.harga_sewa,
-            b.status,
-            kb.id_kategori,
-            kb.nama_kategori,
-            k.jumlah_barang
-        FROM keranjangs k
-        JOIN barangs b ON k.id_barang = b.id_barang
-        JOIN kategori_barangs kb ON b.id_kategori = kb.id_kategori
-        WHERE k.id_user = ?', [$userId]);
-
-        return view('pages.auth.penyewaan', compact('keranjangs'));
-    }
-
-    public function blogview()
-    {
-        return view('pages.auth.blog');
-    }
-
-    public function dashboard()
+    public function penyewaan(): View
     {
         return view('pages.auth.dashboard');
     }
@@ -83,12 +57,19 @@ class ViewController extends Controller
             b.deskripsi,
             b.harga_sewa,
             b.status,
-            b.id_kategori,
-            k.nama_kategori
-        FROM barangs b
-        JOIN kategori_barangs k ON b.id_kategori = k.id_kategori');
+            kb.id_kategori,
+            kb.nama_kategori,
+            k.jumlah_barang
+            FROM keranjangs k
+            JOIN barangs b ON k.id_barang = b.id_barang
+            JOIN kategori_barangs kb ON b.id_kategori = kb.id_kategori
+            JOIN users u on u.id_user = k.id_user
+            WHERE k.id_user = ?
+        ',
+            [$userId],
+        );
 
-        return view('pages.auth.barang', compact('kategori', 'barang'));
+        return view('pages.auth.penyewaan', compact('keranjangs'));
     }
 
     public function userprofil()
@@ -131,8 +112,32 @@ class ViewController extends Controller
         return view('pages.auth.stock', compact('stocks'));
     }
 
-    // Menyimpan data stok baru
-    public function store(Request $request)
+    public function sempak(): view
+    {
+        return view('pages.auth.sempak');
+    }
+    public function stockview(): view
+    {
+        $categories = DB::select('SELECT * FROM kategori_barangs');
+        $barang = DB::select('SELECT
+            b.id_barang,
+            b.nama_barang,
+            b.link_foto,
+            b.deskripsi,
+            b.harga_sewa,
+            b.status,
+            b.id_kategori,
+            k.nama_kategori,
+            sb.jumlah_stok
+        FROM barangs b
+        JOIN kategori_barangs k ON b.id_kategori = k.id_kategori
+        LEFT JOIN stok_barangs sb ON b.id_barang = sb.id_barang
+    ');
+        return view('pages.auth.stock', compact('barang','categories'));
+    }
+
+    public function barangview(): view
+
     {
         $request->validate([
             'jumlah_stok' => 'required|integer',
@@ -147,29 +152,26 @@ class ViewController extends Controller
         return redirect()->back()->with('success', 'Stok berhasil ditambahkan!');
     }
 
-    // Mengupdate data stok
-    public function update(Request $request, $id)
+
+    public function userprofil()
     {
-        $request->validate([
-            'jumlah_stok' => 'required|integer',
-            'id_barang' => 'required|integer',
-        ]);
-
-        $stok = StokBarang::findOrFail($id);
-        $stok->update([
-            'jumlah_stok' => $request->jumlah_stok,
-            'id_barang' => $request->id_barang,
-        ]);
-
-        return redirect()->back()->with('success', 'Stok berhasil diperbarui!');
+        $user = Auth::user(); // Mengambil data pengguna yang sedang login
+        return view('pages.auth.userprofil', compact('user')); // Menampilkan profil pengguna
     }
 
-    // Menghapus data stok
-    public function destroy($id)
+    // Memproses pembaruan data profil
+    public function editprofil(Request $request)
     {
-        $stok = StokBarang::findOrFail($id);
-        $stok->delete();
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . Auth::id(),
+        ]);
 
-        return redirect()->back()->with('success', 'Stok berhasil dihapus!');
+        $user = Auth::user(); // Mendapatkan data pengguna yang sedang login
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+        $user->save(); // Simpan perubahan ke database
+
+        return redirect()->route('editprofil')->with('success', 'Profil berhasil diperbarui!');
     }
 }
