@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
 
 class ViewController extends Controller
@@ -105,12 +106,7 @@ class ViewController extends Controller
         return redirect()->route('userprofil')->with('success', 'Profil berhasil diperbarui!');
     }
 
-    // Menampilkan semua data stok
-    public function stockview()
-    {
-        $stocks = DB::table('stok_barangs')->get();
-        return view('pages.auth.stock', compact('stocks'));
-    }
+    // Menampilkan semua data sto
 
     public function sempak(): view
     {
@@ -136,42 +132,4 @@ class ViewController extends Controller
         return view('pages.auth.stock', compact('barang','categories'));
     }
 
-    public function barangview(): view
-
-    {
-        $request->validate([
-            'jumlah_stok' => 'required|integer',
-            'id_barang' => 'required|integer',
-        ]);
-
-        StokBarang::create([
-            'jumlah_stok' => $request->jumlah_stok,
-            'id_barang' => $request->id_barang,
-        ]);
-
-        return redirect()->back()->with('success', 'Stok berhasil ditambahkan!');
-    }
-
-
-    public function userprofil()
-    {
-        $user = Auth::user(); // Mengambil data pengguna yang sedang login
-        return view('pages.auth.userprofil', compact('user')); // Menampilkan profil pengguna
-    }
-
-    // Memproses pembaruan data profil
-    public function editprofil(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . Auth::id(),
-        ]);
-
-        $user = Auth::user(); // Mendapatkan data pengguna yang sedang login
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-        $user->save(); // Simpan perubahan ke database
-
-        return redirect()->route('editprofil')->with('success', 'Profil berhasil diperbarui!');
-    }
 }

@@ -68,3 +68,4 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/userprofil', [ViewController::class, 'userprofil'])->name('userprofil');
     Route::put('/editprofil', [ViewController::class, 'editprofil'])->name('editprofil');
     Route::get('/test', [ViewController::class, 'test'])->name('test');
+});
