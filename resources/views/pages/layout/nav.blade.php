@@ -166,6 +166,7 @@
                         </li>
                         <li class="px-4 py-2 hover:bg-gray-700"><a href="{{ route('settingmenu') }}">Setting Menu
                                 Management</a></li>
+                        <li class="px-4 py-2 hover:bg-gray-700"><a href="{{ route('addblog') }}">Blogs Management</a></li>
                     </ul>
                 </li>
 

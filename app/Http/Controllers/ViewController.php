@@ -91,85 +91,53 @@ class ViewController extends Controller
         return view('pages.auth.barang', compact('kategori', 'barang'));
     }
 
-    public function userprofil()
-    {
-        $user = Auth::user();
-        return view('pages.auth.userprofil', compact('user'));
-    }
 
-    public function editprofil(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . Auth::user()->id_user . ',id_user',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-        ]);
-
-        $user = Auth::user();
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-
-        if ($request->hasFile('photo')) {
-            if ($user->photo && \Storage::exists('public/' . $user->photo)) {
-                \Storage::delete('public/' . $user->photo);
-            }
-
-            $photo = $request->file('photo');
-            $photoPath = $photo->store('profile_photos', 'public');
-            $user->photo = $photoPath;
+        public function userprofil()
+        {
+            // Ambil data pengguna yang sedang login
+            $user = Auth::user();
+    
+            // Pastikan data dikirim ke view
+            return view('pages.auth.userprofil', compact('user'));
         }
-
-        $user->save();
-
-        return redirect()->route('userprofil')->with('success', 'Profil berhasil diperbarui!');
-    }
-
-    // Menampilkan semua data stok
-    public function stockview()
-    {
-        $stocks = DB::table('stok_barangs')->get();
-        return view('pages.auth.stock', compact('stocks'));
-    }
-
-    // Menyimpan data stok baru
-    public function store(Request $request)
-    {
-        $request->validate([
-            'jumlah_stok' => 'required|integer',
-            'id_barang' => 'required|integer',
-        ]);
-
-        StokBarang::create([
-            'jumlah_stok' => $request->jumlah_stok,
-            'id_barang' => $request->id_barang,
-        ]);
-
-        return redirect()->back()->with('success', 'Stok berhasil ditambahkan!');
-    }
-
-    // Mengupdate data stok
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'jumlah_stok' => 'required|integer',
-            'id_barang' => 'required|integer',
-        ]);
-
-        $stok = StokBarang::findOrFail($id);
-        $stok->update([
-            'jumlah_stok' => $request->jumlah_stok,
-            'id_barang' => $request->id_barang,
-        ]);
-
-        return redirect()->back()->with('success', 'Stok berhasil diperbarui!');
-    }
-
-    // Menghapus data stok
-    public function destroy($id)
-    {
-        $stok = StokBarang::findOrFail($id);
-        $stok->delete();
-
-        return redirect()->back()->with('success', 'Stok berhasil dihapus!');
-    }
+    
+        public function updateprofil(Request $request)
+        {
+            // Validasi input
+            $request->validate([
+                'first_name' => 'required|string|max:255',
+                'last_name' => 'required|string|max:255',
+                'email' => 'required|email|unique:users,email,' . Auth::id(),
+                'phone' => 'nullable|string|max:15',
+                'street' => 'nullable|string|max:255',
+                'city' => 'nullable|string|max:255',
+                'state' => 'nullable|string|max:255',
+                'zip_code' => 'nullable|string|max:10',
+                'photo' => 'nullable|image|max:2048',
+            ]);
+    
+            // Ambil data user yang sedang login
+            $user = Auth::user();
+    
+            // Update data user
+            $user->update([
+                'first_name' => $request->first_name,
+                'last_name' => $request->last_name,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'street' => $request->street,
+                'city' => $request->city,
+                'state' => $request->state,
+                'zip_code' => $request->zip_code,
+            ]);
+    
+            // Update foto jika diunggah
+            if ($request->hasFile('photo')) {
+                $path = $request->file('photo')->store('profile_photos', 'public');
+                $user->update(['photo' => $path]);
+            }
+    
+            return redirect()->back()->with('success', 'Profil berhasil diperbarui!');
+        }
 }
+

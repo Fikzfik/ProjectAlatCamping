@@ -7,6 +7,7 @@ use App\Http\Controllers\KeranjangController;
 use App\Http\Controllers\PenyewaanController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\HistoryController;
+use App\Http\Controllers\BlogController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'guest'], function () {
@@ -39,7 +40,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/detailbarang/{id}', [BarangController::class, 'show'])->name('detailbarang');
 
     // Kategori
-    Route::get('/kategori', [ViewController::class, 'kategoriview'])->name('kategori');
+    Route::get('/kategori', [KategoriController::class, 'kategoriview'])->name('kategori');
     Route::post('kategori/store', [KategoriController::class, 'store'])->name('kategori.store');
     Route::post('kategori/update/{id}', [KategoriController::class, 'update'])->name('kategori.update');
     Route::get('kategori/{id}', [KategoriController::class, 'updateModal'])->name('kategori.showmodal');
@@ -70,4 +71,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/userprofil', [ViewController::class, 'userprofil'])->name('userprofil');
     Route::put('/editprofil', [ViewController::class, 'editprofil'])->name('editprofil');
     
+    // Blog
+    Route::get('/addblog', [BlogController::class, 'addblogview'])->name('addblog');
+    Route::post('addblog/store', [BlogController::class, 'store'])->name('blog.store');
+    Route::put('/add/blog/update/{id}', [BlogController::class, 'update'])->name('blog.update');
+    Route::get('addblog/{id}', [BlogController::class, 'updateModal'])->name('blog.showmodal');
+    Route::delete('addblog/destroy/{id}', [BlogController::class, 'destroy'])->name('blog.destroy');
+
     Route::get('/test', [ViewController::class, 'test'])->name('test');
