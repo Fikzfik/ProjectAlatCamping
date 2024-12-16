@@ -12,14 +12,14 @@ use Illuminate\Support\Facades\Route;
 Route::group(['middleware' => 'guest'], function () {
     Route::get('/login', [ViewController::class, 'loginview'])->name('login');
     Route::post('/login', [AuthController::class, 'login'])->name('login.post');
-    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-    Route::get('/register', [ViewController::class, 'registerview'])->name('register');
+    Route::get('/register', [AuthController::class, 'registerview'])->name('register');
     Route::post('/register', [AuthController::class, 'register'])->name('register.post');
-
+    
     Route::get('/dashboard', [ViewController::class, 'dashboard'])->name('dashboard');
 });
 
 Route::group(['middleware' => 'auth'], function () {
+    Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/stock', [ViewController::class, 'stockview'])->name('stock');
     Route::get('/sempak', [ViewController::class, 'sempak'])->name('sempak');
 
@@ -67,5 +67,4 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/location', [ViewController::class, 'locationview'])->name('location');
     Route::get('/userprofil', [ViewController::class, 'userprofil'])->name('userprofil');
     Route::put('/editprofil', [ViewController::class, 'editprofil'])->name('editprofil');
-    
     Route::get('/test', [ViewController::class, 'test'])->name('test');
