@@ -3,21 +3,23 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\View\View;
 use Illuminate\Support\Facades\DB;
+use Illuminate\View\View;
 use Illuminate\Support\Facades\Auth;
 
 class ViewController extends Controller
 {
-    public function loginview(): view
+    public function loginview()
     {
         return view('pages.login');
     }
-    public function registerview(): view
+
+    public function registerview()
     {
         return view('pages.register');
     }
-    public function homeview(): view
+
+    public function homeview()
     {
         $kategori = DB::select('SELECT * FROM kategori_barangs');
         $barang = DB::select('SELECT
@@ -43,11 +45,13 @@ class ViewController extends Controller
     }
     public function penyewaan(): View
     {
-        $userId = auth()->id(); // Mendapatkan ID pengguna yang sedang login
+        return view('pages.auth.dashboard');
+    }
 
-        $keranjangs = DB::select(
-            'SELECT
-            k.id_keranjang,
+    public function barangview()
+    {
+        $kategori = DB::select('SELECT * FROM kategori_barangs');
+        $barang = DB::select('SELECT
             b.id_barang,
             b.nama_barang,
             b.link_foto,
@@ -69,18 +73,41 @@ class ViewController extends Controller
         return view('pages.auth.penyewaan', compact('keranjangs'));
     }
 
-    public function blogview(): view
+    public function userprofil()
     {
-        return view('pages.auth.blog');
+        $user = Auth::user();
+        return view('pages.auth.userprofil', compact('user'));
     }
-    public function dashboard(): view
+
+    public function editprofil(Request $request)
     {
-        return view('pages.auth.dashboard');
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . Auth::user()->id_user . ',id_user',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+        ]);
+
+        $user = Auth::user();
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');
+
+        if ($request->hasFile('photo')) {
+            if ($user->photo && \Storage::exists('public/' . $user->photo)) {
+                \Storage::delete('public/' . $user->photo);
+            }
+
+            $photo = $request->file('photo');
+            $photoPath = $photo->store('profile_photos', 'public');
+            $user->photo = $photoPath;
+        }
+
+        $user->save();
+
+        return redirect()->route('userprofil')->with('success', 'Profil berhasil diperbarui!');
     }
-    public function test(): view
-    {
-        return view('pages.auth.test');
-    }
+
+    // Menampilkan semua data sto
+
     public function sempak(): view
     {
         return view('pages.auth.sempak');
@@ -105,45 +132,4 @@ class ViewController extends Controller
         return view('pages.auth.stock', compact('barang','categories'));
     }
 
-    public function barangview(): view
-    {
-        $kategori = DB::select('SELECT * FROM kategori_barangs');
-        $barang = DB::select('SELECT
-        b.id_barang,
-        b.nama_barang,
-        b.link_foto,
-        b.deskripsi,
-        b.harga_sewa,
-        b.status,
-        b.id_kategori,
-        k.nama_kategori
-    FROM barangs b
-    JOIN kategori_barangs k
-    ON b.id_kategori = k.id_kategori
-');
-
-        return view('pages.auth.barang', compact('kategori', 'barang'));
-    }
-
-    public function userprofil()
-    {
-        $user = Auth::user(); // Mengambil data pengguna yang sedang login
-        return view('pages.auth.userprofil', compact('user')); // Menampilkan profil pengguna
-    }
-
-    // Memproses pembaruan data profil
-    public function editprofil(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . Auth::id(),
-        ]);
-
-        $user = Auth::user(); // Mendapatkan data pengguna yang sedang login
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-        $user->save(); // Simpan perubahan ke database
-
-        return redirect()->route('editprofil')->with('success', 'Profil berhasil diperbarui!');
-    }
 }

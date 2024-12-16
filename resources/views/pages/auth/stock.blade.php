@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -55,7 +56,7 @@
         <button class="bg-green-500 text-white px-4 py-2 rounded mb-6" onclick="openCategoryModal()">Add New
             Category</button>
         <button class="bg-yellow-500 text-white px-4 py-2 rounded mb-6" onclick="openViewCategoryModal()">View
-            Categories</button>
+            Categorie</button>
         <!-- Grid Item -->
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             @foreach ($barang as $item)
