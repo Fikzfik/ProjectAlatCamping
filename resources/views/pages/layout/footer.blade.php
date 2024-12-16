@@ -4,7 +4,7 @@
         <div class="sm:mt-0 mt-[6.512vw]">
             <ul data-aos="fade-up" data-aos-duration="500" data-aos-delay="400" class="space-y-[0.521vw]">
                 <li class="sm:text-[1.042vw] text-[3.686vw] sm:leading-[2.188vw] leading-[9.628vw] font-semibold">
-                    Treadwear</li>
+                    CampRover</li>
                 <li
                     class="sm:text-[1.042vw] text-[3.686vw] sm:leading-[2.188vw] leading-[9.628vw] sm:font-normal font-light">
                     <a href="location.html">Location</a></li>

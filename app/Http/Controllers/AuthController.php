@@ -10,6 +10,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -23,22 +24,45 @@ class AuthController extends Controller
     }
     public function register(Request $request)
     {
+        // Log semua request input
+        Log::info('Register Request:', $request->all());
+
+        // Validasi input request
         $request->validate([
-            'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|confirmed|min:6',
         ]);
-        @dd();
+
+        // Insert data user ke database
         DB::insert('insert into users (name, email, password, email_verified_at, id_role) values (?, ?, ?, ?, ?)', [
-            $request->name,
+            'user', // Default name
             $request->email,
             Hash::make($request->password), // Enkripsi password
             null, // email_verified_at bisa null
-            $request->id_role, // pastikan id_role tidak null
+            2, // Default id_role
         ]);
 
-        Auth::login($user);
+        // Ambil data user yang baru saja dibuat
+        $user = DB::table('users')
+            ->where('email', $request->email)
+            ->first();
 
+        // Log user registration success
+        Log::info('User registered successfully:', [
+            'name' => $user->name,
+            'email' => $user->email,
+            'id_role' => $user->id_role,
+        ]);
+
+        // Login user yang baru saja dibuat
+        Auth::loginUsingId($user->id_user);
+
+        // Log user login success
+        Log::info('User logged in successfully:', [
+            'email' => $user->email,
+        ]);
+
+        // Redirect ke halaman home
         return redirect()->intended('home');
     }
 
@@ -72,10 +96,19 @@ class AuthController extends Controller
 
     public function logout(Request $request)
     {
+        // Logging untuk debug request
+        Log::info('Logout request:', $request->all());
+
+        // Melakukan logout user
         Auth::logout();
+
+        // Menghapus semua session data
         $request->session()->invalidate();
+
+        // Regenerasi token CSRF untuk keamanan
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        // Redirect ke halaman login
+        return redirect('/login');
     }
 }
