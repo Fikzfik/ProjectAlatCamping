@@ -1,0 +1,62 @@
+[33mea3e41a[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mfikri[m[33m, [m[1;31mProjectUas/main[m[33m)[m Merge pull request #15 from Fikzfik/fikri
+[33m6ff472d[m[33m ([m[1;31mProjectUas/fikri[m[33m)[m Merge branch 'main' into fikri
+[33m14ec5e7[m Merge pull request #14 from Fikzfik/alpin
+[33m4bf7c40[m[33m ([m[1;31mProjectUas/alpin[m[33m)[m Merge branch 'main' into alpin
+[33m5907a5d[m benerin auth register dan logout
+[33m154c495[m Merge pull request #13 from Fikzfik/fikri
+[33mf36ab66[m menambahkan crud manajemen stock tetapi belom bisa menyimpan di database
+[33md0ceaec[m Memperbaiki stock sudah bisa
+[33md93e20d[m Memperbaiki wallpaper
+[33m8874e4d[m Memperbaiki banyak
+[33m350b3b4[m sudah bisa mengedit profil
+[33madbc060[m Merge pull request #12 from Fikzfik/alpin
+[33m7caed28[m Merge pull request #11 from Fikzfik/fikri
+[33m2f97c00[m di home page sudah ada bisa filter
+[33medbdf86[m Menambahkan page user profil
+[33m629b1f3[m Merge pull request #10 from Fikzfik/alpin
+[33m3fff7e0[m Edit profil fik
+[33m49ddac8[m Menambahkan route userprofil
+[33m5870f1b[m Merge pull request #9 from Fikzfik/fikri
+[33mbeb3b1c[m historynya sudah jadi
+[33m447c17d[m Merge pull request #8 from Fikzfik/fikri
+[33m24a0464[m sak sritan
+[33m784b5dc[m Merge pull request #7 from Fikzfik/fikri
+[33m7b368cb[m nambah history dikit
+[33mb9bae8e[m sudah bisa pembayaran dan bisa memasukkan ke database
+[33m87da5ff[m tinggal memodifikasi controller sudah paymentnya
+[33m0ba1227[m pembayaran memakai snap/pop up
+[33m1380784[m setelah melakukan pembayaran kesimpan kedatabase melalui webhook
+[33m2cd8dfe[m Pembayaran sudah bisa tinggal webhook nya saja
+[33mb1aa5c1[m Method pembayaran function sudah, tinggal ke halaman selanjutnya
+[33m64ed904[m view keranjang hampir jadi tinggal payment
+[33md34cc0c[m view keranjang uda bagus
+[33m97ab264[m keranjang bisa nambah dan kurang
+[33m289f2e2[m Merge pull request #6 from Fikzfik/fikri
+[33me723415[m memperbagus kerenjang
+[33meb421b2[m keranjangnya sudah bener
+[33m36cf780[m keranjang ada modalnya
+[33mfde07f2[m Bisa menambah keranjang
+[33m8957467[m Bisa memunculkan gambar didetail
+[33m31a96a8[m Merge pull request #5 from Fikzfik/fikri
+[33mdc006ad[m Menampilkan barang dihome
+[33m6c55c7f[m Barang bisa cud dan kategori bisa juga
+[33md762378[m CUD Barang sudah bisa
+[33mafe9896[m Merge pull request #4 from Fikzfik/fikri
+[33m9c6fcb4[m Bisa memunculkan foto barang dan create barang
+[33m6f932c4[m Menu barang sudah ada table
+[33m021833e[m penambahan menu admin
+[33m4e0e92a[m Pengubahan Route 1
+[33mc24c341[m Pengubahan Route
+[33me7c3c44[m[33m ([m[1;32mmain[m[33m)[m Merge pull request #3 from Fikzfik/fikri
+[33m85032d2[m Last day 2
+[33me7cdaa0[m Bisa Login Dengan Seeder
+[33m891d1d7[m Test
+[33m7576242[m Merge pull request #2 from Fikzfik/fikri
+[33m8eea98e[m Test karena Error tadi
+[33m526e16e[m Login dan Midlleware
+[33me6f031f[m Penambahan Pages baru dan route
+[33mf83069b[m Penambahan Page Home
+[33m5ae0e89[m Merge pull request #1 from Fikzfik/Main
+[33m4fb7285[m Pembuatan Database Dengan Migration
+[33m13d23b1[m[33m ([m[1;32malpin[m[33m)[m IKI mari TITIK
+[33m54be4d4[m Masih Awal
