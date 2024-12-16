@@ -23,15 +23,14 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/stock', [ViewController::class, 'stockview'])->name('stock');
     Route::get('/sempak', [ViewController::class, 'sempak'])->name('sempak');
 
-
-
     // Barang
     Route::get('/barang', [ViewController::class, 'barangview'])->name('barang');
     Route::post('barang/store', [BarangController::class, 'store'])->name('barang.store');
     Route::put('/barang/update/{id}', [BarangController::class, 'update'])->name('barang.update');
-    Route::get('barang/{id}', [BarangController::class, 'updateModal'])->name('barang.showmodal');
     Route::delete('barang/destroy/{id}', [BarangController::class, 'destroy'])->name('barang.destroy');
+    Route::get('barang/{id}', [BarangController::class, 'updateModal'])->name('barang.showmodal');
     Route::get('/barang-by-kategori', [BarangController::class, 'getBarangByKategori'])->name('barang.by.kategori');
+    Route::put('/barang/{id}/update-stock', [BarangController::class, 'updateStock']);
 
     Route::get('/kategoris', [BarangController::class, 'index'])->name('kategori.index');
 

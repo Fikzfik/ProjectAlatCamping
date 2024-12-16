@@ -79,6 +79,11 @@ class ViewController extends Controller
         return view('pages.auth.userprofil', compact('user'));
     }
 
+    public function blogview()
+    {
+        $user = Auth::user();
+        return view('pages.auth.blog', compact('user'));
+    }
     public function editprofil(Request $request)
     {
         $request->validate([

@@ -5,9 +5,34 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class BarangController extends Controller
 {
+    public function updateStock(Request $request, $id)
+    {
+        // Validasi input
+        $validated = $request->validate([
+            'new_stock' => 'required|integer',
+        ]);
+
+        // Cari barang berdasarkan ID dengan raw SQL
+        $barang = DB::select('SELECT * FROM barangs WHERE id_barang = ?', [$id]);
+
+        if (empty($barang)) {
+            return response()->json(['message' => 'Barang tidak ditemukan.'], 404);
+        }
+
+        // Update stok barang menggunakan raw SQL
+        $stokUpdated = DB::update('UPDATE stok_barangs SET jumlah_stok = ? WHERE id_barang = ?', [$request->new_stock, $id]);
+
+        if ($stokUpdated) {
+            return response()->json(['message' => 'Stok berhasil diperbarui.']);
+        }
+
+        return response()->json(['message' => 'Gagal memperbarui stok.'], 500);
+    }
+
     public function getAllBarang()
     {
         // Ambil semua barang
@@ -108,35 +133,51 @@ class BarangController extends Controller
 
     public function update(Request $request, $id)
     {
+        \Log::info('All Request Data', ['data' => $request->all()]);
+
+        // Ambil id_kategori berdasarkan nama_kategori
+        $data = DB::select('SELECT id_kategori FROM kategori_barangs WHERE nama_kategori = ?', [$request->id_kategori]);
+        \Log::info('id data', $data);
+
         try {
-            // Ambil data barang lama
             $barang = DB::table('barangs')->where('id_barang', $id)->first();
+            \Log::info('1');
+            $fileName = $barang->link_foto;
+            \Log::info('2');
 
-            // Cek jika ada file baru
-            $fileName = $barang->link_foto; // Ambil nama file foto lama
-
+            // Jika ada foto baru yang diupload, simpan foto tersebut
             if ($request->hasFile('link_foto')) {
                 $file = $request->file('link_foto');
-                // Menyimpan foto baru di folder 'barang_foto' dan memastikan file disimpan secara publik
                 $fileName = $file->storePublicly('barang_foto', 'public');
             }
 
+            // Konversi harga_sewa menjadi integer
+            $harga_sewa = intval($request->harga_sewa); // Pastikan ini angka integer
+            \Log::info('Harga sewa:', [$harga_sewa]);
+
             // Update data barang
             DB::table('barangs')
-                ->where('id_barang', $id)
+                ->where('id_barang', $id) // Gunakan ID barang yang benar, tanpa array
                 ->update([
-                    'nama_barang' => $request->nama_barang,
-                    'id_kategori' => $request->id_kategori,
-                    'harga_sewa' => $request->harga_sewa,
-                    'status' => $request->status,
-                    'deskripsi' => $request->deskripsi,
-                    'link_foto' => $fileName, // Tetap menggunakan foto lama jika tidak ada file baru
-                    'updated_at' => now(),
+                    'nama_barang' => $request->nama_barang, // Tidak perlu membungkus dalam array
+                    'id_kategori' => $data[0]->id_kategori, // ID kategori yang diambil dari query
+                    'harga_sewa' => $harga_sewa, // Pastikan harga_sewa adalah angka
+                    'status' => $request->status, // Status langsung dari request
+                    'deskripsi' => $request->deskripsi, // Deskripsi langsung dari request
+                    'link_foto' => $fileName, // Nama file foto
+                    'updated_at' => now(), // Timestamp update
                 ]);
 
+            \Log::info('berhasil');
             return response()->json(['message' => 'Barang berhasil diperbarui!'], 200);
         } catch (\Exception $e) {
-            // Tangkap error dan kirim response JSON
+            \Log::error('Error occurred during update:', [
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'stack' => $e->getTraceAsString(),
+            ]);
+
             return response()->json(
                 [
                     'message' => 'Terjadi kesalahan saat memperbarui barang.',
