@@ -20,6 +20,7 @@ return new class extends Migration {
             $table->timestamps();
             $table->unsignedBigInteger('id_role');
             $table->foreign('id_role')->references('id_role')->on('roles')->onDelete('cascade')->onUpdate('cascade');
+            $table->string('photo')->nullable();  // Menambahkan kolom photo, dengan nilai default null
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {

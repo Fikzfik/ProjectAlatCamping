@@ -3,6 +3,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class KategoriController extends Controller
 {
@@ -31,21 +32,33 @@ class KategoriController extends Controller
 
     public function update(Request $request, $id)
     {
+    
+        \Log::info('Request Data:', $request->all());
 
-        // Update kategori
-        $kategori = DB::table('kategori_barangs')
-            ->where('id_kategori', $id)
-            ->update([
-                'nama_kategori' => $request->nama_kategori,
-                'deskripsi' => $request->deskripsi,
-                'updated_at' => now(),
-            ]);
+        try {
+            DB::table('kategori_barangs')
+                ->where('id_kategori', $id)
+                ->update([
+                    'nama_kategori' => $request->input('nama_kategori'),
+                    'deskripsi' => $request->input('deskripsi'),
+                    'updated_at' => now(),
+                ]);
 
-        if ($kategori) {
-            return response()->json(['message' => 'Kategori berhasil diperbarui!']);
+            return response()->json(
+                [
+                    'message' => 'Kategori berhasil diperbarui!',
+                ],
+                200,
+            );
+        } catch (\Exception $e) {
+            return response()->json(
+                [
+                    'message' => 'Gagal memperbarui kategori.',
+                    'error' => $e->getMessage(),
+                ],
+                500,
+            );
         }
-
-        return response()->json(['message' => 'Gagal memperbarui kategori.'], 500);
     }
 
     public function updateModal($id)

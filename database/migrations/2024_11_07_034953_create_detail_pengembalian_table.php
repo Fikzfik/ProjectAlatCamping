@@ -13,12 +13,9 @@ return new class extends Migration {
         Schema::create('detail_pengembalians', function (Blueprint $table) {
             $table->id('id_detail_pengembalian');
             $table->string('kondisi_barang');
-            $table->decimal('biaya_kerusakan', 10, 2);
             $table->timestamps();
-            $table->unsignedBigInteger('id_pengembalian');
-            $table->foreign('id_pengembalian')->references('id_pengembalian')->on('pengembalians')->onDelete('cascade')->onUpdate('cascade');
-            $table->unsignedBigInteger('id_pembayaran');
-            $table->foreign('id_pembayaran')->references('id_pembayaran')->on('pembayarans')->onDelete('cascade')->onUpdate('cascade');
+            $table->unsignedBigInteger('id_detail_penyewaan');
+            $table->foreign('id_detail_penyewaan')->references('id_detail_penyewaan')->on('detail_penyewaans')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 
