@@ -23,7 +23,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/stock', [ViewController::class, 'stockview'])->name('stock');
     Route::get('/return', [ViewController::class, 'return'])->name('return');
+
     Route::post('/feedback/store', [FeedbackController::class, 'store'])->name('feedback.store');
+
 
     // Barang
     Route::get('/barang', [ViewController::class, 'barangview'])->name('barang');

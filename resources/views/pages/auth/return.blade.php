@@ -3,6 +3,7 @@
 
 <head>
     @include('pages.layout.head')
+
     <title>Feedback</title>
 </head>
 
@@ -72,4 +73,5 @@
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 @include('pages.layout.script')
 
+>>>>>>> baa2f508018711bd2cff07fefdf88b2aec9e44f6
 </html>
