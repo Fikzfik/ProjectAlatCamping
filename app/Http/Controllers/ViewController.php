@@ -51,7 +51,8 @@ class ViewController extends Controller
     public function barangview()
     {
         $kategori = DB::select('SELECT * FROM kategori_barangs');
-        $barang = DB::select('SELECT
+        $barang = DB::select(
+            'SELECT
             b.id_barang,
             b.nama_barang,
             b.link_foto,
@@ -79,6 +80,11 @@ class ViewController extends Controller
         return view('pages.auth.userprofil', compact('user'));
     }
 
+    public function blogview()
+    {
+        $user = Auth::user();
+        return view('pages.auth.blog', compact('user'));
+    }
     public function editprofil(Request $request)
     {
         $request->validate([
@@ -108,9 +114,24 @@ class ViewController extends Controller
 
     // Menampilkan semua data sto
 
-    public function sempak(): view
+    public function return(): view
     {
-        return view('pages.auth.sempak');
+        $barangs = DB::select('SELECT
+            b.id_barang,
+            b.nama_barang,
+            b.link_foto,
+            b.deskripsi,
+            b.harga_sewa,
+            b.status,
+            b.id_kategori,
+            k.nama_kategori,
+            sb.jumlah_stok
+        FROM barangs b
+        JOIN kategori_barangs k ON b.id_kategori = k.id_kategori
+        LEFT JOIN stok_barangs sb ON b.id_barang = sb.id_barang
+    ');
+
+        return view('pages.auth.return',compact('barangs'));
     }
     public function stockview(): view
     {
@@ -129,7 +150,6 @@ class ViewController extends Controller
         JOIN kategori_barangs k ON b.id_kategori = k.id_kategori
         LEFT JOIN stok_barangs sb ON b.id_barang = sb.id_barang
     ');
-        return view('pages.auth.stock', compact('barang','categories'));
+        return view('pages.auth.stock', compact('barang', 'categories'));
     }
-
 }
