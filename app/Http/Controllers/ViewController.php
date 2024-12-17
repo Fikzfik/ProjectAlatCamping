@@ -103,6 +103,11 @@ class ViewController extends Controller
         return view('pages.auth.userprofil', compact('user'));
     }
 
+    public function blogview()
+    {
+        $user = Auth::user();
+        return view('pages.auth.blog', compact('user'));
+    }
     public function editprofil(Request $request)
     {
         $request->validate([
@@ -134,7 +139,22 @@ class ViewController extends Controller
 
     public function return(): view
     {
-        return view('pages.auth.return');
+        $barangs = DB::select('SELECT
+            b.id_barang,
+            b.nama_barang,
+            b.link_foto,
+            b.deskripsi,
+            b.harga_sewa,
+            b.status,
+            b.id_kategori,
+            k.nama_kategori,
+            sb.jumlah_stok
+        FROM barangs b
+        JOIN kategori_barangs k ON b.id_kategori = k.id_kategori
+        LEFT JOIN stok_barangs sb ON b.id_barang = sb.id_barang
+    ');
+
+        return view('pages.auth.return', compact('barangs'));
     }
     public function stockview(): view
     {

@@ -7,6 +7,7 @@ use App\Http\Controllers\KeranjangController;
 use App\Http\Controllers\PenyewaanController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\HistoryController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'guest'], function () {
@@ -23,15 +24,17 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/stock', [ViewController::class, 'stockview'])->name('stock');
     Route::get('/return', [ViewController::class, 'return'])->name('return');
 
+    Route::post('/feedback/store', [FeedbackController::class, 'store'])->name('feedback.store');
 
 
     // Barang
     Route::get('/barang', [ViewController::class, 'barangview'])->name('barang');
     Route::post('barang/store', [BarangController::class, 'store'])->name('barang.store');
     Route::put('/barang/update/{id}', [BarangController::class, 'update'])->name('barang.update');
-    Route::get('barang/{id}', [BarangController::class, 'updateModal'])->name('barang.showmodal');
     Route::delete('barang/destroy/{id}', [BarangController::class, 'destroy'])->name('barang.destroy');
+    Route::get('barang/{id}', [BarangController::class, 'updateModal'])->name('barang.showmodal');
     Route::get('/barang-by-kategori', [BarangController::class, 'getBarangByKategori'])->name('barang.by.kategori');
+    Route::put('/barang/{id}/update-stock', [BarangController::class, 'updateStock']);
 
     Route::get('/kategoris', [BarangController::class, 'index'])->name('kategori.index');
 
@@ -66,6 +69,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', [ViewController::class, 'homeview'])->name('home');
     Route::get('/location', [ViewController::class, 'locationview'])->name('location');
     Route::get('/userprofil', [ViewController::class, 'userprofil'])->name('userprofil');
-    Route::put('/editprofil', [ViewController::class, 'editprofil'])->name('editprofil');
+    Route::put('/editprofil', [ProfileController::class, 'update'])->name('profile.update');
     Route::get('/test', [ViewController::class, 'test'])->name('test');
 });

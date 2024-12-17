@@ -144,7 +144,8 @@
                 <li data-aos="fade-right" data-aos-duration="500" data-aos-delay="500">
                     <a href="{{ route('history') }}">History</a>
                 </li>
-                @if(Auth::user()->id_role)
+                @if(Auth::user()->id_role == 1)
+
                 <!-- Admin Menu -->
                 <li class="relative group" data-aos="fade-right" data-aos-duration="500" data-aos-delay="600"
                     class="relative z-10">
@@ -161,9 +162,7 @@
                         class="hidden absolute left-0 bg-gray-800 text-white text-sm rounded shadow-lg mt-2 z-10">
                         <li class="px-4 py-2 hover:bg-gray-700"><a href="{{ route('stock') }}">Stock Management</a>
                         </li>
-                        <li class="px-4 py-2 hover:bg-gray-700"><a href="{{ route('') }}">Stock Management</a>
-                        </li>
-                       
+
                     </ul>
                 </li>
                 @endif
