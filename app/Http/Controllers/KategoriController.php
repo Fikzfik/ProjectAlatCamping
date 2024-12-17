@@ -7,6 +7,13 @@ use Illuminate\Support\Facades\Log;
 
 class KategoriController extends Controller
 {
+    public function kategoriview()
+{
+    // Ambil data kategori dari database
+    $kategori = DB::table('kategori_barangs');
+    return view('pages.auth.kategori', compact('kategori'));
+}
+
     public function store(Request $request)
     {
         $kategori = DB::table('kategori_barangs')->insert([

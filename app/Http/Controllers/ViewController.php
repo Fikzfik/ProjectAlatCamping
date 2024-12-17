@@ -176,3 +176,4 @@ class ViewController extends Controller
         return view('pages.auth.stock', compact('barang', 'categories'));
     }
 }
+

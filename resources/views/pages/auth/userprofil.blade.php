@@ -32,6 +32,7 @@
                 </div>
             </div>
 
+
             <!-- Bagian Edit Profil -->
             <div id="edit-profile-section" class="px-6 py-4">
                 <h2 class="text-xl font-semibold mb-4">Edit Profil</h2>
@@ -69,6 +70,7 @@
                 </form>
             </div>
         </div>
+
     </div>
 
     @include('pages.layout.footer')
