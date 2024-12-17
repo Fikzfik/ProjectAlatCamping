@@ -7,6 +7,7 @@ use App\Http\Controllers\KeranjangController;
 use App\Http\Controllers\PenyewaanController;
 use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\HistoryController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'guest'], function () {
@@ -21,7 +22,8 @@ Route::group(['middleware' => 'guest'], function () {
 Route::group(['middleware' => 'auth'], function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/stock', [ViewController::class, 'stockview'])->name('stock');
-    Route::get('/sempak', [ViewController::class, 'sempak'])->name('sempak');
+    Route::get('/return', [ViewController::class, 'return'])->name('return');
+    Route::post('/feedback/store', [FeedbackController::class, 'store'])->name('feedback.store');
 
     // Barang
     Route::get('/barang', [ViewController::class, 'barangview'])->name('barang');
@@ -65,6 +67,6 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/home', [ViewController::class, 'homeview'])->name('home');
     Route::get('/location', [ViewController::class, 'locationview'])->name('location');
     Route::get('/userprofil', [ViewController::class, 'userprofil'])->name('userprofil');
-    Route::put('/editprofil', [ViewController::class, 'editprofil'])->name('editprofil');
+    Route::put('/editprofil', [ProfileController::class, 'update'])->name('profile.update');
     Route::get('/test', [ViewController::class, 'test'])->name('test');
 });
