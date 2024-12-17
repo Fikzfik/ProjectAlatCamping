@@ -21,7 +21,7 @@ Route::group(['middleware' => 'guest'], function () {
 Route::group(['middleware' => 'auth'], function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/stock', [ViewController::class, 'stockview'])->name('stock');
-    Route::get('/sempak', [ViewController::class, 'sempak'])->name('sempak');
+    Route::get('/return', [ViewController::class, 'return'])->name('return');
 
 
 

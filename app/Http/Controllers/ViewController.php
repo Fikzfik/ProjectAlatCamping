@@ -132,9 +132,9 @@ class ViewController extends Controller
 
     // Menampilkan semua data sto
 
-    public function sempak(): view
+    public function return(): view
     {
-        return view('pages.auth.sempak');
+        return view('pages.auth.return');
     }
     public function stockview(): view
     {

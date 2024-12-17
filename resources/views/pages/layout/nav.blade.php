@@ -141,8 +141,10 @@
                 <li data-aos="fade-right" data-aos-duration="500" data-aos-delay="500">
                     <a href="{{ route('location') }}">Store Location</a>
                 </li>
-
-                <!-- Admin Menu -->
+                <li data-aos="fade-right" data-aos-duration="500" data-aos-delay="500">
+                    <a href="{{ route('history') }}">History</a>
+                </li>
+                @if(Auth::user()->id_role)
                 <!-- Admin Menu -->
                 <li class="relative group" data-aos="fade-right" data-aos-duration="500" data-aos-delay="600"
                     class="relative z-10">
@@ -159,17 +161,12 @@
                         class="hidden absolute left-0 bg-gray-800 text-white text-sm rounded shadow-lg mt-2 z-10">
                         <li class="px-4 py-2 hover:bg-gray-700"><a href="{{ route('stock') }}">Stock Management</a>
                         </li>
-                        <li class="px-4 py-2 hover:bg-gray-700"><a href="{{ route('barang') }}">Barang Management</a>
+                        <li class="px-4 py-2 hover:bg-gray-700"><a href="{{ route('') }}">Stock Management</a>
                         </li>
-                        <li class="px-4 py-2 hover:bg-gray-700"><a href="{{ route('kategori') }}">Kategori
-                                Management</a></li>
-                        <li class="px-4 py-2 hover:bg-gray-700"><a href="{{ route('menu') }}">Menu Management</a>
-                        </li>
-                        <li class="px-4 py-2 hover:bg-gray-700"><a href="{{ route('settingmenu') }}">Setting Menu
-                                Management</a></li>
+                       
                     </ul>
                 </li>
-
+                @endif
             </ul>
         </div>
 
