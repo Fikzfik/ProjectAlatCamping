@@ -45,13 +45,37 @@ class ViewController extends Controller
     }
     public function penyewaan(): View
     {
-        return view('pages.auth.dashboard');
+        $userId = auth()->id(); // Mendapatkan ID pengguna yang sedang login
+
+        $keranjangs = DB::select(
+            'SELECT
+            k.id_keranjang,
+            b.id_barang,
+            b.nama_barang,
+            b.link_foto,
+            b.deskripsi,
+            b.harga_sewa,
+            b.status,
+            kb.id_kategori,
+            kb.nama_kategori,
+            k.jumlah_barang
+            FROM keranjangs k
+            JOIN barangs b ON k.id_barang = b.id_barang
+            JOIN kategori_barangs kb ON b.id_kategori = kb.id_kategori
+            JOIN users u on u.id_user = k.id_user
+            WHERE k.id_user = ?
+        ',
+            [$userId],
+        );
+
+        return view('pages.auth.penyewaan', compact('keranjangs'));
     }
 
     public function barangview()
     {
         $kategori = DB::select('SELECT * FROM kategori_barangs');
-        $barang = DB::select('SELECT
+        $barang = DB::select(
+            'SELECT
             b.id_barang,
             b.nama_barang,
             b.link_foto,
@@ -129,7 +153,6 @@ class ViewController extends Controller
         JOIN kategori_barangs k ON b.id_kategori = k.id_kategori
         LEFT JOIN stok_barangs sb ON b.id_barang = sb.id_barang
     ');
-        return view('pages.auth.stock', compact('barang','categories'));
+        return view('pages.auth.stock', compact('barang', 'categories'));
     }
-
 }
