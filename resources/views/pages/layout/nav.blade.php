@@ -144,7 +144,8 @@
 
                 <!-- Admin Menu -->
                 <!-- Admin Menu -->
-                <li class="relative group" data-aos="fade-right" data-aos-duration="500" data-aos-delay="600">
+                <li class="relative group" data-aos="fade-right" data-aos-duration="500" data-aos-delay="600"
+                    class="relative z-10">
                     <a href="javascript:void(0)" onclick="toggleAdminMenu()" class="flex items-center">
                         Admin
                         <svg class="ml-2 w-4 h-4" xmlns="http://www.w3.org/2000/svg" fill="none"
@@ -214,9 +215,19 @@
                 <div id="submenu"
                     class="submenu absolute right-0 hidden bg-white shadow-lg rounded-lg mt-2 p-4 w-48">
                     <ul>
-                        <li><a href="{{ route('userprofil') }}" class="block py-2 px-4 hover:bg-gray-200">Profile</a></li>
-                        <li><a href="settings.html" class="block py-2 px-4 hover:bg-gray-200">Settings</a></li>
-                        <li><a href="{{ route('logout') }}" class="block py-2 px-4 hover:bg-gray-200">Logout</a></li>
+                        <li><a href="{{ route('userprofil') }}" class="block py-2 px-4 hover:bg-gray-200">Profile</a>
+                        </li>
+                        <li><a href="" class="block py-2 px-4 hover:bg-gray-200">Settings</a>
+                        </li>
+                        <li>
+                            <form action="{{ route('logout') }}" method="POST">
+                                @csrf
+                                <button type="submit" class="block py-2 px-4 hover:bg-gray-200">
+                                    Logout
+                                </button>
+                            </form>
+                        </li>
+
                     </ul>
                 </div>
             </div>

@@ -52,207 +52,62 @@
             <div class="flex justify-end mt-[2vw]">
                 <button type="submit"
                     class="sm:px-[1.5vw] px-[5vw] sm:py-[0.833vw] py-[2vw] bg-blue-500 text-white rounded-md">
-                    Simpan judul
+                    Simpan Blog
                 </button>
             </div>
         </form>
 
 
         <!-- Tabel judul -->
-        <h2 class="text-center sm:text-[3.333vw] text-[5.581vw] leading-none mb-[2vw] mt-[4vw]">Daftar judul</h2>
-        <!-- Tabel dengan DataTables -->
-        <div class="overflow-x-auto bg-black shadow-md rounded-lg">
-            <table id="judulTable" class="w-full text-left text-sm bg-black text-white">
-                <thead class="bg-gray-900">
-                    <tr>
-                        <th class="px-6 py-3 text-sm font-medium uppercase">No</th>
-                        <th class="px-6 py-3 text-sm font-medium uppercase">judul</th>
-                        <th class="px-6 py-3 text-sm font-medium uppercase">Konten</th>
-                        <th class="px-6 py-3 text-sm font-medium uppercase">Foto</th>
-                        <th class="px-6 py-3 text-sm font-medium uppercase">Tanggal Upload</th>
-                        <th class="px-6 py-3 text-sm font-medium uppercase text-center">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-gray-700">
-                    @foreach ($judul as $key => $item)
-                        <tr class="hover:bg-gray-800">
-                            <td class="px-6 py-4">{{ $key + 1 }}</td>
-                            <td class="px-6 py-4">{{ $item->nama_judul }}</td>
-                            <td class="px-6 py-4">{{ $item->nama_kategori }}</td>
-                            <td class="px-6 py-4">Rp {{ number_format($item->harga_sewa, 0, ',', '.') }}</td>
-                            <td class="px-6 py-4">
-                                <span
-                                    class="px-3 py-1 text-xs font-semibold rounded-full {{ $item->status == 'tersedia' ? 'bg-green-600 text-white' : 'bg-red-600 text-white' }}">
-                                    {{ ucfirst($item->status) }}
-                                </span>
-                            </td>
-                            <td class="px-6 py-4 text-center">
-                                <button onclick="openUpdateModal({{ $item->id_judul }})"
-                                    class="px-4 py-2 text-sm font-semibold text-white bg-blue-600 rounded-md hover:bg-blue-700 transition-all">
-                                    Edit
-                                </button>
-                                <button onclick="deletejudul({{ $item->id_judul }})"
-                                    class="px-4 py-2 text-sm font-semibold text-white bg-red-600 rounded-md hover:bg-red-700 transition-all ml-2">
-                                    Hapus
-                                </button>
-                            </td>
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
-    </section>
-    <div id="updatejudulModal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center">
-        <div
-            class="bg-white p-4 rounded-md w-[90vw] sm:w-[70vw] md:w-[50vw] lg:w-[40vw] flex flex-col sm:flex-row relative">
-            <!-- Bagian Kiri (Form Inputan) -->
-            <div class="w-full sm:w-[60%] px-4">
-                <h2 class="text-lg font-semibold text-black mb-4">Update judul</h2>
-
-                <form id="form-update-judul" enctype="multipart/form-data">
-                    @csrf
-                    @method('PUT')
-                    <input type="hidden" id="update-id-judul" name="id_judul">
-
-                    <div class="grid grid-cols-1 gap-y-4">
-                        <!-- Nama judul -->
-                        <div class="flex flex-col">
-                            <label for="nama_judul_update" class="text-sm font-semibold text-black mb-1">Nama
-                                judul</label>
-                            <input type="text" name="nama_judul" id="update-nama_judul"
-                                placeholder="Masukkan nama judul"
-                                class="px-3 py-2 bg-gray-100 text-black rounded-md w-full">
-                        </div>
-
-                        <!-- Kategori -->
-                        <div class="flex flex-col">
-                            <label for="id_kategori_update"
-                                class="text-sm font-semibold text-black mb-1">Kategori</label>
-                            <select name="id_kategori" id="update-id-kategori"
-                                class="px-3 py-2 bg-gray-100 text-black rounded-md w-full">
-                                <option value="" selected disabled>Pilih Kategori</option>
-                                @foreach ($kategori as $item)
-                                    <option value="{{ $item->id_kategori }}">{{ $item->nama_kategori }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <!-- Harga Sewa -->
-                        <div class="flex flex-col">
-                            <label for="harga_sewa_update" class="text-sm font-semibold text-black mb-1">Harga
-                                Sewa</label>
-                            <input type="number" name="harga_sewa" id="update-harga_sewa"
-                                placeholder="Masukkan harga sewa"
-                                class="px-3 py-2 bg-gray-100 text-black rounded-md w-full">
-                        </div>
-
-                        <!-- Status -->
-                        <div class="flex flex-col">
-                            <label for="status_update" class="text-sm font-semibold text-black mb-1">Status</label>
-                            <select name="status" id="update-status"
-                                class="px-3 py-2 bg-gray-100 text-black rounded-md w-full">
-                                <option value="tersedia">Tersedia</option>
-                                <option value="tidak tersedia">Tidak Tersedia</option>
-                            </select>
-                        </div>
-
-                        <!-- konten -->
-                        <div class="flex flex-col">
-                            <label for="konten_update"
-                                class="text-sm font-semibold text-black mb-1">konten</label>
-                            <textarea name="konten" id="update-konten" placeholder="Masukkan konten judul"
-                                class="px-3 py-2 bg-gray-100 text-black rounded-md w-full"></textarea>
-                        </div>
-
-                        <!-- Foto judul -->
-                        <div class="flex flex-col">
-                            <label for="foto_judul_update" class="text-sm font-semibold text-black mb-1">Ganti Foto
-                                judul</label>
-                            <input type="file" name="link_foto" id="update-foto_judul"
-                                class="px-3 py-2 bg-gray-100 text-black rounded-md w-full" accept="image/*">
-                        </div>
-                    </div>
-
-                    <!-- Tombol Simpan -->
-                    <div class="flex justify-end mt-4">
-                        <button type="submit"
-                            class="px-5 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition">
-                            Simpan judul
-                        </button>
-                    </div>
-                </form>
-            </div>
-
-            <!-- Bagian Kanan (Foto judul) -->
-            <div class="w-full sm:w-[40%] px-4 flex flex-col items-center justify-center mt-4 sm:mt-0">
-                <h3 class="text-sm font-semibold text-black mb-3">Foto judul</h3>
-                <img id="update-foto-judul" src="" alt="Foto judul"
-                    class="max-w-full max-h-[150px] object-cover rounded-md">
-            </div>
-
-            <!-- Tombol Tutup Modal -->
-            <button id="closeModal"
-                class="absolute top-3 right-3 text-white bg-gray-600 hover:bg-gray-800 rounded-full p-2">
-                X
-            </button>
-        </div>
-    </div>
-
-    <div id="kategoriModal"
-        class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-[9999]">
-        <div class="bg-dark w-auto max-w-lg rounded-md shadow-lg p-6 relative">
-            <!-- Tombol Tutup Modal -->
-            <button class="absolute top-2 right-2 text-gray-500 hover:text-gray-800"
-                onclick="document.getElementById('kategoriModal').classList.add('hidden')">
-                &#x2715;
-            </button>
-
-            <h2 class="text-xl font-bold mb-4">Tambah Item</h2>
-
-            <!-- Form Inputan -->
-            <form id="kategoriForm" method="POST">
-                @csrf
-                <div class="mb-4">
-                    <label for="nama_item" class="block text-gray-700 font-semibold mb-2">Nama Item</label>
-                    <input type="text" name="nama_kategori" id="nama_item" placeholder="Masukkan nama item"
-                        class="w-full px-4 py-2 border rounded-md text-black focus:outline-none focus:ring-2 focus:ring-blue-500">
-                </div>
-                <div class="mb-4">
-                    <label for="konten" class="block text-gray-700 font-semibold mb-2">konten</label>
-                    <textarea name="konten" id="konten" placeholder="Masukkan konten item"
-                        class="w-full px-4 py-2 border rounded-md text-black focus:outline-none focus:ring-2 focus:ring-blue-500"></textarea>
-                </div>
-                <div class="flex justify-end">
-                    <button type="button" class="bg-gray-500 text-white px-4 py-2 rounded-md hover:bg-gray-600 mr-2"
-                        onclick="document.getElementById('kategoriModal').classList.add('hidden')">
-                        Batal
-                    </button>
-                    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600">
-                        Simpan
-                    </button>
-                </div>
-            </form>
-            <div class="mt-8">
-                <h3 class="text-lg font-semibold mb-4">Daftar Item</h3>
-                <table id="itemTable" class="display w-full text-sm">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Nama Item</th>
-                            <th>konten</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($kategori as $key => $category)
-                            <tr>
-                                <td>{{ $key + 1 }}</td> <!-- Nomor urut -->
-                                <td>{{ $category->nama_kategori }}</td> <!-- Nama kategori -->
-                                <td>{{ $category->konten }}</td> <!-- konten kategori -->
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+<h2 class="text-center sm:text-[3.333vw] text-[5.581vw] leading-none mb-[2vw] mt-[4vw]">Daftar Blog</h2>
+<!-- Tabel dengan DataTables -->
+<div class="overflow-x-auto bg-black shadow-md rounded-lg">
+    <table id="blogTable" class="w-full text-left text-sm bg-black text-white">
+        <thead class="bg-gray-900">
+            <tr>
+                <th class="px-6 py-3 text-sm font-medium uppercase">No</th>
+                <th class="px-6 py-3 text-sm font-medium uppercase">Judul</th>
+                <th class="px-6 py-3 text-sm font-medium uppercase">Konten</th>
+                <th class="px-6 py-3 text-sm font-medium uppercase">Foto</th>
+                <th class="px-6 py-3 text-sm font-medium uppercase">Tanggal Upload</th>
+                <th class="px-6 py-3 text-sm font-medium uppercase text-center">Aksi</th>
+            </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-700">
+            @foreach ($blogs as $key => $blog)
+                <tr class="hover:bg-gray-800">
+                    <td class="px-6 py-4">{{ $key + 1 }}</td>
+                    <td class="px-6 py-4">{{ $blog->judul }}</td>
+                    <td class="px-6 py-4">{{ \Illuminate\Support\Str::limit($blog->konten, 50) }}</td>
+                    <td class="px-6 py-4">
+                        @if ($blog->foto)
+                            <img src="{{ asset('storage/' . $blog->foto) }}" alt="Foto Blog"
+                                class="w-16 h-16 object-cover rounded-md">
+                        @else
+                            <span class="text-gray-400 italic">Tidak ada foto</span>
+                        @endif
+                    </td>
+                    <td class="px-6 py-4">{{ $blog->tanggal }}</td>
+                    <td class="px-6 py-4 text-center">
+                        <a href="{{ route('blogs.edit', $blog->id) }}"
+                            class="px-4 py-2 text-sm font-semibold text-white bg-blue-600 rounded-md hover:bg-blue-700 transition-all">
+                            Edit
+                        </a>
+                        <form action="{{ route('blogs.destroy', $blog->id) }}" method="POST"
+                            class="inline-block ml-2">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit"
+                                class="px-4 py-2 text-sm font-semibold text-white bg-red-600 rounded-md hover:bg-red-700 transition-all">
+                                Hapus
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
 
         </div>
     </div>
@@ -340,7 +195,7 @@
             let formData = new FormData(this);
 
             $.ajax({
-                url: '{{ route('judul.store') }}', // URL yang sesuai dengan route 'judul.store'
+                url: '{{ route('blog.store') }}', // URL yang sesuai dengan route 'judul.store'
                 type: 'POST',
                 data: formData,
                 processData: false, // Jangan memproses data (karena ada file)
@@ -459,7 +314,7 @@
     // Fungsi untuk memuat data judul
     function loadjudul() {
         $.ajax({
-            url: '{{ route('judul') }}',
+            url: '{{ route('addblog') }}',
             type: 'GET',
             success: function(data) {
                 let rows = '';

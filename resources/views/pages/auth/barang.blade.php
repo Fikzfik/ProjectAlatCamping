@@ -16,6 +16,10 @@
             onclick="document.getElementById('kategoriModal').classList.remove('hidden')">
             Tambah Kategori
         </button>
+
+        <!-- Button untuk membuka modal melihat kategori -->
+        <button class="bg-yellow-500 text-white px-4 py-2 rounded mb-6" onclick="openViewCategoryModal()">View
+            Categories</button>
         <form id="form-tambah-barang" enctype="multipart/form-data">
             @csrf
             <div class="grid grid-cols-1 gap-y-[2vw]">
@@ -228,7 +232,18 @@
             </button>
         </div>
     </div>
-
+    <div id="viewCategoryModal" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center hidden">
+        <div class="bg-white p-6 rounded-lg w-full max-w-2xl">
+            <h2 class="text-2xl font-semibold mb-4">Daftar Kategori</h2>
+            <div id="categoryList" class="space-y-4">
+                <!-- Daftar kategori akan ditambahkan melalui JavaScript -->
+            </div>
+            <div class="flex justify-end">
+                <button type="button" class="bg-gray-500 text-white px-4 py-2 rounded"
+                    onclick="closeViewCategoryModal()">Close</button>
+            </div>
+        </div>
+    </div>
     <div id="kategoriModal"
         class="hidden fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center z-[9999]">
         <div class="bg-dark w-auto max-w-lg rounded-md shadow-lg p-6 relative">
@@ -308,7 +323,8 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js">
+</script>
 <script>
     $(document).ready(function() {
         // Event submit pada form

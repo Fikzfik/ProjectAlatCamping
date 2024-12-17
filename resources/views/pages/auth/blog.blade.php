@@ -2,20 +2,19 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Ganti path file CSS dengan asset() -->
-    <link rel="stylesheet" href="{{ asset('src/css/output.css') }}">
-    <link rel="stylesheet" href="{{ asset('src/css/font.css') }}">
-    <link rel="stylesheet" href="{{ asset('src/css/style.css') }}">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <link href="{{ asset('node_modules/aos/dist/aos.css') }}" rel="stylesheet">
-    <script src="{{ asset('node_modules/aos/dist/aos.js') }}"></script>
+    @include('pages.layout.head')
     <title>Blog</title>
 </head>
 
-<body id="body" class="text-white relative">
+<body id="body" class="relative">
+    <div class="absolute inset-0 -z-20"
+        style="background-image: url('{{ asset('src/assets/images/bgwebsite.jpeg') }}'); 
+           background-size: cover; 
+           background-position: center; 
+           filter: blur(10px); 
+           opacity: 0.5;">
+        <!-- Mengurangi opacity -->
+    </div>
     @include('pages.layout.nav')
     <section class="sm:px-[4.271vw] px-[8.372vw] relative pb-[1vw] mt-[5.625vw]">
         <h1 class="text-center sm:text-[3.333vw] text-[5.581vw] leading-none">BLOGS</h1>
@@ -29,11 +28,13 @@
                                 class="w-full sm:h-[22.083vw] h-[98.605vw] object-cover object-center transform transition-transform duration-300 ease-in-out hover:scale-110">
                         </div>
                         <div class="w-full sm:space-y-[0.5vw] space-y-[2.581vw] sm:pt-[1vw] pt-[6.279vw]">
-                            <h2 class="w-full font-semibold sm:text-[1.25vw] text-[18px] truncate">Treadwear at Jakarta
+                            <h2 class="w-full font-semibold sm:text-[1.25vw] text-[18px] truncate">Treadwear at
+                                Jakarta
                                 Fashion Expo 2024</h2>
                             <p class="sm:text-[0.938vw] text-[3.721vw]">23 / 09 / 2024</p>
                             <p class="sm:text-[0.938vw] text-[2.791vw] sm:text-left text-justify pt-0">The treadwear
-                                event held at the Jakarta Expo invited various designers to evaluate treadwear designs.
+                                event held at the Jakarta Expo invited various designers to evaluate treadwear
+                                designs.
                                 This event was held to enliven treadwear's birthday...</p>
                         </div>
                     </div>
@@ -51,7 +52,8 @@
                                 Treadwear Hoodie Design</h2>
                             <p class="sm:text-[0.938vw] text-[3.721vw]">23 / 09 / 2024</p>
                             <p class="sm:text-[0.938vw] text-[2.791vw] sm:text-left text-justify pt-0">The treadwear
-                                event held at the Jakarta Expo invited various designers to evaluate treadwear designs.
+                                event held at the Jakarta Expo invited various designers to evaluate treadwear
+                                designs.
                                 This event was held to enliven treadwear's birthday...</p>
                         </div>
                     </div>
@@ -65,11 +67,13 @@
                                 class="w-full sm:h-[22.083vw] h-[98.605vw] object-cover object-center transform transition-transform duration-300 ease-in-out hover:scale-110">
                         </div>
                         <div class="w-full sm:space-y-[0.5vw] space-y-[2.581vw] sm:pt-[1vw] pt-[6.279vw]">
-                            <h2 class="w-full font-semibold sm:text-[1.25vw] text-[18px] truncate">New 3 Variant Longs
+                            <h2 class="w-full font-semibold sm:text-[1.25vw] text-[18px] truncate">New 3 Variant
+                                Longs
                                 Sleeve’s Hoodie</h2>
                             <p class="sm:text-[0.938vw] text-[3.721vw]">23 / 09 / 2024</p>
                             <p class="sm:text-[0.938vw] text-[2.791vw] sm:text-left text-justify pt-0">The treadwear
-                                event held at the Jakarta Expo invited various designers to evaluate treadwear designs.
+                                event held at the Jakarta Expo invited various designers to evaluate treadwear
+                                designs.
                                 This event was held to enliven treadwear's birthday...</p>
                         </div>
                     </div>
@@ -87,7 +91,8 @@
                                 Campaign</h2>
                             <p class="sm:text-[0.938vw] text-[3.721vw]">23 / 09 / 2024</p>
                             <p class="sm:text-[0.938vw] text-[2.791vw] sm:text-left text-justify pt-0">The treadwear
-                                event held at the Jakarta Expo invited various designers to evaluate treadwear designs.
+                                event held at the Jakarta Expo invited various designers to evaluate treadwear
+                                designs.
                                 This event was held to enliven treadwear's birthday...</p>
                         </div>
                     </div>
@@ -101,11 +106,13 @@
                                 class="w-full sm:h-[22.083vw] h-[98.605vw] object-cover object-center transform transition-transform duration-300 ease-in-out hover:scale-110">
                         </div>
                         <div class="w-full sm:space-y-[0.5vw] space-y-[2.581vw] sm:pt-[1vw] pt-[6.279vw]">
-                            <h2 class="w-full font-semibold sm:text-[1.25vw] text-[18px] truncate">Opening of Official
+                            <h2 class="w-full font-semibold sm:text-[1.25vw] text-[18px] truncate">Opening of
+                                Official
                                 Stores in Indonesia</h2>
                             <p class="sm:text-[0.938vw] text-[3.721vw]">23 / 09 / 2024</p>
                             <p class="sm:text-[0.938vw] text-[2.791vw] sm:text-left text-justify pt-0">The treadwear
-                                event held at the Jakarta Expo invited various designers to evaluate treadwear designs.
+                                event held at the Jakarta Expo invited various designers to evaluate treadwear
+                                designs.
                                 This event was held to enliven treadwear's birthday...</p>
                         </div>
                     </div>
@@ -123,7 +130,8 @@
                                 Hoodie Edition</h2>
                             <p class="sm:text-[0.938vw] text-[3.721vw]">23 / 09 / 2024</p>
                             <p class="sm:text-[0.938vw] text-[2.791vw] sm:text-left text-justify pt-0">The treadwear
-                                event held at the Jakarta Expo invited various designers to evaluate treadwear designs.
+                                event held at the Jakarta Expo invited various designers to evaluate treadwear
+                                designs.
                                 This event was held to enliven treadwear's birthday...</p>
                         </div>
                     </div>
@@ -135,7 +143,6 @@
             BLOG
         </h1>
     </section>
-
     @include('pages.layout.footer')
 </body>
 <div id="popup" class="fixed inset-0 items-center justify-center bg-black bg-opacity-50 hidden"
@@ -168,49 +175,8 @@
 </script>
 <script src="./js/main.js"></script>
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const sidebar = document.getElementById('sidebar');
-        const body = document.getElementById('body');
-        const nav = document.getElementById('nav');
-        const openButton = document.getElementById('hamburger');
-        const closeButton = document.getElementById('cross');
-
-        // Tombol untuk Slide In
-        openButton.addEventListener('click', () => {
-            sidebar.classList.remove('slide-out-left-active');
-            sidebar.classList.add('slide-in-left-active');
-            body.classList.add('overflow-y-hidden');
-            nav.classList.remove('pointer-events-none');
-        });
-
-        // Tombol untuk Slide Out
-        closeButton.addEventListener('click', () => {
-            sidebar.classList.remove('slide-in-left-active');
-            sidebar.classList.add('slide-out-left-active');
-            body.classList.remove('overflow-y-hidden');
-            nav.classList.add('pointer-events-none');
-        });
-    });
-    document.addEventListener('DOMContentLoaded', () => {
-        const profileButton = document.getElementById('profile-button');
-        const submenu = document.getElementById('submenu');
-
-        // Toggle submenu visibility on button click
-        profileButton.addEventListener('click', (event) => {
-            event.preventDefault(); // Prevent default behavior of button
-            submenu.classList.toggle('hidden');
-        });
-
-        // Close submenu when clicking outside
-        document.addEventListener('click', (event) => {
-            if (!profileButton.contains(event.target) && !submenu.contains(event.target)) {
-                submenu.classList.add('hidden');
-            }
-        });
-    });
-</script>
-<script>
     AOS.init();
 </script>
+@include('pages.layout.script');
 
 </html>

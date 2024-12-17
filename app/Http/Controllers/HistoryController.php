@@ -19,7 +19,7 @@ class HistoryController extends Controller
         $barangBooked = DB::select(
             "
     SELECT dp.id_barang, b.nama_barang, dp.jumlah_barang, dp.harga_sewa, dp.subtotal,
-           p.tanggal_sewa, p.tanggal_kembali, b.link_foto, k.nama_kategori
+           p.tanggal_sewa as tanggal_booking, p.tanggal_kembali, b.link_foto, k.nama_kategori
     FROM detail_penyewaans dp
     JOIN barangs b ON dp.id_barang = b.id_barang
     JOIN kategori_barangs k ON b.id_kategori = k.id_kategori

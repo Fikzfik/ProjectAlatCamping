@@ -20,7 +20,8 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             KategoriBarangSeeder::class,
             BarangSeeder::class,
-            StokBarangSeeder::class
+            StokBarangSeeder::class,
+            StoreSeeder::class,
         ]);
     }
 }

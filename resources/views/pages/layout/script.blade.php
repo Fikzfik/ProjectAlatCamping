@@ -99,13 +99,13 @@
     document.addEventListener('DOMContentLoaded', () => {
         const profileButton = document.getElementById('profile-button');
         const submenu = document.getElementById('submenu');
-
+        console.log(submenu);
         // Toggle submenu visibility on button click
         profileButton.addEventListener('click', (event) => {
             event.preventDefault(); // Prevent default behavior of button
             submenu.classList.toggle('hidden');
         });
-
+        // console.log(submenu);
         // Close submenu when clicking outside
         document.addEventListener('click', (event) => {
             if (!profileButton.contains(event.target) && !submenu.contains(event.target)) {

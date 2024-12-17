@@ -1,7 +1,5 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Ganti path file CSS dengan asset() -->
-
 <link rel="stylesheet" href="{{ asset('src/css/output.css') }}">
 <link rel="stylesheet" href="{{ asset('src/css/font.css') }}">
 <link rel="stylesheet" href="{{ asset('src/css/style.css') }}">
@@ -17,19 +15,34 @@
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
 <style>
     /* Modal container */
+    .container {
+        z-index: 10;
+        /* Pastikan konten utama berada di atas elemen lain */
+    }
+
+    /* Jika ada elemen lain seperti modal atau background, atur z-index lebih rendah */
+    .popup {
+        z-index: 5;
+    }
+
     #dropdownList1 {
         transition: max-height 0.5s ease-in-out;
         max-height: 0;
         /* Initially closed */
     }
 
-    .max-h-[20vw] {
-        max-height: 20vw;
-        /* Open state */
+    nav {
+        position: relative;
+        /* atau fixed jika ingin navbar tetap terlihat saat di-scroll */
+        z-index: 50;
+        /* Pastikan nilai ini lebih tinggi dibandingkan elemen lainnya */
     }
 
-    #kategoriModal {
-        z-index: 9999;
+    .container {
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 20px;
+        9999;
         /* Modal harus berada di atas */
     }
 
