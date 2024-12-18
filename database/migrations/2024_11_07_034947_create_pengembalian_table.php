@@ -15,6 +15,10 @@ return new class extends Migration {
             $table->date('tanggal_pengembalian');
             $table->decimal('denda_keterlambatan', 10, 2);
             $table->timestamps();
+            $table->unsignedBigInteger('id_user');
+            $table->foreign('id_user')->references('id_user')->on('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->unsignedBigInteger('id_penyewaan');
+            $table->foreign('id_penyewaan')->references('id_penyewaan')->on('penyewaans')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

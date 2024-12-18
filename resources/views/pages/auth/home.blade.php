@@ -44,10 +44,23 @@
 
         <div class="w-[23.031vw] overflow-y-auto max-h-[100vh] scrollbar-hide sticky top-[0.833vw] sm:inline hidden">
             <div class="space-y-[1.198vw]">
-                <div data-aos="fade-right" data-aos-duration="500" data-aos-delay="100" class="space-y-[0.729vw]">
-                    <h2 class="text-[1.25vw] font-semibold">Filters:</h2>
-                    <hr>
+                <div data-aos="fade-right" data-aos-duration="500" data-aos-delay="400">
+                    <div class="space-y-[0.729vw]">
+                        <h2 class="text-[1.146vw] font-medium">Filter Harga:</h2>
+                        <hr>
+                        <div class="grid grid-cols-2 gap-[1.25vw] items-center">
+                            <input id="minPrice" type="number"
+                                class="w-[9.583vw] h-[2.604vw] bg-transparent border-[0.052vw] border-white px-[1.042vw] placeholder:text-white"
+                                placeholder="Min Harga">
+                            <input id="maxPrice" type="number"
+                                class="w-[9.583vw] h-[2.604vw] bg-transparent border-[0.052vw] border-white px-[1.042vw] placeholder:text-white"
+                                placeholder="Max Harga">
+                        </div>
+                        <button id="filterPrice"
+                            class="mt-[1vw] px-[1.5vw] py-[0.8vw] bg-blue-500 text-white rounded-[0.5vw]">Filter</button>
+                    </div>
                 </div>
+
 
                 <div class="space-y-[1vw]">
                     <!-- Tombol dan Dropdown -->
@@ -81,11 +94,9 @@
                         </div>
                     </div>
                 </div>
-
-
-
                 <div data-aos="fade-right" data-aos-duration="500" data-aos-delay="300">
                     <div class="space-y-[0.729vw]">
+                        <!-- Tombol Toggle Dropdown -->
                         <a href="javascript:void(0)" onclick="toggleDropdown2()">
                             <div class="flex items-center justify-between">
                                 <h2 class="text-[1.146vw] font-medium">Availability:</h2>
@@ -94,107 +105,27 @@
                             </div>
                         </a>
                         <hr>
+                        <!-- Kontainer Dropdown -->
                         <div id="dropdownList2" class="overflow-hidden max-h-0 transition-all duration-500 ease-in-out">
                             <ul id="listItems2" class="text-[0.938vw] space-y-[0.781vw]">
                                 <li
-                                    class="font-medium flex items-center space-x-[0.885vw] opacity-0 translate-x-[-100%] transition-all duration-500 ease-in-out">
-                                    <input type="checkbox" name="" id=""
-                                        class="w-[1.302vw] h-[1.302vw] bg-transparent accent-white" checked>
-                                    <p class="text-[0.938vw] font-medium">In Stock</p>
+                                    class="font-medium flex items-center space-x-[0.885vw] opacity-100 translate-x-0 transition-all duration-500 ease-in-out">
+                                    <button onclick="filterByStock()"
+                                        class="px-4 py-2 bg-green-500 text-white rounded">In Stock</button>
+
                                 </li>
                                 <li
-                                    class="font-medium flex items-center space-x-[0.885vw] opacity-0 translate-x-[-100%] transition-all duration-500 ease-in-out">
-                                    <input type="checkbox" name="" id=""
-                                        class="w-[1.302vw] h-[1.302vw] bg-transparent accent-white" checked>
-                                    <p class="text-[0.938vw] font-medium">Out Of Stock</p>
+                                    class="font-medium flex items-center space-x-[0.885vw] opacity-100 translate-x-0 transition-all duration-500 ease-in-out">
+                                    <button onclick="filterOutOfStock()"
+                                        class="px-4 py-2 bg-red-500 text-white rounded">Out Of Stock</button>
+
                                 </li>
                             </ul>
                         </div>
                     </div>
                 </div>
 
-                <div data-aos="fade-right" data-aos-duration="500" data-aos-delay="400">
-                    <div class="space-y-[0.729vw]">
-                        <a href="javascript:void(0)" onclick="toggleDropdown3()">
-                            <div class="flex items-center justify-between">
-                                <h2 class="text-[1.146vw] font-medium">Price:</h2>
-                                <img id="arrowIcon3" src="src/assets/icons/arrow-icon.svg" alt=""
-                                    class="w-[0.833vw] rotate-0 transition-transform duration-500">
-                            </div>
-                        </a>
-                        <hr>
-                        <div id="dropdownList3" class="overflow-hidden max-h-0 transition-all duration-500 ease-in-out">
-                            <ul class="text-[0.938vw] space-y-[1.042vw] flex items-center space-x-[0.729vw]">
-                                <li
-                                    class="text-[1.042vw] opacity-0 translate-x-[-100%] transition-all duration-500 ease-in-out">
-                                    Rp
-                                </li>
-                                <li
-                                    class="grid grid-cols-2 gap-[1.25vw] items-center opacity-0 translate-x-[-100%] transition-all duration-500 ease-in-out">
-                                    <input type="text"
-                                        class="w-[9.583vw] h-[2.604vw] bg-transparent border-[0.052vw] border-white px-[1.042vw] placeholder:text-white"
-                                        placeholder="From :">
-                                    <input type="text"
-                                        class="w-[9.583vw] h-[2.604vw] bg-transparent border-[0.052vw] border-white px-[1.042vw] placeholder:text-white"
-                                        placeholder="To :">
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
 
-                <div data-aos="fade-right" data-aos-duration="500" data-aos-delay="500">
-                    <div class="space-y-[0.729vw]">
-                        <a href="javascript:void(0)" onclick="toggleDropdown4()">
-                            <div class="flex items-center justify-between">
-                                <h2 class="text-[1.146vw] font-medium">Size:</h2>
-                                <img id="arrowIcon4" src="src/assets/icons/arrow-icon.svg" alt=""
-                                    class="w-[0.833vw] rotate-0 transition-transform duration-500">
-                            </div>
-                        </a>
-                        <hr>
-                        <div id="dropdownList4" class="overflow-hidden max-h-0 transition-all duration-500 ease-in-out">
-                            <ul class="text-[0.938vw] space-y-[0.781vw]">
-                                <li
-                                    class="font-medium flex items-center space-x-[0.885vw] opacity-0 translate-x-[-100%] transition-all duration-500 ease-in-out">
-                                    <input type="checkbox" name="" id=""
-                                        class="w-[1.302vw] h-[1.302vw] bg-transparent accent-white" checked>
-                                    <p class="text-[0.938vw] font-medium">S</p>
-                                </li>
-                                <li
-                                    class="font-medium flex items-center space-x-[0.885vw] opacity-0 translate-x-[-100%] transition-all duration-500 ease-in-out">
-                                    <input type="checkbox" name="" id=""
-                                        class="w-[1.302vw] h-[1.302vw] bg-transparent accent-white" checked>
-                                    <p class="text-[0.938vw] font-medium">M</p>
-                                </li>
-                                <li
-                                    class="font-medium flex items-center space-x-[0.885vw] opacity-0 translate-x-[-100%] transition-all duration-500 ease-in-out">
-                                    <input type="checkbox" name="" id=""
-                                        class="w-[1.302vw] h-[1.302vw] bg-transparent accent-white" checked>
-                                    <p class="text-[0.938vw] font-medium">L</p>
-                                </li>
-                                <li
-                                    class="font-medium flex items-center space-x-[0.885vw] opacity-0 translate-x-[-100%] transition-all duration-500 ease-in-out">
-                                    <input type="checkbox" name="" id=""
-                                        class="w-[1.302vw] h-[1.302vw] bg-transparent accent-white" checked>
-                                    <p class="text-[0.938vw] font-medium">XL</p>
-                                </li>
-                                <li
-                                    class="font-medium flex items-center space-x-[0.885vw] opacity-0 translate-x-[-100%] transition-all duration-500 ease-in-out">
-                                    <input type="checkbox" name="" id=""
-                                        class="w-[1.302vw] h-[1.302vw] bg-transparent accent-white" checked>
-                                    <p class="text-[0.938vw] font-medium">XXL</p>
-                                </li>
-                                <li
-                                    class="font-medium flex items-center space-x-[0.885vw] opacity-0 translate-x-[-100%] transition-all duration-500 ease-in-out">
-                                    <input type="checkbox" name="" id=""
-                                        class="w-[1.302vw] h-[1.302vw] bg-transparent accent-white" checked>
-                                    <p class="text-[0.938vw] font-medium">XXXL</p>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
         <div id="barangContainer"
@@ -322,6 +253,174 @@
                 });
             });
         });
+        $(document).ready(function() {
+            $('#filterPrice').on('click', function() {
+                const minPrice = $('#minPrice').val() || 0; // Default: 0
+                const maxPrice = $('#maxPrice').val() || Number.MAX_SAFE_INTEGER; // Default: tanpa batas
+
+                const targetContainer = $('#barangContainer'); // Kontainer untuk mengganti isi
+
+                $.ajax({
+                    url: '{{ route('barang.by.price') }}', // Route untuk filter harga
+                    method: 'GET',
+                    data: {
+                        min_price: minPrice,
+                        max_price: maxPrice,
+                    },
+                    success: function(response) {
+                        // Kosongkan kontainer barang
+                        targetContainer.empty();
+
+                        // Tambahkan barang hasil filter ke dalam kontainer
+                        response.forEach(item => {
+                            const barangHtml = `
+                        <a href="/detailbarang/${item.id_barang}" 
+                           class="flex justify-center items-center sm:col-span-1 col-span-2 md:col-span-1"
+                           data-aos="fade-up" data-aos-duration="500" data-aos-delay="300">
+                            <div class="space-y-[0.885vw] relative overflow-hidden">
+                                <img src="/storage/${item.link_foto}" alt=""
+                                     class="sm:w-[15.555vw] w-[83.256vw] sm:h-[20.859vw] h-[111.628vw] object-cover object-top transform transition-transform duration-300 ease-in-out hover:scale-110">
+                                <div class="absolute sm:w-[15.555vw] w-[83.256vw] sm:h-[10.426vw] h-[54.419vw] bg-gradient-to-t from-dark/90 to-dark/0 bottom-0">
+                                    <div class="absolute bottom-0 sm:px-[0.938vw] px-[7.442vw] sm:pb-[1vw] pb-[7.442vw] text-white">
+                                        <div>
+                                            <h2 class="sm:text-[0.938vw] text-[4.651vw] leading-none">${item.nama_barang}</h2>
+                                            <p class="sm:text-[0.938vw] text-[4.651vw] opacity-60">${item.nama_kategori}</p>
+                                        </div>
+                                        <div class="flex items-center sm:space-x-[0.313vw] space-x-[3.721vw] sm:mt-[0.938vw] mt-[2.181vw]">
+                                            <h2 class="sm:text-[1.25vw] text-[6.047vw]">Rp. ${item.harga_sewa.toLocaleString('id-ID')}</h2>
+                                            <h2 class="sm:text-[0.938vw] text-[4.651vw] opacity-50">
+                                                <s>Rp. ${(item.harga_sewa * 2).toLocaleString('id-ID')}</s>
+                                            </h2>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    `;
+                            targetContainer.append(barangHtml);
+                        });
+                    },
+                    error: function() {
+                        alert('Gagal memuat data barang. Silakan coba lagi.');
+                    },
+                });
+            });
+        });
+
+        function toggleDropdown2() {
+            const dropdown = document.getElementById('dropdownList2');
+            const arrowIcon = document.getElementById('arrowIcon2');
+
+            // Toggle max-height untuk membuka/menutup dropdown
+            if (dropdown.classList.contains('max-h-0')) {
+                dropdown.classList.remove('max-h-0', 'overflow-hidden');
+                dropdown.classList.add('max-h-[1000px]'); // Sesuaikan max-height
+                arrowIcon.classList.add('rotate-180');
+            } else {
+                dropdown.classList.add('max-h-0', 'overflow-hidden');
+                dropdown.classList.remove('max-h-[1000px]');
+                arrowIcon.classList.remove('rotate-180');
+            }
+        }
+
+        function filterByStock() {
+            const targetContainer = $('#barangContainer'); // Kontainer untuk barang
+
+            $.ajax({
+                url: '{{ route('barang.filter.stock') }}',
+                method: 'GET',
+                success: function(response) {
+                    console.log(response); // Periksa respons yang diterima dari server
+                    if (Array.isArray(response)) { // Pastikan itu array
+                        targetContainer.empty(); // Kosongkan kontainer barang
+
+                        response.forEach(item => {
+                            const barangHtml = `
+            <a href="/detailbarang/${item.id_barang}" 
+               class="flex justify-center items-center sm:col-span-1 col-span-2 md:col-span-1"
+               data-aos="fade-up" data-aos-duration="500" data-aos-delay="300">
+                <div class="space-y-[0.885vw] relative overflow-hidden">
+                    <img src="/storage/${item.link_foto}" alt="${item.nama_barang}"
+                         class="sm:w-[15.555vw] w-[83.256vw] sm:h-[20.859vw] h-[111.628vw] object-cover object-top transform transition-transform duration-300 ease-in-out hover:scale-110">
+                    <div class="absolute sm:w-[15.555vw] w-[83.256vw] sm:h-[10.426vw] h-[54.419vw] bg-gradient-to-t from-dark/90 to-dark/0 bottom-0">
+                        <div class="absolute bottom-0 sm:px-[0.938vw] px-[7.442vw] sm:pb-[1vw] pb-[7.442vw] text-white">
+                            <div>
+                                <h2 class="sm:text-[0.938vw] text-[4.651vw] leading-none">${item.nama_barang}</h2>
+                                <p class="sm:text-[0.938vw] text-[4.651vw] opacity-60">${item.nama_kategori}</p>
+                            </div>
+                            <div class="flex items-center sm:space-x-[0.313vw] space-x-[3.721vw] sm:mt-[0.938vw] mt-[2.181vw]">
+                                <h2 class="sm:text-[1.25vw] text-[6.047vw]">Rp. ${new Intl.NumberFormat('id-ID').format(item.harga_sewa)}</h2>
+                                <h2 class="sm:text-[0.938vw] text-[4.651vw] opacity-50">
+                                    <s>Rp. ${new Intl.NumberFormat('id-ID').format(item.harga_sewa * 2)}</s>
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            `;
+                            targetContainer.append(barangHtml);
+                        });
+                    } else {
+                        alert('Data tidak valid.');
+                    }
+                },
+
+                error: function() {
+                    alert('Gagal memuat barang. Silakan coba lagi.');
+                }
+            });
+        }
+
+        function filterOutOfStock() {
+            const targetContainer = $('#barangContainer'); // Kontainer untuk barang
+
+            $.ajax({
+                url: '{{ route('barang.filter.outOfStock') }}',
+                method: 'GET',
+                success: function(response) {
+                    console.log(response); // Periksa respons yang diterima dari server
+                    if (Array.isArray(response)) { // Pastikan itu array
+                        targetContainer.empty(); // Kosongkan kontainer barang
+
+                        response.forEach(item => {
+                            const barangHtml = `
+            <a href="/detailbarang/${item.id_barang}" 
+               class="flex justify-center items-center sm:col-span-1 col-span-2 md:col-span-1"
+               data-aos="fade-up" data-aos-duration="500" data-aos-delay="300">
+                <div class="space-y-[0.885vw] relative overflow-hidden">
+                    <img src="/storage/${item.link_foto}" alt="${item.nama_barang}"
+                         class="sm:w-[15.555vw] w-[83.256vw] sm:h-[20.859vw] h-[111.628vw] object-cover object-top transform transition-transform duration-300 ease-in-out hover:scale-110">
+                    <div class="absolute sm:w-[15.555vw] w-[83.256vw] sm:h-[10.426vw] h-[54.419vw] bg-gradient-to-t from-dark/90 to-dark/0 bottom-0">
+                        <div class="absolute bottom-0 sm:px-[0.938vw] px-[7.442vw] sm:pb-[1vw] pb-[7.442vw] text-white">
+                            <div>
+                                <h2 class="sm:text-[0.938vw] text-[4.651vw] leading-none">${item.nama_barang}</h2>
+                                <p class="sm:text-[0.938vw] text-[4.651vw] opacity-60">${item.nama_kategori}</p>
+                            </div>
+                            <div class="flex items-center sm:space-x-[0.313vw] space-x-[3.721vw] sm:mt-[0.938vw] mt-[2.181vw]">
+                                <h2 class="sm:text-[1.25vw] text-[6.047vw]">Rp. ${new Intl.NumberFormat('id-ID').format(item.harga_sewa)}</h2>
+                                <h2 class="sm:text-[0.938vw] text-[4.651vw] opacity-50">
+                                    <s>Rp. ${new Intl.NumberFormat('id-ID').format(item.harga_sewa * 2)}</s>
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            `;
+                            targetContainer.append(barangHtml);
+                        });
+                    } else {
+                        alert('Data tidak valid.');
+                    }
+                },
+
+                error: function() {
+                    alert('Gagal memuat barang. Silakan coba lagi.');
+                }
+            });
+        }
+
 
 
         AOS.init();

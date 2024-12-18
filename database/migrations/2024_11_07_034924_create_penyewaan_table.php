@@ -14,7 +14,7 @@ return new class extends Migration {
             $table->id('id_penyewaan');
             $table->date('tanggal_sewa');
             $table->date('tanggal_kembali');
-            $table->enum('status_sewa', ['dalam proses', 'selesai', 'batal','tersewa']);
+            $table->enum('status_sewa', ['dalam proses', 'selesai', 'batal','tersewa','booked']);
             $table->decimal('total_harga', 10, 2);
             $table->unsignedBigInteger('id_user');
             $table->foreign('id_user')->references('id_user')->on('users')->onDelete('cascade')->onUpdate('cascade');

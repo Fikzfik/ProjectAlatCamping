@@ -122,6 +122,7 @@
                 @endforelse
             </div>
 
+            {{-- @dd($barangHistory); --}}
             <div id="content-history" class="hidden grid sm:grid-cols-2 grid-cols-1 gap-6">
                 @forelse ($barangHistory as $item)
                     <div class="bg-white shadow-md rounded-lg overflow-hidden">
@@ -134,6 +135,22 @@
                             <p class="text-gray-600">Rp {{ number_format($item->harga_sewa, 0, ',', '.') }}</p>
                             <p class="text-gray-500 text-sm">Tanggal Sewa: {{ $item->tanggal_sewa }}</p>
                             <p class="text-gray-500 text-sm">Tanggal Kembali: {{ $item->tanggal_kembali }}</p>
+                            @if (empty($item->id_feedback))
+                                <!-- Tombol Feedback -->
+                                <form action="{{ route('storeFeedback') }}" method="POST">
+                                    @csrf
+                                    <input type="hidden" name="id_barang" value="{{ $item->id_barang }}">
+                                    <input type="hidden" name="id_penyewaan" value="{{ $item->id_penyewaan }}">
+
+                                    <button type="button" onclick="openModal()"
+                                        class="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                        Beri Feedback
+                                    </button>
+                                </form>
+                            @else
+                                <!-- Jika Sudah Difedback -->
+                                <p class="text-green-500 mt-4">Feedback sudah diberikan.</p>
+                            @endif
                         </div>
                     </div>
                 @empty
@@ -143,6 +160,42 @@
                 @endforelse
             </div>
 
+        </div>
+        <div id="feedbackModal"
+            class="fixed inset-0 z-50 flex items-center justify-center hidden bg-black bg-opacity-50">
+            <div class="bg-white p-6 rounded-lg w-full sm:w-1/3">
+                <h3 class="text-xl font-semibold mb-4">Beri Feedback</h3>
+
+                <form action="{{ route('storeFeedback') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="id_barang" value="{{ $item->id_barang }}">
+                    <input type="hidden" name="id_penyewaan" value="{{ $item->id_penyewaan }}">
+
+                    <label for="rating" class="block mb-2 text-sm font-medium text-gray-700">Rating:</label>
+                    <select name="rating" id="rating" required
+                        class="block w-full p-2 mb-4 border border-gray-300 rounded">
+                        <option value="5">5 - Sangat Puas</option>
+                        <option value="4">4 - Puas</option>
+                        <option value="3">3 - Cukup</option>
+                        <option value="2">2 - Kurang</option>
+                        <option value="1">1 - Tidak Puas</option>
+                    </select>
+
+                    <label for="komentar" class="block mb-2 text-sm font-medium text-gray-700">Komentar:</label>
+                    <textarea name="komentar" id="komentar" rows="4" class="block w-full p-2 mb-4 border border-gray-300 rounded"></textarea>
+
+                    <div class="flex justify-end">
+                        <button type="submit"
+                            class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2">
+                            Kirim Feedback
+                        </button>
+                        <button type="button" onclick="closeModal()"
+                            class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                            Tutup
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 
@@ -165,6 +218,18 @@
         </div>
     </div>
     @include('pages.layout.script');
+    <script>
+        // Fungsi untuk membuka modal
+        function openModal() {
+            document.getElementById('feedbackModal').classList.remove('hidden');
+        }
+
+        // Fungsi untuk menutup modal
+        function closeModal() {
+            document.getElementById('feedbackModal').classList.add('hidden');
+        }
+    </script>
+
     <script>
         function showTab(tabId) {
             // Hide all content sections

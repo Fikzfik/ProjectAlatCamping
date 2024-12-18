@@ -115,468 +115,70 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="flex flex-col space-y-[9.302vw] pt-[9.302vw] w-full">
-                                    <div class="">
-                                        <a href="javascript:void(0)" onclick="productDetails()" class="space-y-[1vw]">
-                                            <div class="flex items-center justify-between">
-                                                <h2 class="text-[4.651vw] font-semibold">Product Details</h2>
-                                                <img id="arrowIcon9" src="src/assets/icons/arrow-icon.svg"
-                                                    alt=""
-                                                    class="w-[3.256vw] rotate-0 transition-transform duration-500">
-                                            </div>
-                                            <hr class="w-full">
-                                        </a>
-                                        <div class="overflow-hidden max-h-0 transition-all duration-500 ease-in-out space-y-[4.884vw] m-0"
-                                            id="ProductDetail">
-                                            <div>
-                                                <p class="text-[2.791vw]">Oversized Streetwear T-Shirt - "Soft Green
-                                                    Oversized"</p>
-                                            </div>
-
-                                            <div>
-                                                <ul id="productDetailsList" class="text-[2.791vw]">
-                                                    <li
-                                                        class="opacity-0 translate-y-[-100%] transition-all duration-500 ease-in-out">
-                                                        Color : Green</li>
-                                                    <li
-                                                        class="opacity-0 translate-y-[-100%] transition-all duration-500 ease-in-out">
-                                                        Size : Oversized</li>
-                                                    <li
-                                                        class="opacity-0 translate-y-[-100%] transition-all duration-500 ease-in-out">
-                                                        Material : 100% Cotton</li>
-                                                </ul>
-                                            </div>
-
-                                            <div class="text-[2.791vw]">
-                                                <p>Features :</p>
-                                                <ul id="featuresList" class="list-disc ps-[1vw]">
-                                                    <li
-                                                        class="opacity-0 translate-y-[-100%] transition-all duration-500 ease-in-out">
-                                                        Oversized Fit: The t-shirt has a relaxed, oversized fit for a
-                                                        comfortable and stylish look.</li>
-                                                    <li
-                                                        class="opacity-0 translate-y-[-100%] transition-all duration-500 ease-in-out">
-                                                        High-Quality Material: Made from 100% soft cotton for maximum
-                                                        comfort and breathability.</li>
-                                                    <li
-                                                        class="opacity-0 translate-y-[-100%] transition-all duration-500 ease-in-out">
-                                                        Durable Construction: The t-shirt is built to last with
-                                                        double-stitched seams and a reinforced neckline.</li>
-                                                    <li
-                                                        class="opacity-0 translate-y-[-100%] transition-all duration-500 ease-in-out">
-                                                        Eye-Catching Design: Clean green graphic and text make this
-                                                        t-shirt a standout piece.</li>
-                                                </ul>
-                                            </div>
-
-                                            <div class="text-[2.791vw]">
-                                                <p>Care Instructions :</p>
-                                                <ul id="careInstructionsList" class="list-disc ps-[1vw]">
-                                                    <li
-                                                        class="opacity-0 translate-y-[-100%] transition-all duration-500 ease-in-out">
-                                                        Machine wash cold with like colors</li>
-                                                    <li
-                                                        class="opacity-0 translate-y-[-100%] transition-all duration-500 ease-in-out">
-                                                        Tumble dry low</li>
-                                                    <li
-                                                        class="opacity-0 translate-y-[-100%] transition-all duration-500 ease-in-out">
-                                                        Do not iron directly on the graphic</li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="">
-                                        <a href="javascript:void(0)" onclick="moreInfo()" class="space-y-[1vw]">
-                                            <div class="flex items-center justify-between">
-                                                <h2 class="text-[4.651vw] font-semibold">More Info</h2>
-                                                <img id="arrowIcon10" src="src/assets/icons/arrow-icon.svg"
-                                                    alt="" class="w-[3.256vw] rotate-0">
-                                            </div>
-                                            <hr class="w-full">
-                                        </a>
-                                        <div class="space-y-[1vw] overflow-hidden max-h-0 transition-all duration-500 ease-in-out"
-                                            id="moreInfo">
-                                            <div>
-                                                <p
-                                                    class="opacity-0 translate-y-[-100%] transition-all duration-500 ease-in-out text-[2.791vw]">
-                                                    Soft Green means something different to everyone. Let this oversized
-                                                    T-shirt be the canvas for your story. Pair it with your favorite
-                                                    accessories and create a unique and personal style.</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
-                            <!-- End Product Details -->
-                            <!-- Rating & Review -->
-                            <div class="flex flex-col sm:w-[22.188vw] w-[83.256vw] sm:mt-0 mt-[9.302vw]">
-                                <h2 data-aos="fade-right" data-aos-duration="500" data-aos-delay="200"
-                                    class="sm:text-[1.146vw] text-[4.651vw] font-semibold pb-[1.979vw]">Rating & Review
-                                </h2>
-                                <div class="space-y-[2vw]">
-                                    <div class="flex sm:flex-row flex-col justify-between items-center">
-                                        <div data-aos="fade-right" data-aos-duration="500" data-aos-delay="250"
-                                            class="flex flex-col sm:items-start items-center">
-                                            <h1 class="sm:text-[3.333vw] text-[13.953vw]">4,34</h1>
-                                            <div class="flex sm:space-x-[0.313vw] space-x-[1.395vw]">
-                                                <img src="src/assets/icons/stars-icon.svg" alt=""
-                                                    class="sm:w-[0.987vw] w-[4.186vw] sm:h-[0.943vw] h-[4.186vw]">
-                                                <img src="src/assets/icons/stars-icon.svg" alt=""
-                                                    class="sm:w-[0.987vw] w-[4.186vw] sm:h-[0.943vw] h-[4.186vw]">
-                                                <img src="src/assets/icons/stars-icon.svg" alt=""
-                                                    class="sm:w-[0.987vw] w-[4.186vw] sm:h-[0.943vw] h-[4.186vw]">
-                                                <img src="src/assets/icons/stars-icon.svg" alt=""
-                                                    class="sm:w-[0.987vw] w-[4.186vw] sm:h-[0.943vw] h-[4.186vw]">
-                                                <img src="src/assets/icons/stars-icon.svg" alt=""
-                                                    class="sm:w-[0.987vw] w-[4.186vw] sm:h-[0.943vw] h-[4.186vw]">
-                                            </div>
-                                            <h2
-                                                class="sm:text-[0.938vw] text-[3.256vw] font-semibold sm:pt-[1vw] pt-[4.186vw] sm:pb-0 pb-[6.512vw]">
-                                                23 Reviews</h2>
-                                        </div>
-                                        <div class="space-y-[0.5vw]">
-                                            <div data-aos="fade-left" data-aos-duration="500" data-aos-delay="300"
-                                                class="flex items-center sm:space-x-[0.677vw] space-x-[6.047vw]">
-                                                <div class="flex sm:space-x-[0.677vw] space-x-[3.023vw] items-center">
-                                                    <img src="src/assets/icons/stars-icon.svg" alt=""
-                                                        class="sm:w-[0.987vw] w-[4.419vw] sm:h-[0.943vw] h-[4.419vw]">
-                                                    <p class="sm:text-[1.042vw] text-[3.721vw] font-semibold">1</p>
-                                                </div>
-                                                <div class="">
-                                                    <div class="sm:w-[10.833vw] w-[68.605vw] sm:h-[0.938vw] h-[4.186vw] border border-white"
-                                                        style="background: linear-gradient(to right, white 30%, transparent 30%);">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div data-aos="fade-left" data-aos-duration="500" data-aos-delay="350"
-                                                class="flex items-center sm:space-x-[0.677vw] space-x-[5.116vw]">
-                                                <div class="flex sm:space-x-[0.677vw] space-x-[3.023vw] items-center">
-                                                    <img src="src/assets/icons/stars-icon.svg" alt=""
-                                                        class="sm:w-[0.987vw] w-[4.419vw] sm:h-[0.943vw] h-[4.419vw]">
-                                                    <p class="sm:text-[1.042vw] text-[3.721vw] font-semibold">2</p>
-                                                </div>
-                                                <div class="">
-                                                    <div class="sm:w-[10.833vw] w-[68.605vw] sm:h-[0.938vw] h-[4.186vw] border border-white"
-                                                        style="background: linear-gradient(to right, white 55%, transparent 30%);">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div data-aos="fade-left" data-aos-duration="500" data-aos-delay="400"
-                                                class="flex items-center sm:space-x-[0.677vw] space-x-[5.116vw]">
-                                                <div class="flex sm:space-x-[0.677vw] space-x-[3.023vw] items-center">
-                                                    <img src="src/assets/icons/stars-icon.svg" alt=""
-                                                        class="sm:w-[0.987vw] w-[4.419vw] sm:h-[0.943vw] h-[4.419vw]">
-                                                    <p class="sm:text-[1.042vw] text-[3.721vw] font-semibold">3</p>
-                                                </div>
-                                                <div class="">
-                                                    <div class="sm:w-[10.833vw] w-[68.605vw] sm:h-[0.938vw] h-[4.186vw] border border-white"
-                                                        style="background: linear-gradient(to right, white 75%, transparent 30%);">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div data-aos="fade-left" data-aos-duration="500" data-aos-delay="450"
-                                                class="flex items-center sm:space-x-[0.677vw] space-x-[5.116vw]">
-                                                <div class="flex sm:space-x-[0.677vw] space-x-[3.023vw] items-center">
-                                                    <img src="src/assets/icons/stars-icon.svg" alt=""
-                                                        class="sm:w-[0.987vw] w-[4.419vw] sm:h-[0.943vw] h-[4.419vw]">
-                                                    <p class="sm:text-[1.042vw] text-[3.721vw] font-semibold">4</p>
-                                                </div>
-                                                <div class="">
-                                                    <div class="sm:w-[10.833vw] w-[68.605vw] sm:h-[0.938vw] h-[4.186vw] border border-white"
-                                                        style="background: linear-gradient(to right, white 45%, transparent 30%);">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div data-aos="fade-left" data-aos-duration="500" data-aos-delay="500"
-                                                class="flex items-center sm:space-x-[0.677vw] space-x-[5.116vw]">
-                                                <div class="flex sm:space-x-[0.677vw] space-x-[3.023vw] items-center">
-                                                    <img src="src/assets/icons/stars-icon.svg" alt=""
-                                                        class="sm:w-[0.987vw] w-[4.419vw] sm:h-[0.943vw] h-[4.419vw]">
-                                                    <p class="sm:text-[1.042vw] text-[3.721vw] font-semibold">5</p>
-                                                </div>
-                                                <div class="">
-                                                    <div class="sm:w-[10.833vw] w-[68.605vw] sm:h-[0.938vw] h-[4.186vw] border border-white"
-                                                        style="background: linear-gradient(to right, white 80%, transparent 30%);">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div data-aos="fade-right" data-aos-duration="500" data-aos-delay="300">
-                                        <h2
-                                            class="font-semibold sm:text-[1.146vw] text-[4.651vw] sm:mt-0 mt-[9.302vw]">
-                                            Writing Review</h2>
-                                        <div
-                                            class="flex items-center sm:space-x-[0.313vw] space-x-[1.395vw] sm:pt-[0.99vw] pt-[4.419vw]">
-                                            <img src="src/assets/icons/outline-stars-icon.svg" alt=""
-                                                class="sm:w-[1.042vw] w-[4.651vw] sm:h-[0.938vw] h-[4.651vw]">
-                                            <img src="src/assets/icons/outline-stars-icon.svg" alt=""
-                                                class="sm:w-[1.042vw] w-[4.651vw] sm:h-[0.938vw] h-[4.651vw]">
-                                            <img src="src/assets/icons/outline-stars-icon.svg" alt=""
-                                                class="sm:w-[1.042vw] w-[4.651vw] sm:h-[0.938vw] h-[4.651vw]">
-                                            <img src="src/assets/icons/outline-stars-icon.svg" alt=""
-                                                class="sm:w-[1.042vw] w-[4.651vw] sm:h-[0.938vw] h-[4.651vw]">
-                                            <img src="src/assets/icons/outline-stars-icon.svg" alt=""
-                                                class="sm:w-[1.042vw] w-[4.651vw] sm:h-[0.938vw] h-[4.651vw]">
-                                        </div>
-                                    </div>
-
-                                    <div data-aos="fade-right" data-aos-duration="500" data-aos-delay="300">
-                                        <h2
-                                            class="font-semibold sm:text-[1.146vw] text-[4.651vw] sm:mt-0 mt-[9.302vw]">
-                                            Review</h2>
-                                        <div class="sm:pt-[0.99vw] pt-[4.651vw]">
-                                            <textarea name=""
-                                                class="bg-transparent border border-white placeholder:text-white placeholder:opacity-50 sm:text-[0.938vw] text-[2.791vw] sm:p-[1vw] p-[3.488vw] sm:w-[22.188vw] w-full sm:h-[7.552vw] h-[21.628vw]"
-                                                placeholder="Write your review here..."></textarea>
-                                        </div>
-                                    </div>
-
-                                    <div data-aos="fade-right" data-aos-duration="500" data-aos-delay="300">
-                                        <h2
-                                            class="font-semibold sm:text-[1.146vw] text-[4.651vw] sm:mt-0 mt-[9.302vw]">
-                                            Photo or Video (Optional)</h2>
-                                        <div class="flex flex-col items-center justify-center">
-                                            <label for="file-upload"
-                                                class="cursor-pointer flex flex-col items-center justify-center sm:w-[22.188vw] w-full sm:h-[15vw] h-[46.512vw] ">
-                                                <div class="border sm:p-[0.833vw] p-[4.651vw]">
-                                                    <img src="src/assets/icons/upload-icon.svg" alt=""
-                                                        class="sm:w-[3.125vw] w-[13.953vw] sm:h-[3.125vw] h-[13.953vw]">
-                                                </div>
-                                                <span
-                                                    class="text-center sm:text-[0.938vw] text-[2.791vw] sm:pt-[1.5vw] pt-[3.256vw]">Upload
-                                                    your product photo</span>
-                                                <input id="file-upload" type="file" class="hidden" />
-                                            </label>
-                                        </div>
-                                    </div>
-
-                                    <div>
-                                        <h2 data-aos="fade-right" data-aos-duration="500" data-aos-delay="300"
-                                            class="font-semibold sm:text-[1.146vw] text-[4.651vw]">Your Public Name &
-                                            Email</h2>
-                                        <div data-aos="fade-right" data-aos-duration="500" data-aos-delay="350"
-                                            class="sm:pt-[0.99vw] pt-[6.977vw] sm:space-y-[1.5vw] space-y-[3.256vw]">
-                                            <input type="text"
-                                                class="sm:w-[22.188vw] w-full sm:h-[4.219vw] h-[12.558vw] bg-transparent border border-white sm:text-[0.938vw] text-[2.791vw] sm:p-[1vw] p-[5.814vw]"
-                                                placeholder="Your name">
-                                            <input type="email"
-                                                class="sm:w-[22.188vw] w-full sm:h-[4.219vw] h-[12.558vw] bg-transparent border border-white sm:text-[0.938vw] text-[2.791vw] sm:p-[1vw] p-[5.814vw]"
-                                                placeholder="Your Email">
-                                        </div>
-                                        <div data-aos="fade-right" data-aos-duration="500" data-aos-delay="400"
-                                            class="sm:space-y-[1.5vw] space-y-[3.256vw] sm:mt-[2.5vw] mt-[6.977vw]">
-                                            <button
-                                                class="sm:w-[22.188vw] w-full sm:h-[2.604vw] h-[12.558vw] text-dark bg-white sm:text-[1.042vw] text-[3.256vw] font-medium">Submit
-                                                Review</button>
-                                            <button
-                                                class="sm:w-[22.188vw] w-full sm:h-[2.604vw] h-[12.558vw] text-white border border-white sm:text-[1.042vw] text-[3.256vw] font-medium">Cancel
-                                                Review</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End Rating & Review -->
-
                             <!-- Customer Review -->
                             <div class="flex flex-col sm:w-[38.49vw] w-[83.256vw]">
                                 <h2 data-aos="fade-right" data-aos-duration="500" data-aos-delay="300"
                                     class="sm:text-[1.146vw] text-[4.651vw] font-semibold pb-[1.979vw] sm:mt-0 mt-[9.302vw]">
-                                    Customer Review</h2>
-                                <div class="sm:space-y-[2.76vw] space-y-[9.302vw]">
-                                    <div data-aos="fade-right" data-aos-duration="500" data-aos-delay="350"
-                                        class="sm:space-y-[1vw] space-y-[2.558vw]">
-                                        <div class="flex justify-between">
-                                            <div class="flex space-x-[2vw]">
-                                                <img src="src/assets/images/reviewer-1.png" alt=""
-                                                    class="sm:w-[4.167vw] w-[17.674vw] sm:h-[4.167vw] h-[17.674vw]">
-                                                <div class="grid sm:gap-y-[0.4vw] gap-y-[1.395vw]">
-                                                    <h2
-                                                        class="sm:text-[1.25vw] text-[3.721vw] font-medium sm:leading-none leading-none">
-                                                        Rick Atsley</h2>
-                                                    <div class="flex sm:space-x-[0.4vw] space-x-[0.8vw]">
-                                                        <img src="src/assets/icons/stars-icon.svg" alt=""
-                                                            class="sm:w-[0.987vw] w-[2.791vw] sm:h-[0.943vw] h-[2.791vw]">
-                                                        <img src="src/assets/icons/stars-icon.svg" alt=""
-                                                            class="sm:w-[0.987vw] w-[2.791vw] sm:h-[0.943vw] h-[2.791vw]">
-                                                        <img src="src/assets/icons/stars-icon.svg" alt=""
-                                                            class="sm:w-[0.987vw] w-[2.791vw] sm:h-[0.943vw] h-[2.791vw]">
-                                                        <img src="src/assets/icons/stars-icon.svg" alt=""
-                                                            class="sm:w-[0.987vw] w-[2.791vw] sm:h-[0.943vw] h-[2.791vw]">
-                                                        <img src="src/assets/icons/stars-icon.svg" alt=""
-                                                            class="sm:w-[0.987vw] w-[2.791vw] sm:h-[0.943vw] h-[2.791vw]">
-                                                    </div>
-                                                    <h2 class="sm:text-[1vw] text-[3.256vw]">The size is a bit smaller
-                                                        than the previous one</h2>
+                                    Customer Review
+                                </h2>
+                                <div class="space-y-[1.5vw] mt-[2vw]">
+                                    <h2 class="text-[1.146vw] font-medium pb-[1vw]">Feedbacks</h2>
+                                    @if ($feedbacks->isNotEmpty())
+                                        @foreach ($feedbacks as $feedback)
+                                            <div class="border-b border-gray-300 pb-[1vw]">
+                                                <div class="flex items-center space-x-[0.6vw]">
+                                                    @for ($i = 0; $i < $feedback->rating; $i++)
+                                                        <img src="{{ asset('src/assets/icons/stars-icon.svg') }}" alt=""
+                                                            class="w-[0.938vw] h-[0.938vw]">
+                                                    @endfor
                                                 </div>
+                                                <p class="text-[0.938vw] font-semibold">{{ $feedback->name }}</p>
+                                                <!-- Nama User -->
+                                                <p class="text-[0.938vw]">{{ $feedback->komentar }}</p>
+                                                <p class="text-[0.75vw] text-gray-500">{{ $feedback->tanggal_feedback }}
+                                                </p>
                                             </div>
-                                            <p
-                                                class="sm:static absolute sm:text-[0.938vw] text-[2.791vw] sm:pl-0 pl-[64.419vw]">
-                                                23 / 09 / 2024</p>
-                                        </div>
-                                        <div>
-                                            <p class="sm:text-[0.938vw] text-[2.791vw]">The fabric is soft, and the fit
-                                                is perfect. Love the stylish design and the color looks exactly like the
-                                                picture. Great quality overall</p>
-                                        </div>
-                                    </div>
-                                    <div data-aos="fade-right" data-aos-duration="500" data-aos-delay="400"
-                                        class="sm:space-y-[1vw] space-y-[2.558vw]">
-                                        <div class="flex justify-between">
-                                            <div class="flex space-x-[1.25vw]">
-                                                <img src="src/assets/images/reviewer-2.png" alt=""
-                                                    class="sm:w-[4.167vw] w-[17.674vw] sm:h-[4.167vw] h-[17.674vw]">
-                                                <div class="grid sm:gap-y-[0.4vw] gap-y-[1.395vw]">
-                                                    <h2
-                                                        class="sm:text-[1.25vw] text-[3.721vw] font-medium sm:leading-none leading-none">
-                                                        Gilbert Janong</h2>
-                                                    <div class="flex sm:space-x-[0.4vw] space-x-[0.8vw]">
-                                                        <img src="src/assets/icons/stars-icon.svg" alt=""
-                                                            class="sm:w-[0.987vw] w-[2.791vw] sm:h-[0.943vw] h-[2.791vw]">
-                                                        <img src="src/assets/icons/stars-icon.svg" alt=""
-                                                            class="sm:w-[0.987vw] w-[2.791vw] sm:h-[0.943vw] h-[2.791vw]">
-                                                        <img src="src/assets/icons/outline-stars-icon.svg"
-                                                            alt=""
-                                                            class="sm:w-[0.987vw] w-[2.791vw] sm:h-[0.943vw] h-[2.791vw]">
-                                                        <img src="src/assets/icons/outline-stars-icon.svg"
-                                                            alt=""
-                                                            class="sm:w-[0.987vw] w-[2.791vw] sm:h-[0.943vw] h-[2.791vw]">
-                                                        <img src="src/assets/icons/outline-stars-icon.svg"
-                                                            alt=""
-                                                            class="sm:w-[0.987vw] w-[2.791vw] sm:h-[0.943vw] h-[2.791vw]">
-                                                    </div>
-                                                    <h2 class="sm:text-[1vw] text-[3.256vw]">The size is a bit smaller
-                                                        than the previous one</h2>
-                                                </div>
-                                            </div>
-                                            <p
-                                                class="sm:static absolute sm:text-[0.938vw] text-[2.791vw] sm:pl-0 pl-[64.419vw]">
-                                                23 / 09 / 2024</p>
-                                        </div>
-                                        <div>
-                                            <p class="sm:text-[0.938vw] text-[2.791vw]">The fabric is soft, and the fit
-                                                is perfect. Love the stylish design and the color looks exactly like the
-                                                picture. Great quality overall</p>
-                                        </div>
-                                    </div>
-                                    <div data-aos="fade-right" data-aos-duration="500" data-aos-delay="450"
-                                        class="sm:space-y-[1vw] space-y-[2.558vw]">
-                                        <div class="flex justify-between">
-                                            <div class="flex space-x-[1.25vw]">
-                                                <img src="src/assets/images/reviewer-3.png" alt=""
-                                                    class="sm:w-[4.167vw] w-[17.674vw] sm:h-[4.167vw] h-[17.674vw]">
-                                                <div class="grid sm:gap-y-[0.4vw] gap-y-[1.395vw]">
-                                                    <h2
-                                                        class="sm:text-[1.25vw] text-[3.721vw] font-medium sm:leading-none leading-none">
-                                                        Kevin Durant</h2>
-                                                    <div class="flex sm:space-x-[0.4vw] space-x-[0.8vw]">
-                                                        <img src="src/assets/icons/stars-icon.svg" alt=""
-                                                            class="sm:w-[0.987vw] w-[2.791vw] sm:h-[0.943vw] h-[2.791vw]">
-                                                        <img src="src/assets/icons/stars-icon.svg" alt=""
-                                                            class="sm:w-[0.987vw] w-[2.791vw] sm:h-[0.943vw] h-[2.791vw]">
-                                                        <img src="src/assets/icons/stars-icon.svg" alt=""
-                                                            class="sm:w-[0.987vw] w-[2.791vw] sm:h-[0.943vw] h-[2.791vw]">
-                                                        <img src="src/assets/icons/stars-icon.svg" alt=""
-                                                            class="sm:w-[0.987vw] w-[2.791vw] sm:h-[0.943vw] h-[2.791vw]">
-                                                        <img src="src/assets/icons/outline-stars-icon.svg"
-                                                            alt=""
-                                                            class="sm:w-[0.987vw] w-[2.791vw] sm:h-[0.943vw] h-[2.791vw]">
-                                                    </div>
-                                                    <h2 class="sm:text-[1vw] text-[3.256vw]">The size is a bit smaller
-                                                        than the previous one</h2>
-                                                </div>
-                                            </div>
-                                            <p
-                                                class="sm:static absolute sm:text-[0.938vw] text-[2.791vw] sm:pl-0 pl-[64.419vw]">
-                                                23 / 09 / 2024</p>
-                                        </div>
-                                        <div>
-                                            <p class="sm:text-[0.938vw] text-[2.791vw]">The fabric is soft, and the fit
-                                                is perfect. Love the stylish design and the color looks exactly like the
-                                                picture. Great quality overall</p>
-                                        </div>
-                                    </div>
-                                    <div data-aos="fade-right" data-aos-duration="500" data-aos-delay="500"
-                                        class="sm:space-y-[1vw] space-y-[2.558vw]">
-                                        <div class="flex justify-between">
-                                            <div class="flex space-x-[1.25vw]">
-                                                <img src="src/assets/images/reviewer-4.png" alt=""
-                                                    class="sm:w-[4.167vw] w-[17.674vw] sm:h-[4.167vw] h-[17.674vw]">
-                                                <div class="grid sm:gap-y-[0.4vw] gap-y-[1.395vw]">
-                                                    <h2
-                                                        class="sm:text-[1.25vw] text-[3.721vw] font-medium sm:leading-none leading-none">
-                                                        Lebron James</h2>
-                                                    <div class="flex sm:space-x-[0.4vw] space-x-[0.8vw]">
-                                                        <img src="src/assets/icons/stars-icon.svg" alt=""
-                                                            class="sm:w-[0.987vw] w-[2.791vw] sm:h-[0.943vw] h-[2.791vw]">
-                                                        <img src="src/assets/icons/stars-icon.svg" alt=""
-                                                            class="sm:w-[0.987vw] w-[2.791vw] sm:h-[0.943vw] h-[2.791vw]">
-                                                        <img src="src/assets/icons/stars-icon.svg" alt=""
-                                                            class="sm:w-[0.987vw] w-[2.791vw] sm:h-[0.943vw] h-[2.791vw]">
-                                                        <img src="src/assets/icons/stars-icon.svg" alt=""
-                                                            class="sm:w-[0.987vw] w-[2.791vw] sm:h-[0.943vw] h-[2.791vw]">
-                                                        <img src="src/assets/icons/stars-icon.svg" alt=""
-                                                            class="sm:w-[0.987vw] w-[2.791vw] sm:h-[0.943vw] h-[2.791vw]">
-                                                    </div>
-                                                    <h2 class="sm:text-[1vw] text-[3.256vw]">The size is a bit smaller
-                                                        than the previous one</h2>
-                                                </div>
-                                            </div>
-                                            <p
-                                                class="sm:static absolute sm:text-[0.938vw] text-[2.791vw] sm:pl-0 pl-[64.419vw]">
-                                                23 / 09 / 2024</p>
-                                        </div>
-                                        <div>
-                                            <p class="sm:text-[0.938vw] text-[2.791vw]">The fabric is soft, and the fit
-                                                is perfect. Love the stylish design and the color looks exactly like the
-                                                picture. Great quality overall</p>
-                                        </div>
-                                    </div>
-                                    <div data-aos="fade-right" data-aos-duration="500" data-aos-delay="550"
-                                        class="sm:space-y-[1vw] space-y-[2.558vw]">
-                                        <div class="flex justify-between">
-                                            <div class="flex space-x-[1.25vw]">
-                                                <img src="src/assets/images/reviewer-5.png" alt=""
-                                                    class="sm:w-[4.167vw] w-[17.674vw] sm:h-[4.167vw] h-[17.674vw]">
-                                                <div class="grid sm:gap-y-[0.4vw] gap-y-[1.395vw]">
-                                                    <h2
-                                                        class="sm:text-[1.25vw] text-[3.721vw] font-medium sm:leading-none leading-none">
-                                                        Kai Cenat</h2>
-                                                    <div class="flex sm:space-x-[0.4vw] space-x-[0.8vw]">
-                                                        <img src="src/assets/icons/stars-icon.svg" alt=""
-                                                            class="sm:w-[0.987vw] w-[2.791vw] sm:h-[0.943vw] h-[2.791vw]">
-                                                        <img src="src/assets/icons/stars-icon.svg" alt=""
-                                                            class="sm:w-[0.987vw] w-[2.791vw] sm:h-[0.943vw] h-[2.791vw]">
-                                                        <img src="src/assets/icons/stars-icon.svg" alt=""
-                                                            class="sm:w-[0.987vw] w-[2.791vw] sm:h-[0.943vw] h-[2.791vw]">
-                                                        <img src="src/assets/icons/outline-stars-icon.svg"
-                                                            alt=""
-                                                            class="sm:w-[0.987vw] w-[2.791vw] sm:h-[0.943vw] h-[2.791vw]">
-                                                        <img src="src/assets/icons/outline-stars-icon.svg"
-                                                            alt=""
-                                                            class="sm:w-[0.987vw] w-[2.791vw] sm:h-[0.943vw] h-[2.791vw]">
-                                                    </div>
-                                                    <h2 class="sm:text-[1vw] text-[3.256vw]">The size is a bit smaller
-                                                        than the previous one</h2>
-                                                </div>
-                                            </div>
-                                            <p
-                                                class="sm:static absolute sm:text-[0.938vw] text-[2.791vw] sm:pl-0 pl-[64.419vw]">
-                                                23 / 09 / 2024</p>
-                                        </div>
-                                        <div>
-                                            <p class="sm:text-[0.938vw] text-[2.791vw]">The fabric is soft, and the fit
-                                                is perfect. Love the stylish design and the color looks exactly like the
-                                                picture. Great quality overall</p>
-                                        </div>
-                                    </div>
+                                        @endforeach
+                                    @else
+                                        <p class="text-[0.938vw] text-gray-500">No feedbacks yet for this product.</p>
+                                    @endif
                                 </div>
                             </div>
-                            <!-- End Customer Review -->
-                        </div>
-                    </div>
+                            <div class="flex flex-col sm:w-[22.188vw] w-[83.256vw] sm:mt-0 mt-[9.302vw]">
+                                <h2 data-aos="fade-right" data-aos-duration="500" data-aos-delay="200"
+                                    class="sm:text-[1.146vw] text-[4.651vw] font-semibold pb-[1.979vw]">
+                                    Rating &amp; Review
+                                </h2>
+                                <div class="space-y-[2vw]">
+                                    <!-- Rata-rata Rating -->
+                                    <div class="flex sm:flex-row flex-col justify-between items-center">
+                                        <div data-aos="fade-right" data-aos-duration="500" data-aos-delay="250"
+                                            class="flex flex-col sm:items-start items-center">
+                                            <h1 class="sm:text-[3.333vw] text-[13.953vw]">
+                                                {{ number_format($averageRating, 2) }}
+                                            </h1>
+                                            <div class="flex sm:space-x-[0.313vw] space-x-[1.395vw]">
+                                                @for ($i = 1; $i <= 5; $i++)
+                                                    @if ($i <= floor($averageRating))
+                                                        <img src="{{ asset('src/assets/icons/stars-icon.svg') }}" alt=""
+                                                            class="sm:w-[0.987vw] w-[4.186vw] sm:h-[0.943vw] h-[4.186vw]">
+                                                    @else
+                                                        <img src="{{ asset('src/assets/icons/outline-stars-icon.svg') }}"
+                                                            alt=""
+                                                            class="sm:w-[0.987vw] w-[4.186vw] sm:h-[0.943vw] h-[4.186vw]">
+                                                    @endif
+                                                @endfor
+                                            </div>
+                                            <h2
+                                                class="sm:text-[0.938vw] text-[3.256vw] font-semibold sm:pt-[1vw] pt-[4.186vw] sm:pb-0 pb-[6.512vw]">
+                                                {{ $totalReviews }} Reviews
+                                            </h2>
+                                        </div>
+                                    </div>
+                                    <!-- End Customer Review -->
+                                </div>
+                            </div>
                 </section>
             </div>
             <div data-aos="fade-left" data-aos-duration="500" data-aos-delay="400"
@@ -625,88 +227,13 @@
                                 </button>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="flex flex-col space-y-[2vw] ps-[2.344vw] absolute w-full pb-[1.667vw]">
-                    <div class="space-y-[1vw]">
-                        <a href="javascript:void(0)" onclick="productDetails2()" class="space-y-[1vw]">
-                            <div class="flex items-center justify-between">
-                                <h2 class="text-[1.146vw] font-semibold">Product Details</h2>
-                                <img id="arrowIcon11" src="src/assets/icons/arrow-icon.svg" alt=""
-                                    class="w-[0.833vw] rotate-0 transition-transform duration-500">
-                            </div>
-                            <hr class="w-full">
-                        </a>
-                        <div class="overflow-hidden max-h-0 transition-all duration-500 ease-in-out space-y-[1vw]"
-                            id="ProductDetail2">
-                            <div>
-                                <p class="text-[0.938vw]">Oversized Streetwear T-Shirt - "Soft Green Oversized"</p>
-                            </div>
 
-                            <div>
-                                <ul id="productDetailsList2" class="text-[0.938vw] space-y-[0.5vw]">
-                                    <li class="opacity-0 translate-y-[-100%] transition-all duration-500 ease-in-out">
-                                        Color : Green</li>
-                                    <li class="opacity-0 translate-y-[-100%] transition-all duration-500 ease-in-out">
-                                        Size : Oversized</li>
-                                    <li class="opacity-0 translate-y-[-100%] transition-all duration-500 ease-in-out">
-                                        Material : 100% Cotton</li>
-                                </ul>
-                            </div>
+                        <!-- Feedbacks -->
 
-                            <div class="text-[0.938vw]">
-                                <p>Features :</p>
-                                <ul class="list-disc ps-[1vw] space-y-[0.5vw]" id="featuresList2">
-                                    <li class="opacity-0 translate-y-[-100%] transition-all duration-500 ease-in-out">
-                                        Oversized Fit: The t-shirt has a relaxed, oversized fit for a comfortable and
-                                        stylish look.</li>
-                                    <li class="opacity-0 translate-y-[-100%] transition-all duration-500 ease-in-out">
-                                        High-Quality Material: Made from 100% soft cotton for maximum comfort and
-                                        breathability.</li>
-                                    <li class="opacity-0 translate-y-[-100%] transition-all duration-500 ease-in-out">
-                                        Durable Construction: The t-shirt is built to last with double-stitched seams
-                                        and a reinforced neckline.</li>
-                                    <li class="opacity-0 translate-y-[-100%] transition-all duration-500 ease-in-out">
-                                        Eye-Catching Design: Clean green graphic and text make this t-shirt a standout
-                                        piece.</li>
-                                </ul>
-                            </div>
-
-                            <div class="text-[0.938vw]">
-                                <p>Care Instructions :</p>
-                                <ul class="list-disc ps-[1vw] space-y-[0.5vw]" id="careInstructionsList2">
-                                    <li class="opacity-0 translate-y-[-100%] transition-all duration-500 ease-in-out">
-                                        Machine wash cold with like colors</li>
-                                    <li class="opacity-0 translate-y-[-100%] transition-all duration-500 ease-in-out">
-                                        Tumble dry low</li>
-                                    <li class="opacity-0 translate-y-[-100%] transition-all duration-500 ease-in-out">
-                                        Do not iron directly on the graphic</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="space-y-[1vw]">
-                        <a href="javascript:void(0)" onclick="moreInfo2()" class="space-y-[1vw]">
-                            <div class="flex items-center justify-between">
-                                <h2 class="text-[1.146vw] font-semibold">More Info</h2>
-                                <img id="arrowIcon12" src="src/assets/icons/arrow-icon.svg" alt=""
-                                    class="w-[0.833vw] rotate-0 transition-transform duration-500">
-                            </div>
-                            <hr class="w-full">
-                        </a>
-                        <div class="overflow-hidden max-h-0 transition-all duration-500 ease-in-out space-y-[1vw]"
-                            id="moreInfo2">
-                            <div>
-                                <p
-                                    class="text-[0.938vw] opacity-0 translate-y-[-100%] transition-all duration-500 ease-in-out">
-                                    Soft Green means something different to everyone. Let this oversized T-shirt be the
-                                    canvas for your story. Pair it with your favorite accessories and create a unique
-                                    and personal style.</p>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
+
         </div>
         <h1
             class="absolute top-[-6vw] left-0 right-0 bottom-0 text-[13.021vw] md:text-[12.7vw] font-extrabold text-text_dark flex justify-center z-[-1] shadow__text">

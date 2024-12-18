@@ -82,6 +82,12 @@
                         <h2 class="text-xl font-semibold mb-2 text-gray-800 nama-barang">{{ $item->nama_barang }}</h2>
                         <p class="text-gray-600 mb-4 kategori">{{ $item->nama_kategori }}</p>
                         <p class="text-gray-600 mb-4 deskripsi">{{ $item->deskripsi }}</p>
+                        @if ($item->jumlah_stok == null)
+                            <p class="text-gray-600 mb-4 stock">0</p>
+                        @else
+                            <p class="text-gray-600 mb-4 stock">{{ $item->jumlah_stok }}</p>
+                        @endif
+
                         <div class="flex justify-between items-center">
                             <span class="text-gray-800 font-bold harga-sewa">Rp
                                 {{ number_format($item->harga_sewa, 0, ',', '.') }}</span>
@@ -424,7 +430,7 @@
                         if (result.isConfirmed) {
                             // Anda bisa menambahkan aksi lain jika diperlukan, misalnya menutup modal atau memuat ulang halaman
                             location
-                        .reload(); // Reload halaman untuk melihat perubahan
+                                .reload(); // Reload halaman untuk melihat perubahan
                         }
                     });
                 },
@@ -568,7 +574,7 @@
         event.preventDefault();
 
         const itemId = document.getElementById('itemId').value;
-        const currentStock = parseInt(document.getElementById('currentStock').value);
+        const currentStock = parseInt(document.getElementById('currentStock').value) || 0;
         const stockChange = parseInt(document.getElementById('stockChange').value);
         const action = document.querySelector('input[name="action"]:checked')
             .value; // Mengambil nilai aksi (increase/decrease)
