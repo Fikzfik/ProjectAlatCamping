@@ -65,7 +65,7 @@
 
                             <!-- Dropdown List -->
                             <div id="dropdownListKategori"
-                                class="overflow-auto max-h-[30vw] transition-all duration-500 ease-in-out hidden">  
+                                class="overflow-auto max-h-[30vw] transition-all duration-500 ease-in-out hidden">
                                 <div class="space-y-[0.729vw]">
                                     <ul class="text-[0.938vw] space-y-[0.5vw] max-w-[3vw]">
                                         @foreach ($kategori as $kat)
@@ -78,7 +78,6 @@
                                     </ul>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -216,79 +215,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <img id="arrowIcon4" src="src/assets/icons/arrow-icon.svg" alt="Dropdown Icon"
                     class="w-[0.833vw] rotate-0 transition-transform duration-500">
             </div>
-        </a>
-        <hr>
-
-        <!-- Dropdown List -->
-        <div id="dropdownList4" class="overflow-hidden max-h-0 transition-all duration-500 ease-in-out">
-            <ul class="text-[0.938vw] space-y-[0.781vw]">
-                <!-- List Item S -->
-                <li class="font-medium flex items-center space-x-[0.885vw] opacity-0 translate-x-[-100%] transition-all duration-500 ease-in-out">
-                    <input type="checkbox" id="sizeS" name="size" class="w-[1.302vw] h-[1.302vw] bg-transparent accent-white">
-                    <label for="sizeS" class="text-[0.938vw] font-medium cursor-pointer">S</label>
-                </li>
-                <!-- List Item M -->
-                <li class="font-medium flex items-center space-x-[0.885vw] opacity-0 translate-x-[-100%] transition-all duration-500 ease-in-out">
-                    <input type="checkbox" id="sizeM" name="size" class="w-[1.302vw] h-[1.302vw] bg-transparent accent-white">
-                    <label for="sizeM" class="text-[0.938vw] font-medium cursor-pointer">M</label>
-                </li>
-                <!-- List Item L -->
-                <li class="font-medium flex items-center space-x-[0.885vw] opacity-0 translate-x-[-100%] transition-all duration-500 ease-in-out">
-                    <input type="checkbox" id="sizeL" name="size" class="w-[1.302vw] h-[1.302vw] bg-transparent accent-white">
-                    <label for="sizeL" class="text-[0.938vw] font-medium cursor-pointer">L</label>
-                </li>
-                <!-- List Item XL -->
-                <li class="font-medium flex items-center space-x-[0.885vw] opacity-0 translate-x-[-100%] transition-all duration-500 ease-in-out">
-                    <input type="checkbox" id="sizeXL" name="size" class="w-[1.302vw] h-[1.302vw] bg-transparent accent-white">
-                    <label for="sizeXL" class="text-[0.938vw] font-medium cursor-pointer">XL</label>
-                </li>
-                <!-- List Item XXL -->
-                <li class="font-medium flex items-center space-x-[0.885vw] opacity-0 translate-x-[-100%] transition-all duration-500 ease-in-out">
-                    <input type="checkbox" id="sizeXXL" name="size" class="w-[1.302vw] h-[1.302vw] bg-transparent accent-white">
-                    <label for="sizeXXL" class="text-[0.938vw] font-medium cursor-pointer">XXL</label>
-                </li>
-                <!-- List Item XXXL -->
-                <li class="font-medium flex items-center space-x-[0.885vw] opacity-0 translate-x-[-100%] transition-all duration-500 ease-in-out">
-                    <input type="checkbox" id="sizeXXXL" name="size" class="w-[1.302vw] h-[1.302vw] bg-transparent accent-white">
-                    <label for="sizeXXXL" class="text-[0.938vw] font-medium cursor-pointer">XXXL</label>
-                </li>
-            </ul>
         </div>
-    </div>
-</div>
-
-<script>
-// Fungsi untuk toggle dropdown
-function toggleDropdown4() {
-    const dropdownList = document.getElementById('dropdownList4');
-    const arrowIcon = document.getElementById('arrowIcon4');
-    const listItems = document.querySelectorAll('#dropdownList4 li');
-
-    // Toggle dropdown visibility
-    dropdownList.classList.toggle('max-h-0');
-    dropdownList.classList.toggle('max-h-[10vw]');
-
-    // Rotate dropdown icon
-    arrowIcon.classList.toggle('rotate-0');
-    arrowIcon.classList.toggle('rotate-180');
-
-    // Animasi item list
-    listItems.forEach((item, index) => {
-        setTimeout(() => {
-            item.classList.toggle('opacity-0');
-            item.classList.toggle('translate-x-[-100%]');
-            item.classList.toggle('translate-x-0');
-        }, index * 100); // Delay animasi per item
-    });
-}
-</script>
-
-
-
-
-</div>
-</div>
-        
         <div id="barangContainer"
             class="sm:w-[65.729vw] w-[83.256vw] grid sm:grid-cols-4 grid-cols-2 sm:place-items-start place-items-center sm:gap-y-[2.344vw] gap-y-[9.767vw] sm:gap-x-[1.146vw] gap-x-[3.256vw]">
             @foreach ($barang as $item)
