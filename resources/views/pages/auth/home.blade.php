@@ -65,7 +65,7 @@
 
                             <!-- Dropdown List -->
                             <div id="dropdownListKategori"
-                                class="overflow-auto max-h-[30vw] transition-all duration-500 ease-in-out hidden">
+                                class="overflow-auto max-h-[30vw] transition-all duration-500 ease-in-out hidden">  
                                 <div class="space-y-[0.729vw]">
                                     <ul class="text-[0.938vw] space-y-[0.5vw] max-w-[3vw]">
                                         @foreach ($kategori as $kat)
@@ -78,125 +78,217 @@
                                     </ul>
                                 </div>
                             </div>
+
                         </div>
                     </div>
                 </div>
 
+                <div class="space-y-[1vw]">
+    <!-- Tombol dan Dropdown -->
+    <div data-aos="fade-right" data-aos-duration="500" data-aos-delay="200">
+        <div class="space-y-[0.729vw]">
+            <!-- Tombol Toggle -->
+            <a href="javascript:void(0)" id="dropdownToggleKategori">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-[1.146vw] font-medium">Availability:</h2>
+                    <img id="dropdownIconKategori" src="src/assets/icons/arrow-icon.svg" alt="Dropdown Icon"
+                        class="w-[0.833vw] rotate-0 transition-transform duration-500">
+                </div>
+            </a>
+            <hr>
 
+            <!-- Dropdown List -->
+            <div id="AvailabilityList" class="overflow-hidden max-h-0 transition-all duration-500 ease-in-out">
+                <ul class="text-[0.938vw] space-y-[0.781vw]">
+                    <!-- List Item In-Stock -->
+                    <li class="font-medium flex items-center space-x-[0.885vw] opacity-0 translate-x-[-100%] transition-all duration-500 ease-in-out">
+                        <input type="checkbox" id="inStock" name="availability" class="w-[1.302vw] h-[1.302vw] accent-white" checked>
+                        <label for="inStock" class="text-[0.938vw] font-medium cursor-pointer">In Stock</label>
+                    </li>
+                    <!-- List Item Out-of-Stock -->
+                    <li class="font-medium flex items-center space-x-[0.885vw] opacity-0 translate-x-[-100%] transition-all duration-500 ease-in-out">
+                        <input type="checkbox" id="outOfStock" name="availability" class="w-[1.302vw] h-[1.302vw] accent-white" checked>
+                        <label for="outOfStock" class="text-[0.938vw] font-medium cursor-pointer">Out of Stock</label>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
 
-                <div data-aos="fade-right" data-aos-duration="500" data-aos-delay="300">
-                    <div class="space-y-[0.729vw]">
-                        <a href="javascript:void(0)" onclick="toggleDropdown2()">
-                            <div class="flex items-center justify-between">
-                                <h2 class="text-[1.146vw] font-medium">Availability:</h2>
-                                <img id="arrowIcon2" src="src/assets/icons/arrow-icon.svg" alt=""
-                                    class="w-[0.833vw] rotate-0 transition-transform duration-500">
-                            </div>
-                        </a>
-                        <hr>
-                        <div id="dropdownList2" class="overflow-hidden max-h-0 transition-all duration-500 ease-in-out">
-                            <ul id="listItems2" class="text-[0.938vw] space-y-[0.781vw]">
-                                <li
-                                    class="font-medium flex items-center space-x-[0.885vw] opacity-0 translate-x-[-100%] transition-all duration-500 ease-in-out">
-                                    <input type="checkbox" name="" id=""
-                                        class="w-[1.302vw] h-[1.302vw] bg-transparent accent-white" checked>
-                                    <p class="text-[0.938vw] font-medium">In Stock</p>
-                                </li>
-                                <li
-                                    class="font-medium flex items-center space-x-[0.885vw] opacity-0 translate-x-[-100%] transition-all duration-500 ease-in-out">
-                                    <input type="checkbox" name="" id=""
-                                        class="w-[1.302vw] h-[1.302vw] bg-transparent accent-white" checked>
-                                    <p class="text-[0.938vw] font-medium">Out Of Stock</p>
-                                </li>
-                            </ul>
-                        </div>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const toggleButton = document.getElementById('dropdownToggleKategori');
+    const dropdownList = document.getElementById('AvailabilityList');
+    const dropdownIcon = document.getElementById('dropdownIconKategori');
+    const listItems = document.querySelectorAll('#AvailabilityList li');
+
+    toggleButton.addEventListener('click', () => {
+        // Toggle dropdown visibility
+        dropdownList.classList.toggle('max-h-0');
+        dropdownList.classList.toggle('max-h-[10vw]');
+
+        // Rotate dropdown icon
+        dropdownIcon.classList.toggle('rotate-0');
+        dropdownIcon.classList.toggle('rotate-180');
+
+        // Animate list items
+        listItems.forEach((item, index) => {
+            setTimeout(() => {
+                item.classList.toggle('opacity-0');
+                item.classList.toggle('translate-x-[-100%]');
+                item.classList.toggle('translate-x-0');
+            }, index * 100); // Delay animation per list item
+        });
+    });
+});
+</script><div class="space-y-[1vw]">
+    <!-- Tombol dan Dropdown -->
+    <div data-aos="fade-right" data-aos-duration="500" data-aos-delay="200">
+        <div class="space-y-[0.729vw]">
+            <!-- Tombol Toggle -->
+            <a href="javascript:void(0)" id="dropdownToggleHarga">
+                <div class="flex items-center justify-between">
+                    <h2 class="text-[1.146vw] font-medium">Price</h2>
+                    <img id="dropdownIconHarga" src="src/assets/icons/arrow-icon.svg" alt="Dropdown Icon"
+                        class="w-[0.833vw] rotate-0 transition-transform duration-500">
+                </div>
+            </a>
+            <hr>
+
+            <!-- Dropdown List -->
+            <div id="PriceList" class="overflow-hidden max-h-0 transition-all duration-500 ease-in-out">
+                <div class="flex items-center space-x-[1vw] mt-[1vw]">
+                    <!-- Input MIN -->
+                    <div class="border border-gray-300 p-[0.5vw] rounded">
+                        <label for="minPrice" class="text-gray-500 text-[0.938vw]">Rp MIN</label>
+                        <input id="minPrice" type="number" placeholder="0"
+                            class="w-[6vw] text-[0.938vw] outline-none bg-transparent">
+                    </div>
+
+                    <!-- Separator -->
+                    <span class="text-gray-500 text-[0.938vw]">—</span>
+
+                    <!-- Input MAX -->
+                    <div class="border border-gray-300 p-[0.5vw] rounded">
+                        <label for="maxPrice" class="text-gray-500 text-[0.938vw]">Rp MAKS</label>
+                        <input id="maxPrice" type="number" placeholder="1000000"
+                            class="w-[6vw] text-[0.938vw] outline-none bg-transparent">
                     </div>
                 </div>
 
-                <div data-aos="fade-right" data-aos-duration="500" data-aos-delay="400">
-                    <div class="space-y-[0.729vw]">
-                        <a href="javascript:void(0)" onclick="toggleDropdown3()">
-                            <div class="flex items-center justify-between">
-                                <h2 class="text-[1.146vw] font-medium">Price:</h2>
-                                <img id="arrowIcon3" src="src/assets/icons/arrow-icon.svg" alt=""
-                                    class="w-[0.833vw] rotate-0 transition-transform duration-500">
-                            </div>
-                        </a>
-                        <hr>
-                        <div id="dropdownList3" class="overflow-hidden max-h-0 transition-all duration-500 ease-in-out">
-                            <ul class="text-[0.938vw] space-y-[1.042vw] flex items-center space-x-[0.729vw]">
-                                <li
-                                    class="text-[1.042vw] opacity-0 translate-x-[-100%] transition-all duration-500 ease-in-out">
-                                    Rp
-                                </li>
-                                <li
-                                    class="grid grid-cols-2 gap-[1.25vw] items-center opacity-0 translate-x-[-100%] transition-all duration-500 ease-in-out">
-                                    <input type="text"
-                                        class="w-[9.583vw] h-[2.604vw] bg-transparent border-[0.052vw] border-white px-[1.042vw] placeholder:text-white"
-                                        placeholder="From :">
-                                    <input type="text"
-                                        class="w-[9.583vw] h-[2.604vw] bg-transparent border-[0.052vw] border-white px-[1.042vw] placeholder:text-white"
-                                        placeholder="To :">
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-
-                <div data-aos="fade-right" data-aos-duration="500" data-aos-delay="500">
-                    <div class="space-y-[0.729vw]">
-                        <a href="javascript:void(0)" onclick="toggleDropdown4()">
-                            <div class="flex items-center justify-between">
-                                <h2 class="text-[1.146vw] font-medium">Size:</h2>
-                                <img id="arrowIcon4" src="src/assets/icons/arrow-icon.svg" alt=""
-                                    class="w-[0.833vw] rotate-0 transition-transform duration-500">
-                            </div>
-                        </a>
-                        <hr>
-                        <div id="dropdownList4" class="overflow-hidden max-h-0 transition-all duration-500 ease-in-out">
-                            <ul class="text-[0.938vw] space-y-[0.781vw]">
-                                <li
-                                    class="font-medium flex items-center space-x-[0.885vw] opacity-0 translate-x-[-100%] transition-all duration-500 ease-in-out">
-                                    <input type="checkbox" name="" id=""
-                                        class="w-[1.302vw] h-[1.302vw] bg-transparent accent-white" checked>
-                                    <p class="text-[0.938vw] font-medium">S</p>
-                                </li>
-                                <li
-                                    class="font-medium flex items-center space-x-[0.885vw] opacity-0 translate-x-[-100%] transition-all duration-500 ease-in-out">
-                                    <input type="checkbox" name="" id=""
-                                        class="w-[1.302vw] h-[1.302vw] bg-transparent accent-white" checked>
-                                    <p class="text-[0.938vw] font-medium">M</p>
-                                </li>
-                                <li
-                                    class="font-medium flex items-center space-x-[0.885vw] opacity-0 translate-x-[-100%] transition-all duration-500 ease-in-out">
-                                    <input type="checkbox" name="" id=""
-                                        class="w-[1.302vw] h-[1.302vw] bg-transparent accent-white" checked>
-                                    <p class="text-[0.938vw] font-medium">L</p>
-                                </li>
-                                <li
-                                    class="font-medium flex items-center space-x-[0.885vw] opacity-0 translate-x-[-100%] transition-all duration-500 ease-in-out">
-                                    <input type="checkbox" name="" id=""
-                                        class="w-[1.302vw] h-[1.302vw] bg-transparent accent-white" checked>
-                                    <p class="text-[0.938vw] font-medium">XL</p>
-                                </li>
-                                <li
-                                    class="font-medium flex items-center space-x-[0.885vw] opacity-0 translate-x-[-100%] transition-all duration-500 ease-in-out">
-                                    <input type="checkbox" name="" id=""
-                                        class="w-[1.302vw] h-[1.302vw] bg-transparent accent-white" checked>
-                                    <p class="text-[0.938vw] font-medium">XXL</p>
-                                </li>
-                                <li
-                                    class="font-medium flex items-center space-x-[0.885vw] opacity-0 translate-x-[-100%] transition-all duration-500 ease-in-out">
-                                    <input type="checkbox" name="" id=""
-                                        class="w-[1.302vw] h-[1.302vw] bg-transparent accent-white" checked>
-                                    <p class="text-[0.938vw] font-medium">XXXL</p>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
+                <!-- Tombol Terapkan -->
+                <div class="mt-[1vw]">
+                    <button id="applyPriceFilter" class="bg-[#000000] text-white font-medium py-[0.5vw] w-full rounded">
+                        TERAPKAN
+                    </button>
                 </div>
             </div>
         </div>
+    </div>
+</div>
+
+<!-- JavaScript Toggle Dropdown -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const toggleButton = document.getElementById('dropdownToggleHarga');
+    const dropdownList = document.getElementById('PriceList');
+    const dropdownIcon = document.getElementById('dropdownIconHarga');
+
+    toggleButton.addEventListener('click', () => {
+        // Toggle dropdown visibility
+        dropdownList.classList.toggle('max-h-0');
+        dropdownList.classList.toggle('max-h-[10vw]');
+
+        // Rotate dropdown icon
+        dropdownIcon.classList.toggle('rotate-0');
+        dropdownIcon.classList.toggle('rotate-180');
+    });
+});
+</script>
+
+<div data-aos="fade-right" data-aos-duration="500" data-aos-delay="500">
+    <div class="space-y-[0.729vw]">
+        <!-- Tombol Toggle -->
+        <a href="javascript:void(0)" onclick="toggleDropdown4()">
+            <div class="flex items-center justify-between">
+                <h2 class="text-[1.146vw] font-medium">Size:</h2>
+                <img id="arrowIcon4" src="src/assets/icons/arrow-icon.svg" alt="Dropdown Icon"
+                    class="w-[0.833vw] rotate-0 transition-transform duration-500">
+            </div>
+        </a>
+        <hr>
+
+        <!-- Dropdown List -->
+        <div id="dropdownList4" class="overflow-hidden max-h-0 transition-all duration-500 ease-in-out">
+            <ul class="text-[0.938vw] space-y-[0.781vw]">
+                <!-- List Item S -->
+                <li class="font-medium flex items-center space-x-[0.885vw] opacity-0 translate-x-[-100%] transition-all duration-500 ease-in-out">
+                    <input type="checkbox" id="sizeS" name="size" class="w-[1.302vw] h-[1.302vw] bg-transparent accent-white">
+                    <label for="sizeS" class="text-[0.938vw] font-medium cursor-pointer">S</label>
+                </li>
+                <!-- List Item M -->
+                <li class="font-medium flex items-center space-x-[0.885vw] opacity-0 translate-x-[-100%] transition-all duration-500 ease-in-out">
+                    <input type="checkbox" id="sizeM" name="size" class="w-[1.302vw] h-[1.302vw] bg-transparent accent-white">
+                    <label for="sizeM" class="text-[0.938vw] font-medium cursor-pointer">M</label>
+                </li>
+                <!-- List Item L -->
+                <li class="font-medium flex items-center space-x-[0.885vw] opacity-0 translate-x-[-100%] transition-all duration-500 ease-in-out">
+                    <input type="checkbox" id="sizeL" name="size" class="w-[1.302vw] h-[1.302vw] bg-transparent accent-white">
+                    <label for="sizeL" class="text-[0.938vw] font-medium cursor-pointer">L</label>
+                </li>
+                <!-- List Item XL -->
+                <li class="font-medium flex items-center space-x-[0.885vw] opacity-0 translate-x-[-100%] transition-all duration-500 ease-in-out">
+                    <input type="checkbox" id="sizeXL" name="size" class="w-[1.302vw] h-[1.302vw] bg-transparent accent-white">
+                    <label for="sizeXL" class="text-[0.938vw] font-medium cursor-pointer">XL</label>
+                </li>
+                <!-- List Item XXL -->
+                <li class="font-medium flex items-center space-x-[0.885vw] opacity-0 translate-x-[-100%] transition-all duration-500 ease-in-out">
+                    <input type="checkbox" id="sizeXXL" name="size" class="w-[1.302vw] h-[1.302vw] bg-transparent accent-white">
+                    <label for="sizeXXL" class="text-[0.938vw] font-medium cursor-pointer">XXL</label>
+                </li>
+                <!-- List Item XXXL -->
+                <li class="font-medium flex items-center space-x-[0.885vw] opacity-0 translate-x-[-100%] transition-all duration-500 ease-in-out">
+                    <input type="checkbox" id="sizeXXXL" name="size" class="w-[1.302vw] h-[1.302vw] bg-transparent accent-white">
+                    <label for="sizeXXXL" class="text-[0.938vw] font-medium cursor-pointer">XXXL</label>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+// Fungsi untuk toggle dropdown
+function toggleDropdown4() {
+    const dropdownList = document.getElementById('dropdownList4');
+    const arrowIcon = document.getElementById('arrowIcon4');
+    const listItems = document.querySelectorAll('#dropdownList4 li');
+
+    // Toggle dropdown visibility
+    dropdownList.classList.toggle('max-h-0');
+    dropdownList.classList.toggle('max-h-[10vw]');
+
+    // Rotate dropdown icon
+    arrowIcon.classList.toggle('rotate-0');
+    arrowIcon.classList.toggle('rotate-180');
+
+    // Animasi item list
+    listItems.forEach((item, index) => {
+        setTimeout(() => {
+            item.classList.toggle('opacity-0');
+            item.classList.toggle('translate-x-[-100%]');
+            item.classList.toggle('translate-x-0');
+        }, index * 100); // Delay animasi per item
+    });
+}
+</script>
+
+
+
+
+</div>
+</div>
+        
         <div id="barangContainer"
             class="sm:w-[65.729vw] w-[83.256vw] grid sm:grid-cols-4 grid-cols-2 sm:place-items-start place-items-center sm:gap-y-[2.344vw] gap-y-[9.767vw] sm:gap-x-[1.146vw] gap-x-[3.256vw]">
             @foreach ($barang as $item)
