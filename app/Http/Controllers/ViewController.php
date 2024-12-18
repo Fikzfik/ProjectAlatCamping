@@ -139,23 +139,43 @@ class ViewController extends Controller
 
     public function return(): view
     {
-        $barangs = DB::select('SELECT
-            b.id_barang,
-            b.nama_barang,
-            b.link_foto,
-            b.deskripsi,
-            b.harga_sewa,
-            b.status,
-            b.id_kategori,
-            k.nama_kategori,
-            sb.jumlah_stok
-        FROM barangs b
-        JOIN kategori_barangs k ON b.id_kategori = k.id_kategori
-        LEFT JOIN stok_barangs sb ON b.id_barang = sb.id_barang
-    ');
+        // Query untuk mengambil penyewaan selesai beserta detail penyewaannya yang sudah dikurangi pengembalian
+        $penyewaanSelesai = DB::select("
+      SELECT
+    p.id_penyewaan,
+    p.tanggal_sewa,
+    p.tanggal_kembali,
+    b.nama_barang,
+    b.link_foto,
+    b.deskripsi,
+    dp.id_detail_penyewaan,
+    dp.jumlah_barang,
+    dp.harga_sewa,
+    dp.subtotal,
+    (dp.jumlah_barang - COALESCE(
+        (SELECT SUM(dp2.jumlah_pengembalian)
+         FROM detail_pengembalians dp2
+         WHERE dp2.id_detail_penyewaan = dp.id_detail_penyewaan
+        ), 0)) AS sisa_barang
+FROM penyewaans p
+JOIN detail_penyewaans dp
+    ON p.id_penyewaan = dp.id_penyewaan
+JOIN barangs b
+    ON dp.id_barang = b.id_barang
+LEFT JOIN detail_pengembalians dpg
+    ON dp.id_detail_penyewaan = dpg.id_detail_penyewaan
+WHERE p.status_sewa = 'selesai'
+HAVING sisa_barang > 0;
 
-        return view('pages.auth.return', compact('barangs'));
+    ");
+        // @dd($penyewaanSelesai);
+        // Kelompokkan penyewaan berdasarkan id_penyewaan
+        $groupedPenyewaan = collect($penyewaanSelesai)->groupBy('id_penyewaan');
+        // @dd($groupedPenyewaan);
+        // Kembalikan hasil ke tampilan
+        return view('pages.auth.return', compact('groupedPenyewaan'));
     }
+
     public function stockview(): view
     {
         $categories = DB::select('SELECT * FROM kategori_barangs');
@@ -176,4 +196,3 @@ class ViewController extends Controller
         return view('pages.auth.stock', compact('barang', 'categories'));
     }
 }
-

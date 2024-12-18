@@ -12,6 +12,7 @@ class BarangController extends Controller
     public function updateStock(Request $request, $id)
     {
         // Validasi input
+
         $validated = $request->validate([
             'new_stock' => 'required|integer',
         ]);
@@ -130,6 +131,48 @@ class BarangController extends Controller
 
         return response()->json(['message' => 'Gagal menambahkan barang.'], 500);
     }
+    public function filterByPrice(Request $request)
+    {
+        $minPrice = $request->get('min_price', 0); // Default: 0 jika tidak diisi
+        $maxPrice = $request->get('max_price', PHP_INT_MAX); // Default: tanpa batas atas jika tidak diisi
+
+        $barang = DB::select(
+            "SELECT *
+         FROM barangs
+         WHERE harga_sewa BETWEEN :min_price AND :max_price",
+            [
+                'min_price' => $minPrice,
+                'max_price' => $maxPrice,
+            ],
+        );
+
+        return response()->json($barang); // Kirim data barang sebagai JSON
+    }
+    public function filterByStock()
+    {
+        $barang = DB::select("
+        SELECT b.id_barang, b.nama_barang, b.link_foto, b.deskripsi, b.harga_sewa, b.status, k.nama_kategori, sb.jumlah_stok
+        FROM barangs AS b
+        JOIN stok_barangs AS sb ON b.id_barang = sb.id_barang
+        JOIN kategori_barangs AS k ON b.id_kategori = k.id_kategori
+        WHERE sb.jumlah_stok > 0
+    ");
+        Log::info('ada stock: ' . json_encode($barang)); // Gunakan json_encode untuk mencetak isi array
+        return response()->json($barang);
+    }
+
+    public function filterOutOfStock()
+    {
+        $barang = DB::select("
+        SELECT b.id_barang, b.nama_barang, b.link_foto, b.deskripsi, b.harga_sewa, b.status, k.nama_kategori, sb.jumlah_stok
+        FROM barangs AS b
+        JOIN stok_barangs AS sb ON b.id_barang = sb.id_barang
+        JOIN kategori_barangs AS k ON b.id_kategori = k.id_kategori
+        WHERE sb.jumlah_stok = 0
+    ");
+        Log::info('gaada stock: ' . json_encode($barang)); // Perbaikan di sini
+        return response()->json($barang);
+    }
 
     public function update(Request $request, $id)
     {
@@ -224,14 +267,17 @@ class BarangController extends Controller
     }
     public function show($id)
     {
+        // Ambil data barang beserta kategori
         $barang = DB::table('barangs')
             ->join('kategori_barangs', 'barangs.id_kategori', '=', 'kategori_barangs.id_kategori')
             ->where('barangs.id_barang', $id)
             ->select('barangs.*', 'kategori_barangs.nama_kategori') // Pilih kolom yang diinginkan
             ->first();
+
+        // Ambil ID user yang sedang login
         $userId = Auth::user()->id_user;
 
-        // Mengambil semua data keranjang milik user dengan PDO
+        // Ambil semua data keranjang milik user dengan PDO
         $keranjang = DB::select(
             'SELECT
             k.id_keranjang,
@@ -240,13 +286,26 @@ class BarangController extends Controller
             b.harga_sewa,
             b.link_foto,
             b.deskripsi
-            FROM keranjangs k
-            JOIN barangs b ON k.id_barang = b.id_barang
-            WHERE k.id_user = ?
-            ',
+        FROM keranjangs k
+        JOIN barangs b ON k.id_barang = b.id_barang
+        WHERE k.id_user = ?',
             [$userId],
         );
-        // @dd($keranjang);
-        return view('pages.auth.detail', compact('barang'));
+
+        // Ambil feedbacks yang terkait dengan barang
+        $feedbacks = DB::table('feedbacks')
+            ->join('penyewaans', 'feedbacks.id_penyewaan', '=', 'penyewaans.id_penyewaan')
+            ->join('users', 'penyewaans.id_user', '=', 'users.id_user')
+            ->where('feedbacks.id_barang', $id)
+            ->select('feedbacks.*', 'users.name') // Ambil kolom feedbacks dan nama user
+            ->get();
+
+        // Hitung rata-rata rating dan jumlah review
+        $averageRating = DB::table('feedbacks')->where('id_barang', $id)->avg('rating'); // Asumsikan ada kolom 'rating'
+
+        $totalReviews = DB::table('feedbacks')->where('id_barang', $id)->count();
+
+        // Kirim data barang, keranjang, dan feedbacks ke view
+        return view('pages.auth.detail', compact('barang', 'keranjang', 'feedbacks', 'averageRating', 'totalReviews'));
     }
 }

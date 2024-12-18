@@ -164,6 +164,7 @@
                         </li>
   
                         <li class="px-4 py-2 hover:bg-gray-700"><a href="{{ route('addblog') }}">Blogs Management</a></li>
+                        <li class="px-4 py-2 hover:bg-gray-700"><a href="{{ route('return') }}">Return Barang Penyewaan</a></li>
 
                     </ul>
                 </li>

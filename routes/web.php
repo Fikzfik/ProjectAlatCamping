@@ -9,6 +9,7 @@ use App\Http\Controllers\PembayaranController;
 use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\FeedbackController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['middleware' => 'guest'], function () {
@@ -16,7 +17,7 @@ Route::group(['middleware' => 'guest'], function () {
     Route::post('/login', [AuthController::class, 'login'])->name('login.post');
     Route::get('/register', [AuthController::class, 'registerview'])->name('register');
     Route::post('/register', [AuthController::class, 'register'])->name('register.post');
-    
+
     Route::get('/dashboard', [ViewController::class, 'dashboard'])->name('dashboard');
 });
 
@@ -24,10 +25,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::get('/stock', [ViewController::class, 'stockview'])->name('stock');
 
+    Route::post('/feedback/store', [FeedbackController::class, 'store'])->name('storeFeedback');
+
     Route::get('/return', [ViewController::class, 'return'])->name('return');
-
-    Route::post('/feedback/store', [FeedbackController::class, 'store'])->name('feedback.store');
-
+    Route::post('/penyewaan/return', [HistoryController::class, 'store'])->name('submit.return');
     // Barang
     Route::get('/barang', [ViewController::class, 'barangview'])->name('barang');
     Route::post('barang/store', [BarangController::class, 'store'])->name('barang.store');
@@ -35,7 +36,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('barang/destroy/{id}', [BarangController::class, 'destroy'])->name('barang.destroy');
     Route::get('barang/{id}', [BarangController::class, 'updateModal'])->name('barang.showmodal');
     Route::get('/barang-by-kategori', [BarangController::class, 'getBarangByKategori'])->name('barang.by.kategori');
+    Route::get('/barang/filter/harga', [BarangController::class, 'filterByPrice'])->name('barang.by.price');
     Route::put('/barang/{id}/update-stock', [BarangController::class, 'updateStock']);
+    Route::post('/pengembalian', [HistoryController::class, 'store']);
+    Route::get('/barang/filter-by-stock', [BarangController::class, 'filterByStock'])->name('barang.filter.stock');
+    Route::get('/barang/filter-out-of-stock', [BarangController::class, 'filterOutOfStock'])->name('barang.filter.outOfStock');
 
     Route::get('/kategoris', [BarangController::class, 'index'])->name('kategori.index');
 
@@ -79,5 +84,4 @@ Route::group(['middleware' => 'auth'], function () {
     Route::delete('addblog/destroy/{id}', [BlogController::class, 'destroy'])->name('blog.destroy');
     Route::put('/editprofil', [ProfileController::class, 'update'])->name('profile.update');
     Route::get('/test', [ViewController::class, 'test'])->name('test');
-
 });

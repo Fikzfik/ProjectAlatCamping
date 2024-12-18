@@ -88,6 +88,25 @@ class PembayaranController extends Controller
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);
+
+                // Update stok barang setelah penyewaan
+                $stokBarang = DB::table('stok_barangs')->where('id_barang', $idBarang)->first();
+                if ($stokBarang && $stokBarang->jumlah_stok >= $item['jumlah']) {
+                    // Kurangi stok sesuai jumlah yang disewa
+                    DB::table('stok_barangs')
+                        ->where('id_barang', $idBarang)
+                        ->decrement('jumlah_stok', $item['jumlah']);
+                } else {
+                    // Jika stok tidak mencukupi, rollback transaksi
+                    DB::rollBack();
+                    return response()->json(
+                        [
+                            'success' => false,
+                            'message' => 'Stok tidak cukup untuk barang dengan ID: ' . $idBarang,
+                        ],
+                        400,
+                    );
+                }
             }
 
             // Pastikan calculatedTotal sesuai dengan totalHarga

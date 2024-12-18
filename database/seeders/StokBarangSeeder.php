@@ -27,6 +27,51 @@ class StokBarangSeeder extends Seeder
                 'id_barang' => 3, // Sofa Minimalis
                 'created_at' => now(),
                 'updated_at' => now(),
+            ],  [
+                'jumlah_stok' => 2,
+                'id_barang' => 4, // Sofa Minimalis
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],  [
+                'jumlah_stok' => 2,
+                'id_barang' => 5, // Sofa Minimalis
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],  [
+                'jumlah_stok' => 2,
+                'id_barang' => 6, // Sofa Minimalis
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],  [
+                'jumlah_stok' => 2,
+                'id_barang' => 7, // Sofa Minimalis
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],  [
+                'jumlah_stok' => 2,
+                'id_barang' => 8, // Sofa Minimalis
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],  [
+                'jumlah_stok' => 2,
+                'id_barang' => 9, // Sofa Minimalis
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],  [
+                'jumlah_stok' => 2,
+                'id_barang' => 10, // Sofa Minimalis
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],  [
+                'jumlah_stok' => 2,
+                'id_barang' => 11, // Sofa Minimalis
+                'created_at' => now(),
+                'updated_at' => now(),
+            ],  [
+                'jumlah_stok' => 2,
+                'id_barang' => 12, // Sofa Minimalis
+                'created_at' => now(),
+                'updated_at' => now(),
             ],
         ]);
     }
