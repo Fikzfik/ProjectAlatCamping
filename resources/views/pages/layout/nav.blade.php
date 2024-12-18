@@ -175,7 +175,7 @@
         <div class="flex">
             <button data-aos="fade-right" data-aos-duration="500" data-aos-delay="300" id="hamburger"
                 class="sm:hidden inline"><img src="assets/icons/hamburger.svg" alt=""></button>
-            <a href="index.html">
+            <a href="/home">
                 <h1 data-aos="fade-up" data-aos-duration="500" data-aos-delay="200"
                     class="text-white sm:text-[1.667vw] text-[3.721vw] logo sm:ml-0 ml-[4.884vw]">CampRover</h1>
             </a>
