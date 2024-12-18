@@ -7,10 +7,10 @@
                     CampRover</li>
                 <li
                     class="sm:text-[1.042vw] text-[3.686vw] sm:leading-[2.188vw] leading-[9.628vw] sm:font-normal font-light">
-                    <a href="location.html">Location</a></li>
+                    <a href="/location">Location</a></li>
                 <li
                     class="sm:text-[1.042vw] text-[3.686vw] sm:leading-[2.188vw] leading-[9.628vw] sm:font-normal font-light">
-                    <a href="about.html">About Us</a></li>
+                    <a href="/blog">Blog</a></li>
                 <li onclick="togglePopup(true)"
                     class="sm:text-[1.042vw] text-[3.686vw] sm:leading-[2.188vw] leading-[9.628vw] sm:font-normal font-light cursor-pointer">
                     Contact Us</li>
@@ -25,7 +25,8 @@
                     FAQ</li>
                 <li onclick="togglePopup(true)"
                     class="sm:text-[1.042vw] text-[3.686vw] sm:leading-[2.188vw] leading-[9.628vw] sm:font-normal font-light cursor-pointer">
-                    Payment</li>
+                    <a href="/pembayaran">Payment</a></li>
+                    
                 <li onclick="togglePopup(true)"
                     class="sm:text-[1.042vw] text-[3.686vw] sm:leading-[2.188vw] leading-[9.628vw] sm:font-normal font-light cursor-pointer">
                     Privacy and Policy</li>
