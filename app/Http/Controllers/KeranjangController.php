@@ -12,7 +12,7 @@ class KeranjangController extends Controller
     public function keranjangview()
     {
         $userId = Auth::user()->id_user;
-
+        
         $keranjang = DB::select(
             'SELECT
             k.id_keranjang,

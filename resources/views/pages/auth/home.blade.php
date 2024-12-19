@@ -83,137 +83,96 @@
                 </div>
 
                 <div class="space-y-[1vw]">
-    <!-- Tombol dan Dropdown -->
-    <div data-aos="fade-right" data-aos-duration="500" data-aos-delay="200">
-        <div class="space-y-[0.729vw]">
-            <!-- Tombol Toggle -->
-            <a href="javascript:void(0)" id="dropdownToggleKategori">
-                <div class="flex items-center justify-between">
-                    <h2 class="text-[1.146vw] font-medium">Availability:</h2>
-                    <img id="dropdownIconKategori" src="src/assets/icons/arrow-icon.svg" alt="Dropdown Icon"
-                        class="w-[0.833vw] rotate-0 transition-transform duration-500">
-                </div>
-            </a>
-            <hr>
+                    <!-- Tombol dan Dropdown -->
+                    <div data-aos="fade-right" data-aos-duration="500" data-aos-delay="200">
+                        <div class="space-y-[0.729vw]">
+                            <!-- Tombol Toggle -->
+                            <a href="javascript:void(0)" id="dropdownToggleKategori">
+                                <div class="flex items-center justify-between">
+                                    <h2 class="text-[1.146vw] font-medium">Availability:</h2>
+                                    <img id="dropdownIconKategori" src="src/assets/icons/arrow-icon.svg"
+                                        alt="Dropdown Icon"
+                                        class="w-[0.833vw] rotate-0 transition-transform duration-500">
+                                </div>
+                            </a>
+                            <hr>
 
-            <!-- Dropdown List -->
-            <div id="AvailabilityList" class="overflow-hidden max-h-0 transition-all duration-500 ease-in-out">
-                <ul class="text-[0.938vw] space-y-[0.781vw]">
-                    <!-- List Item In-Stock -->
-                    <li class="font-medium flex items-center space-x-[0.885vw] opacity-0 translate-x-[-100%] transition-all duration-500 ease-in-out">
-                        <input type="checkbox" id="inStock" name="availability" class="w-[1.302vw] h-[1.302vw] accent-white" checked>
-                        <label for="inStock" class="text-[0.938vw] font-medium cursor-pointer">In Stock</label>
-                    </li>
-                    <!-- List Item Out-of-Stock -->
-                    <li class="font-medium flex items-center space-x-[0.885vw] opacity-0 translate-x-[-100%] transition-all duration-500 ease-in-out">
-                        <input type="checkbox" id="outOfStock" name="availability" class="w-[1.302vw] h-[1.302vw] accent-white" checked>
-                        <label for="outOfStock" class="text-[0.938vw] font-medium cursor-pointer">Out of Stock</label>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    const toggleButton = document.getElementById('dropdownToggleKategori');
-    const dropdownList = document.getElementById('AvailabilityList');
-    const dropdownIcon = document.getElementById('dropdownIconKategori');
-    const listItems = document.querySelectorAll('#AvailabilityList li');
-
-    toggleButton.addEventListener('click', () => {
-        // Toggle dropdown visibility
-        dropdownList.classList.toggle('max-h-0');
-        dropdownList.classList.toggle('max-h-[10vw]');
-
-        // Rotate dropdown icon
-        dropdownIcon.classList.toggle('rotate-0');
-        dropdownIcon.classList.toggle('rotate-180');
-
-        // Animate list items
-        listItems.forEach((item, index) => {
-            setTimeout(() => {
-                item.classList.toggle('opacity-0');
-                item.classList.toggle('translate-x-[-100%]');
-                item.classList.toggle('translate-x-0');
-            }, index * 100); // Delay animation per list item
-        });
-    });
-});
-</script><div class="space-y-[1vw]">
-    <!-- Tombol dan Dropdown -->
-    <div data-aos="fade-right" data-aos-duration="500" data-aos-delay="200">
-        <div class="space-y-[0.729vw]">
-            <!-- Tombol Toggle -->
-            <a href="javascript:void(0)" id="dropdownToggleHarga">
-                <div class="flex items-center justify-between">
-                    <h2 class="text-[1.146vw] font-medium">Price</h2>
-                    <img id="dropdownIconHarga" src="src/assets/icons/arrow-icon.svg" alt="Dropdown Icon"
-                        class="w-[0.833vw] rotate-0 transition-transform duration-500">
-                </div>
-            </a>
-            <hr>
-
-            <!-- Dropdown List -->
-            <div id="PriceList" class="overflow-hidden max-h-0 transition-all duration-500 ease-in-out">
-                <div class="flex items-center space-x-[1vw] mt-[1vw]">
-                    <!-- Input MIN -->
-                    <div class="border border-gray-300 p-[0.5vw] rounded">
-                        <label for="minPrice" class="text-gray-500 text-[0.938vw]">Rp MIN</label>
-                        <input id="minPrice" type="number" placeholder="0"
-                            class="w-[6vw] text-[0.938vw] outline-none bg-transparent">
-                    </div>
-
-                    <!-- Separator -->
-                    <span class="text-gray-500 text-[0.938vw]">—</span>
-
-                    <!-- Input MAX -->
-                    <div class="border border-gray-300 p-[0.5vw] rounded">
-                        <label for="maxPrice" class="text-gray-500 text-[0.938vw]">Rp MAKS</label>
-                        <input id="maxPrice" type="number" placeholder="1000000"
-                            class="w-[6vw] text-[0.938vw] outline-none bg-transparent">
+                            <!-- Dropdown List -->
+                            <div id="AvailabilityList"
+                                class="overflow-hidden max-h-0 transition-all duration-500 ease-in-out">
+                                <ul class="text-[0.938vw] space-y-[0.781vw]">
+                                    <!-- List Item In-Stock -->
+                                    <li
+                                        class="font-medium flex items-center space-x-[0.885vw] opacity-0 translate-x-[-100%] transition-all duration-500 ease-in-out">
+                                        <input type="checkbox" id="inStock" name="availability"
+                                            class="w-[1.302vw] h-[1.302vw] accent-white" checked>
+                                        <label for="inStock" class="text-[0.938vw] font-medium cursor-pointer">In
+                                            Stock</label>
+                                    </li>
+                                    <!-- List Item Out-of-Stock -->
+                                    <li
+                                        class="font-medium flex items-center space-x-[0.885vw] opacity-0 translate-x-[-100%] transition-all duration-500 ease-in-out">
+                                        <input type="checkbox" id="outOfStock" name="availability"
+                                            class="w-[1.302vw] h-[1.302vw] accent-white" checked>
+                                        <label for="outOfStock" class="text-[0.938vw] font-medium cursor-pointer">Out of
+                                            Stock</label>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Tombol Terapkan -->
-                <div class="mt-[1vw]">
-                    <button id="applyPriceFilter" class="bg-[#000000] text-white font-medium py-[0.5vw] w-full rounded">
-                        TERAPKAN
-                    </button>
+
+                <div class="space-y-[1vw]">
+                    <!-- Tombol dan Dropdown -->
+                    <div data-aos="fade-right" data-aos-duration="500" data-aos-delay="200">
+                        <div class="space-y-[0.729vw]">
+                            <!-- Tombol Toggle -->
+                            <a href="javascript:void(0)" id="dropdownToggleHarga">
+                                <div class="flex items-center justify-between">
+                                    <h2 class="text-[1.146vw] font-medium">Price</h2>
+                                    <img id="dropdownIconHarga" src="src/assets/icons/arrow-icon.svg"
+                                        alt="Dropdown Icon"
+                                        class="w-[0.833vw] rotate-0 transition-transform duration-500">
+                                </div>
+                            </a>
+                            <hr>
+
+                            <!-- Dropdown List -->
+                            <div id="PriceList" class="overflow-hidden max-h-0 transition-all duration-500 ease-in-out">
+                                <div class="flex items-center space-x-[1vw] mt-[1vw]">
+                                    <!-- Input MIN -->
+                                    <div class="border border-gray-300 p-[0.5vw] rounded">
+                                        <label for="minPrice" class="text-gray-500 text-[0.938vw]">Rp MIN</label>
+                                        <input id="minPrice" type="number" placeholder="0"
+                                            class="w-[6vw] text-[0.938vw] outline-none bg-transparent">
+                                    </div>
+
+                                    <!-- Separator -->
+                                    <span class="text-gray-500 text-[0.938vw]">—</span>
+
+                                    <!-- Input MAX -->
+                                    <div class="border border-gray-300 p-[0.5vw] rounded">
+                                        <label for="maxPrice" class="text-gray-500 text-[0.938vw]">Rp MAKS</label>
+                                        <input id="maxPrice" type="number" placeholder="1000000"
+                                            class="w-[6vw] text-[0.938vw] outline-none bg-transparent">
+                                    </div>
+                                </div>
+
+                                <!-- Tombol Terapkan -->
+                                <div class="mt-[1vw]">
+                                    <button id="applyPriceFilter"
+                                        class="bg-[#000000] text-white font-medium py-[0.5vw] w-full rounded">
+                                        TERAPKAN
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </div>
-    </div>
-</div>
 
-<!-- JavaScript Toggle Dropdown -->
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-    const toggleButton = document.getElementById('dropdownToggleHarga');
-    const dropdownList = document.getElementById('PriceList');
-    const dropdownIcon = document.getElementById('dropdownIconHarga');
 
-    toggleButton.addEventListener('click', () => {
-        // Toggle dropdown visibility
-        dropdownList.classList.toggle('max-h-0');
-        dropdownList.classList.toggle('max-h-[10vw]');
-
-        // Rotate dropdown icon
-        dropdownIcon.classList.toggle('rotate-0');
-        dropdownIcon.classList.toggle('rotate-180');
-    });
-});
-</script>
-
-<div data-aos="fade-right" data-aos-duration="500" data-aos-delay="500">
-    <div class="space-y-[0.729vw]">
-        <!-- Tombol Toggle -->
-        <a href="javascript:void(0)" onclick="toggleDropdown4()">
-            <div class="flex items-center justify-between">
-                <h2 class="text-[1.146vw] font-medium">Size:</h2>
-                <img id="arrowIcon4" src="src/assets/icons/arrow-icon.svg" alt="Dropdown Icon"
-                    class="w-[0.833vw] rotate-0 transition-transform duration-500">
             </div>
         </div>
         <div id="barangContainer"
@@ -265,7 +224,33 @@ document.addEventListener('DOMContentLoaded', () => {
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const toggleButton = document.getElementById('dropdownToggleKategori');
+            const dropdownList = document.getElementById('AvailabilityList');
+            const dropdownIcon = document.getElementById('dropdownIconKategori');
+            const listItems = document.querySelectorAll('#AvailabilityList li');
 
+            toggleButton.addEventListener('click', () => {
+                // Toggle dropdown visibility
+                dropdownList.classList.toggle('max-h-0');
+                dropdownList.classList.toggle('max-h-[10vw]');
+
+                // Rotate dropdown icon
+                dropdownIcon.classList.toggle('rotate-0');
+                dropdownIcon.classList.toggle('rotate-180');
+
+                // Animate list items
+                listItems.forEach((item, index) => {
+                    setTimeout(() => {
+                        item.classList.toggle('opacity-0');
+                        item.classList.toggle('translate-x-[-100%]');
+                        item.classList.toggle('translate-x-0');
+                    }, index * 100); // Delay animation per list item
+                });
+            });
+        });
+    </script>
     <script>
         $(document).ready(function() {
             // Fungsi toggle untuk setiap dropdown
@@ -341,6 +326,174 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
             });
         });
+        $(document).ready(function() {
+            $('#filterPrice').on('click', function() {
+                const minPrice = $('#minPrice').val() || 0; // Default: 0
+                const maxPrice = $('#maxPrice').val() || Number.MAX_SAFE_INTEGER; // Default: tanpa batas
+
+                const targetContainer = $('#barangContainer'); // Kontainer untuk mengganti isi
+
+                $.ajax({
+                    url: '{{ route('barang.by.price') }}', // Route untuk filter harga
+                    method: 'GET',
+                    data: {
+                        min_price: minPrice,
+                        max_price: maxPrice,
+                    },
+                    success: function(response) {
+                        // Kosongkan kontainer barang
+                        targetContainer.empty();
+
+                        // Tambahkan barang hasil filter ke dalam kontainer
+                        response.forEach(item => {
+                            const barangHtml = `
+                        <a href="/detailbarang/${item.id_barang}" 
+                           class="flex justify-center items-center sm:col-span-1 col-span-2 md:col-span-1"
+                           data-aos="fade-up" data-aos-duration="500" data-aos-delay="300">
+                            <div class="space-y-[0.885vw] relative overflow-hidden">
+                                <img src="/storage/${item.link_foto}" alt=""
+                                     class="sm:w-[15.555vw] w-[83.256vw] sm:h-[20.859vw] h-[111.628vw] object-cover object-top transform transition-transform duration-300 ease-in-out hover:scale-110">
+                                <div class="absolute sm:w-[15.555vw] w-[83.256vw] sm:h-[10.426vw] h-[54.419vw] bg-gradient-to-t from-dark/90 to-dark/0 bottom-0">
+                                    <div class="absolute bottom-0 sm:px-[0.938vw] px-[7.442vw] sm:pb-[1vw] pb-[7.442vw] text-white">
+                                        <div>
+                                            <h2 class="sm:text-[0.938vw] text-[4.651vw] leading-none">${item.nama_barang}</h2>
+                                            <p class="sm:text-[0.938vw] text-[4.651vw] opacity-60">${item.nama_kategori}</p>
+                                        </div>
+                                        <div class="flex items-center sm:space-x-[0.313vw] space-x-[3.721vw] sm:mt-[0.938vw] mt-[2.181vw]">
+                                            <h2 class="sm:text-[1.25vw] text-[6.047vw]">Rp. ${item.harga_sewa.toLocaleString('id-ID')}</h2>
+                                            <h2 class="sm:text-[0.938vw] text-[4.651vw] opacity-50">
+                                                <s>Rp. ${(item.harga_sewa * 2).toLocaleString('id-ID')}</s>
+                                            </h2>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </a>
+                    `;
+                            targetContainer.append(barangHtml);
+                        });
+                    },
+                    error: function() {
+                        alert('Gagal memuat data barang. Silakan coba lagi.');
+                    },
+                });
+            });
+        });
+
+        function toggleDropdown2() {
+            const dropdown = document.getElementById('dropdownList2');
+            const arrowIcon = document.getElementById('arrowIcon2');
+
+            // Toggle max-height untuk membuka/menutup dropdown
+            if (dropdown.classList.contains('max-h-0')) {
+                dropdown.classList.remove('max-h-0', 'overflow-hidden');
+                dropdown.classList.add('max-h-[1000px]'); // Sesuaikan max-height
+                arrowIcon.classList.add('rotate-180');
+            } else {
+                dropdown.classList.add('max-h-0', 'overflow-hidden');
+                dropdown.classList.remove('max-h-[1000px]');
+                arrowIcon.classList.remove('rotate-180');
+            }
+        }
+
+        function filterByStock() {
+            const targetContainer = $('#barangContainer'); // Kontainer untuk barang
+
+            $.ajax({
+                url: '{{ route('barang.filter.stock') }}',
+                method: 'GET',
+                success: function(response) {
+                    console.log(response); // Periksa respons yang diterima dari server
+                    if (Array.isArray(response)) { // Pastikan itu array
+                        targetContainer.empty(); // Kosongkan kontainer barang
+
+                        response.forEach(item => {
+                            const barangHtml = `
+            <a href="/detailbarang/${item.id_barang}" 
+               class="flex justify-center items-center sm:col-span-1 col-span-2 md:col-span-1"
+               data-aos="fade-up" data-aos-duration="500" data-aos-delay="300">
+                <div class="space-y-[0.885vw] relative overflow-hidden">
+                    <img src="/storage/${item.link_foto}" alt="${item.nama_barang}"
+                         class="sm:w-[15.555vw] w-[83.256vw] sm:h-[20.859vw] h-[111.628vw] object-cover object-top transform transition-transform duration-300 ease-in-out hover:scale-110">
+                    <div class="absolute sm:w-[15.555vw] w-[83.256vw] sm:h-[10.426vw] h-[54.419vw] bg-gradient-to-t from-dark/90 to-dark/0 bottom-0">
+                        <div class="absolute bottom-0 sm:px-[0.938vw] px-[7.442vw] sm:pb-[1vw] pb-[7.442vw] text-white">
+                            <div>
+                                <h2 class="sm:text-[0.938vw] text-[4.651vw] leading-none">${item.nama_barang}</h2>
+                                <p class="sm:text-[0.938vw] text-[4.651vw] opacity-60">${item.nama_kategori}</p>
+                            </div>
+                            <div class="flex items-center sm:space-x-[0.313vw] space-x-[3.721vw] sm:mt-[0.938vw] mt-[2.181vw]">
+                                <h2 class="sm:text-[1.25vw] text-[6.047vw]">Rp. ${new Intl.NumberFormat('id-ID').format(item.harga_sewa)}</h2>
+                                <h2 class="sm:text-[0.938vw] text-[4.651vw] opacity-50">
+                                    <s>Rp. ${new Intl.NumberFormat('id-ID').format(item.harga_sewa * 2)}</s>
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            `;
+                            targetContainer.append(barangHtml);
+                        });
+                    } else {
+                        alert('Data tidak valid.');
+                    }
+                },
+
+                error: function() {
+                    alert('Gagal memuat barang. Silakan coba lagi.');
+                }
+            });
+        }
+
+        function filterOutOfStock() {
+            const targetContainer = $('#barangContainer'); // Kontainer untuk barang
+
+            $.ajax({
+                url: '{{ route('barang.filter.outOfStock') }}',
+                method: 'GET',
+                success: function(response) {
+                    console.log(response); // Periksa respons yang diterima dari server
+                    if (Array.isArray(response)) { // Pastikan itu array
+                        targetContainer.empty(); // Kosongkan kontainer barang
+
+                        response.forEach(item => {
+                            const barangHtml = `
+            <a href="/detailbarang/${item.id_barang}" 
+               class="flex justify-center items-center sm:col-span-1 col-span-2 md:col-span-1"
+               data-aos="fade-up" data-aos-duration="500" data-aos-delay="300">
+                <div class="space-y-[0.885vw] relative overflow-hidden">
+                    <img src="/storage/${item.link_foto}" alt="${item.nama_barang}"
+                         class="sm:w-[15.555vw] w-[83.256vw] sm:h-[20.859vw] h-[111.628vw] object-cover object-top transform transition-transform duration-300 ease-in-out hover:scale-110">
+                    <div class="absolute sm:w-[15.555vw] w-[83.256vw] sm:h-[10.426vw] h-[54.419vw] bg-gradient-to-t from-dark/90 to-dark/0 bottom-0">
+                        <div class="absolute bottom-0 sm:px-[0.938vw] px-[7.442vw] sm:pb-[1vw] pb-[7.442vw] text-white">
+                            <div>
+                                <h2 class="sm:text-[0.938vw] text-[4.651vw] leading-none">${item.nama_barang}</h2>
+                                <p class="sm:text-[0.938vw] text-[4.651vw] opacity-60">${item.nama_kategori}</p>
+                            </div>
+                            <div class="flex items-center sm:space-x-[0.313vw] space-x-[3.721vw] sm:mt-[0.938vw] mt-[2.181vw]">
+                                <h2 class="sm:text-[1.25vw] text-[6.047vw]">Rp. ${new Intl.NumberFormat('id-ID').format(item.harga_sewa)}</h2>
+                                <h2 class="sm:text-[0.938vw] text-[4.651vw] opacity-50">
+                                    <s>Rp. ${new Intl.NumberFormat('id-ID').format(item.harga_sewa * 2)}</s>
+                                </h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+            `;
+                            targetContainer.append(barangHtml);
+                        });
+                    } else {
+                        alert('Data tidak valid.');
+                    }
+                },
+
+                error: function() {
+                    alert('Gagal memuat barang. Silakan coba lagi.');
+                }
+            });
+        }
+
 
 
         AOS.init();

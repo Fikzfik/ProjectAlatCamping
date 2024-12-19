@@ -111,8 +111,8 @@ class BarangController extends Controller
             'link_foto' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        // Simpan barang
-        $barang = DB::table('barangs')->insert([
+        // Simpan barang dan ambil ID yang baru saja dibuat
+        $idBarang = DB::table('barangs')->insertGetId([
             'nama_barang' => $request->nama_barang,
             'id_kategori' => $request->id_kategori,
             'harga_sewa' => $request->harga_sewa,
@@ -124,13 +124,21 @@ class BarangController extends Controller
             'updated_at' => now(),
         ]);
 
-        // Cek apakah berhasil
-        if ($barang) {
-            return response()->json(['message' => 'Barang berhasil ditambahkan!']);
+        // Tambahkan stok default 0 di tabel stok_barangs
+        if ($idBarang) {
+            DB::table('stok_barangs')->insert([
+                'id_barang' => $idBarang,
+                'jumlah_stok' => 0, // Default stok 0
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]);
+
+            return response()->json(['message' => 'Barang berhasil ditambahkan dengan stok default 0!']);
         }
 
         return response()->json(['message' => 'Gagal menambahkan barang.'], 500);
     }
+
     public function filterByPrice(Request $request)
     {
         $minPrice = $request->get('min_price', 0); // Default: 0 jika tidak diisi
