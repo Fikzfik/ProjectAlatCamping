@@ -38,10 +38,10 @@
                         <div class="bg-white pt-2 rounded-lg space-y-[4vw] lg:space-y-[1.5vw]">
                             <div data-aos="fade-left" data-aos-duration="500" data-aos-delay="300" class="space-y-[0.3vw]">
                                 <h2 class="text-[7vw] lg:text-[2.083vw] font-semibold text-gray-800">Register</h2>
-                                <p class="text-[3vw] lg:text-[1.042vw] text-gray-500">Register your email</p>
+                                <p class="text-[3vw] lg:text-[1.042vw] text-gray-500">Register your emails</p>
                             </div>
                             <div class="grid grid-cols-2 gap-x-3 space-y-[4vw] lg:space-y-[0.5vw]">
-                                
+
                                 <!-- Email Input -->
                                 <div data-aos="fade-left" data-aos-duration="500" data-aos-delay="350" class="col-span-2">
                                     <label for="email" class="block text-[4.5vw] lg:text-[1.25vw] font-medium text-gray-700 mb-[0.833vw]">Email</label>
