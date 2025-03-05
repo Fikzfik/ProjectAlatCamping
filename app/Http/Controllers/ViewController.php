@@ -108,38 +108,10 @@ class ViewController extends Controller
         $user = Auth::user();
         return view('pages.auth.blog', compact('user'));
     }
-    public function editprofil(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users,email,' . Auth::user()->id_user . ',id_user',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-        ]);
-
-        $user = Auth::user();
-        $user->name = $request->input('name');
-        $user->email = $request->input('email');
-
-        if ($request->hasFile('photo')) {
-            if ($user->photo && \Storage::exists('public/' . $user->photo)) {
-                \Storage::delete('public/' . $user->photo);
-            }
-
-            $photo = $request->file('photo');
-            $photoPath = $photo->store('profile_photos', 'public');
-            $user->photo = $photoPath;
-        }
-
-        $user->save();
-
-        return redirect()->route('userprofil')->with('success', 'Profil berhasil diperbarui!');
-    }
-
-    // Menampilkan semua data sto
+    
 
     public function return(): view
     {
-        // Query untuk mengambil penyewaan selesai beserta detail penyewaannya yang sudah dikurangi pengembalian
         $penyewaanSelesai = DB::select("
       SELECT
     p.id_penyewaan,

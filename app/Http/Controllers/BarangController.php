@@ -104,6 +104,23 @@ class BarangController extends Controller
             );
         }
     }
+    public function filterByPrice(Request $request)
+    {
+        $minPrice = $request->get('min_price', 0); // Default: 0 jika tidak diisi
+        $maxPrice = $request->get('max_price', PHP_INT_MAX); // Default: tanpa batas atas jika tidak diisi
+
+        $barang = DB::select(
+            "SELECT *
+         FROM barangs
+         WHERE harga_sewa BETWEEN :min_price AND :max_price",
+            [
+                'min_price' => $minPrice,
+                'max_price' => $maxPrice,
+            ],
+        );
+
+        return response()->json($barang); // Kirim data barang sebagai JSON
+    }
     public function store(Request $request)
     {
         // Validasi file yang di-upload
@@ -139,23 +156,6 @@ class BarangController extends Controller
         return response()->json(['message' => 'Gagal menambahkan barang.'], 500);
     }
 
-    public function filterByPrice(Request $request)
-    {
-        $minPrice = $request->get('min_price', 0); // Default: 0 jika tidak diisi
-        $maxPrice = $request->get('max_price', PHP_INT_MAX); // Default: tanpa batas atas jika tidak diisi
-
-        $barang = DB::select(
-            "SELECT *
-         FROM barangs
-         WHERE harga_sewa BETWEEN :min_price AND :max_price",
-            [
-                'min_price' => $minPrice,
-                'max_price' => $maxPrice,
-            ],
-        );
-
-        return response()->json($barang); // Kirim data barang sebagai JSON
-    }
     public function filterByStock()
     {
         $barang = DB::select("
