@@ -29,6 +29,7 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
+            'id_role' => 2, // Default role ID (sesuaikan dengan seeder role Anda)
         ];
     }
 
