@@ -5,475 +5,277 @@
     @include('pages.layout.head')
     <script type="text/javascript" src="https://app.sandbox.midtrans.com/snap/snap.js"
         data-client-key="SB-Mid-client-jM8424hiu2OrzsAl"></script>
-    <title>Detail</title>
-    <style>
-        .opacity-50 {
-            opacity: 0.5;
-        }
-
-        .selected {
-            opacity: 1;
-            transition: opacity 0.3s ease;
-        }
-
-        #dropdownList5,
-        #dropdownList6,
-        #dropdownList7 {
-            max-height: 0;
-            /* Default tertutup */
-            overflow: hidden;
-            transition: max-height 0.5s ease-in-out;
-        }
-
-        .subtotal {
-            min-width: 150px;
-            /* Ganti dengan lebar yang sesuai */
-            overflow: hidden;
-        }
-
-        /* Overlay dan Modal */
-        #overlay {
-            z-index: 9999;
-            /* Pastikan overlay selalu di atas */
-        }
-
-        #keranjangModal {
-            z-index: 10000;
-            max-height: 100vh;
-            /* Maksimal tinggi modal 80% dari tinggi layar */
-            overflow-y: auto;
-        }
-
-        /* Elemen Halaman Utama */
-        body>*:not(#overlay):not(#keranjangModal) {
-            z-index: auto;
-            /* Pastikan elemen halaman utama tidak mengganggu */
-        }
-
-        .keranjang-item img {
-            width: 80px;
-            height: 120px;
-            object-fit: cover;
-            border-radius: 4px;
-            /* Opsional: untuk membuat sudut gambar melengkung */
-        }
-    </style>
+    <title>Checkout - CampRover</title>
 </head>
 
-<body id="body" class="relative">
-    <div class="absolute inset-0 -z-10"
-        style="background-image: url('{{ asset('src/assets/images/bgwebsite.jpeg') }}'); 
-           background-size: cover; 
-           background-position: center; 
-           filter: blur(10px); 
-           opacity: 0.9;
-           pointer-events: none;">
-    </div>
+<body class="bg-slate-950 overflow-x-hidden">
     @include('pages.layout.nav')
-    <section class="sm:px-[4.271vw] px-[8.372vw] text-white pt-[3.1vw] relative">
-        <div class="w-full flex sm:flex-row flex-col">
-            <!-- Bagian Daftar Barang -->
-            <div class="sm:w-[70vw] w-full px-4 sm:px-0">
-                <div class="border border-gray-300 sm:px-6 px-4 sm:py-6 py-4 sm:w-[64.74vw] w-full space-y-6">
-                    <!-- Looping Barang -->
+
+    <!-- Background Decoration -->
+    <div class="fixed inset-0 -z-10 overflow-hidden">
+        <div class="absolute top-0 left-0 w-1/2 h-1/2 bg-indigo-600/10 rounded-full blur-[120px]"></div>
+        <div class="absolute bottom-0 right-0 w-1/2 h-1/2 bg-purple-600/10 rounded-full blur-[120px]"></div>
+    </div>
+
+    <main class="container mx-auto px-6 pt-32 pb-24 min-h-screen">
+        <div class="mb-12" data-aos="fade-down">
+            <h1 class="text-4xl font-black text-white tracking-tighter mb-4">RENTAL CHECKOUT</h1>
+            <div class="h-1 w-20 bg-indigo-600 rounded-full"></div>
+        </div>
+
+        <div class="flex flex-col lg:flex-row gap-12">
+            <!-- Left Side: Items List -->
+            <div class="lg:w-2/3 space-y-6" data-aos="fade-right">
+                @if(count($keranjangs) == 0)
+                    <div class="glass-card p-20 text-center">
+                        <div class="w-24 h-24 bg-indigo-600/10 rounded-3xl flex items-center justify-center mx-auto mb-8">
+                            <i class="fa-solid fa-cart-shopping text-4xl text-indigo-500"></i>
+                        </div>
+                        <h2 class="text-2xl font-black text-white mb-4">Your cart is empty</h2>
+                        <p class="text-slate-400 mb-10 max-w-sm mx-auto">Mulai petualanganmu dengan memilih perlengkapan camping terbaik kami.</p>
+                        <a href="{{ route('home') }}" class="btn-premium px-10 py-4 rounded-xl text-white font-black uppercase tracking-widest inline-block">Explore Gear</a>
+                    </div>
+                @else
                     @foreach ($keranjangs as $keranjang)
-                        <div class="flex items-start border-b border-gray-300 pb-6 gap-6 hover:shadow-lg hover:scale-105 transform transition duration-300 selected"
-                            data-id="{{ $keranjang->id_keranjang }}" data-selected="true" onclick="toggleSelection(this)">
-                            <input type="hidden" name="keranjangs[]" value="{{ $keranjang->id_keranjang }}">
-                            <!-- Gambar Barang -->
-                            <div
-                                class="w-[15vw] h-[15vw] sm:w-[10vw] sm:h-[10vw] overflow-hidden rounded-lg relative group shadow-md">
+                        <div class="item-card glass-card p-6 flex flex-col md:flex-row items-center gap-8 cursor-pointer transition-all duration-500 group relative overflow-hidden selected"
+                             data-id="{{ $keranjang->id_keranjang }}" data-selected="true" onclick="toggleSelection(this)">
+                            
+                            <!-- Selection Overlay -->
+                            <div class="absolute inset-0 bg-indigo-600/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                            
+                            <!-- Image -->
+                            <div class="w-32 h-32 rounded-2xl overflow-hidden border border-white/10 shadow-2xl relative z-10 shrink-0">
                                 <img src="{{ asset('storage/' . $keranjang->link_foto) }}"
-                                    alt="{{ $keranjang->nama_barang }}"
-                                    class="w-full h-full object-cover transform group-hover:scale-110 transition duration-300">
-                            </div>
-
-                            <!-- Deskripsi Barang -->
-                            <div class="flex-1 space-y-2 group">
-                                <h2
-                                    class="text-lg font-semibold leading-tight text-white group-hover:text-blue-400 transition duration-200">
-                                    {{ $keranjang->nama_barang }}
-                                </h2>
-                                <p
-                                    class="text-sm text-gray-400 leading-relaxed group-hover:text-gray-200 transition duration-200">
-                                    {{ $keranjang->deskripsi }}
-                                </p>
-                                <p class="text-md font-medium text-blue-400 mt-2">
-                                    Rp{{ number_format($keranjang->harga_sewa, 0, ',', '.') }}
-                                </p>
-                            </div>
-
-                            <!-- Jumlah Barang dengan Tombol + dan - -->
-                            <div class="text-center mt-[1.5vw] sm:mt-[1vw]">
-                                <h3 class="font-medium text-gray-300 mb-1">Jumlah:</h3>
-                                <div class="flex items-center space-x-2">
-                                    <!-- Tombol - -->
-                                    <button
-                                        class="bg-gray-700 text-white px-2 py-1 rounded-lg hover:bg-gray-600 transition duration-200"
-                                        onclick="updateQuantity('{{ $keranjang->id_keranjang }}', -1, event)">
-                                        -
-                                    </button>
-                                    <!-- Jumlah Barang -->
-                                    <span id="jumlah-barang-{{ $keranjang->id_keranjang }}"
-                                        class="text-lg font-semibold text-white">
-                                        {{ $keranjang->jumlah_barang }}
-                                    </span>
-                                    <!-- Tombol + -->
-                                    <button
-                                        class="bg-gray-700 text-white px-2 py-1 rounded-lg hover:bg-gray-600 transition duration-200"
-                                        onclick="updateQuantity('{{ $keranjang->id_keranjang }}', 1, event)">
-                                        +
-                                    </button>
+                                     alt="{{ $keranjang->nama_barang }}"
+                                     class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700">
+                                <div class="absolute top-2 left-2 w-6 h-6 bg-indigo-600 rounded-lg flex items-center justify-center text-white text-[10px] shadow-lg">
+                                    <i class="fa-solid fa-check check-icon"></i>
                                 </div>
+                            </div>
+
+                            <!-- Info -->
+                            <div class="flex-1 relative z-10 text-center md:text-left">
+                                <h2 class="text-xl font-black text-white mb-2 tracking-tight group-hover:text-indigo-400 transition-colors">{{ $keranjang->nama_barang }}</h2>
+                                <p class="text-slate-400 text-sm mb-4 line-clamp-2 leading-relaxed">{{ $keranjang->deskripsi }}</p>
+                                <div class="text-xl font-black text-indigo-400 tracking-tighter price-val">
+                                    Rp{{ number_format($keranjang->harga_sewa, 0, ',', '.') }}<span class="text-[10px] text-slate-500 ml-1">/ day</span>
+                                </div>
+                            </div>
+
+                            <!-- Controls -->
+                            <div class="flex items-center gap-4 bg-slate-950/50 rounded-2xl p-2 border border-white/5 relative z-10" onclick="event.stopPropagation()">
+                                <button onclick="updateQuantity('{{ $keranjang->id_keranjang }}', -1, event)"
+                                        class="w-10 h-10 rounded-xl glass border-white/10 flex items-center justify-center text-white hover:bg-rose-500/20 hover:text-rose-500 transition-all">
+                                    <i class="fa-solid fa-minus text-xs"></i>
+                                </button>
+                                <span id="jumlah-barang-{{ $keranjang->id_keranjang }}" class="w-8 text-center text-lg font-black text-white tracking-tighter">
+                                    {{ $keranjang->jumlah_barang }}
+                                </span>
+                                <button onclick="updateQuantity('{{ $keranjang->id_keranjang }}', 1, event)"
+                                        class="w-10 h-10 rounded-xl glass border-white/10 flex items-center justify-center text-white hover:bg-emerald-500/20 hover:text-emerald-500 transition-all">
+                                    <i class="fa-solid fa-plus text-xs"></i>
+                                </button>
                             </div>
                         </div>
                     @endforeach
-
-                </div>
+                @endif
             </div>
 
-            <!-- Bagian Total Pembayaran -->
-            <div class="w-full sm:w-[30vw] p-4 bg-gray-800 rounded-lg shadow-lg sticky top-[1.2vw]" data-aos="fade-left"
-                data-aos-delay="400" data-aos-duration="500">
-                <h2 class="text-lg font-semibold mb-4">Total Pembayaran</h2>
+            <!-- Right Side: Summary Sticky -->
+            <div class="lg:w-1/3">
+                <div class="glass-card p-10 sticky top-32" data-aos="fade-left">
+                    <h2 class="text-2xl font-black text-white mb-8 tracking-tight flex items-center gap-3">
+                        <i class="fa-solid fa-receipt text-indigo-500"></i>
+                        Order Summary
+                    </h2>
 
-                <!-- Subtotal list -->
-                <div id="subtotalList" class="mb-4 text-white space-y-2">
-                    <!-- Subtotal tiap item akan ditampilkan di sini -->
-                </div>
+                    <!-- Date Selection -->
+                    <div class="space-y-6 mb-10">
+                        <div>
+                            <label class="block text-[10px] font-black text-slate-500 uppercase tracking-widest mb-3">Rental Duration</label>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="space-y-2">
+                                    <span class="text-[10px] text-slate-400 font-bold uppercase ml-1">Start</span>
+                                    <input type="date" id="tanggalSewa" class="w-full bg-slate-950/50 border border-white/10 rounded-xl px-4 py-3 text-xs text-white focus:border-indigo-500 outline-none transition-all font-bold">
+                                </div>
+                                <div class="space-y-2">
+                                    <span class="text-[10px] text-slate-400 font-bold uppercase ml-1">End</span>
+                                    <input type="date" id="tanggalKembali" class="w-full bg-slate-950/50 border border-white/10 rounded-xl px-4 py-3 text-xs text-white focus:border-indigo-500 outline-none transition-all font-bold">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
-                <!-- Total Pembayaran -->
-                <div class="text-2xl font-bold text-blue-400 mb-6" id="totalPembayaran">
-                    Rp
-                </div>
-                <div class="mb-4">
-                    <label for="tanggalSewa" class="block text-white font-medium">Tanggal Sewa</label>
-                    <input type="date" id="tanggalSewa" name="tanggal_sewa"
-                        class="w-full px-4 py-2 mt-2 bg-gray-700 text-white rounded-lg"
-                        onchange="updateTotalPembayaran()">
-                </div>
-                <div class="mb-4">
-                    <label for="tanggalKembali" class="block text-white font-medium">Tanggal Pengembalian</label>
-                    <input type="date" id="tanggalKembali" name="tanggal_kembali"
-                        class="w-full px-4 py-2 mt-2 bg-gray-700 text-white rounded-lg"
-                        onchange="updateTotalPembayaran()">
-                </div>
-                <button id="submitPayment"
-                    class="bg-gradient-to-r from-blue-500 to-purple-600 text-white w-full py-2 rounded-lg hover:from-blue-600 hover:to-purple-700 transition duration-200">
-                    Lakukan Pembayaran
-                </button>
+                    <!-- Breakdowns -->
+                    <div id="subtotalList" class="space-y-4 mb-10 border-y border-white/5 py-8">
+                        <!-- Dynamic content -->
+                    </div>
 
+                    <!-- Final Total -->
+                    <div class="flex justify-between items-end mb-10 px-2">
+                        <div>
+                            <span class="text-[10px] font-black text-slate-500 uppercase tracking-widest">Total Amount</span>
+                            <div id="totalPembayaran" class="text-4xl font-black text-white tracking-tighter mt-1">Rp0</div>
+                        </div>
+                        <div class="text-right">
+                            <span id="day-count" class="text-[10px] font-black text-indigo-500 uppercase tracking-widest">0 Days</span>
+                        </div>
+                    </div>
+
+                    <button id="submitPayment" class="w-full btn-premium py-6 rounded-2xl text-white font-black uppercase tracking-[0.2em] shadow-xl shadow-indigo-600/30 group">
+                        Proceed to Payment
+                        <i class="fa-solid fa-arrow-right ml-2 group-hover:translate-x-2 transition-transform"></i>
+                    </button>
+                </div>
             </div>
         </div>
-    </section>
+    </main>
 
-    </div>
-    <div id="popup" class="fixed inset-0 items-center justify-center bg-black bg-opacity-50 hidden"
-        onclick="togglePopup(false)">
-        <div class="bg-black flex flex-col items-center p-6 rounded-lg shadow-lg sm:w-[20.833vw] w-[69.767vw]"
-            onclick="event.stopPropagation()">
-            <img src="src/assets/icons/gear-512.png" alt=""
-                class="sm:w-[5.208vw] w-[23.256vw] animate-[spin_5s_linear_infinite]">
-            <h2 class="text-white text-[4.651vw] text-center sm:text-[1.042vw] font-bold mb-4">This features is under
-                developement now</h2>
-            <p class="text-white sm:text-[0.729vw] text-[3.256vw] mb-4">Sorry for the inconvinient</p>
-            <button onclick="togglePopup(false)"
-                class="sm:px-[0.833vw] px-[3.721vw] sm:py-[0.208vw] py-[0.93vw] bg-red-500 text-white sm:text-[0.729vw] text-[3.256vw] rounded-md">Close</button>
-        </div>
-    </div>
+    @include('pages.layout.footer')
+
+    <style>
+        .item-card.selected {
+            border-color: rgba(79, 70, 229, 0.5);
+            background: rgba(79, 70, 229, 0.05);
+        }
+        .item-card:not(.selected) {
+            opacity: 0.5;
+            filter: grayscale(1);
+        }
+        .item-card:not(.selected) .check-icon {
+            display: none;
+        }
+        input[type="date"]::-webkit-calendar-picker-indicator {
+            filter: invert(1);
+            cursor: pointer;
+        }
+    </style>
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            updateTotalPembayaran(); // Memanggil fungsi untuk update subtotal saat halaman dimuat
-            updateItemSubtotal(); // Memanggil fungsi untuk update subtotal saat halaman dimuat
-
-            // Event listener untuk perubahan tanggal
+            updateTotalPembayaran();
+            
             document.getElementById('tanggalSewa').addEventListener('input', updateTotalPembayaran);
             document.getElementById('tanggalKembali').addEventListener('input', updateTotalPembayaran);
         });
 
         function updateTotalPembayaran() {
-            const keranjangItems = document.querySelectorAll('.selected'); // hanya barang yang dipilih
+            const selectedItems = document.querySelectorAll('.item-card.selected');
             let total = 0;
             const subtotalList = document.getElementById('subtotalList');
-            subtotalList.innerHTML = ''; // Kosongkan daftar subtotal sebelum di-update
+            subtotalList.innerHTML = '';
 
-            const tanggalSewa = document.getElementById('tanggalSewa').value;
-            const tanggalKembali = document.getElementById('tanggalKembali').value;
+            const tglSewa = document.getElementById('tanggalSewa').value;
+            const tglKembali = document.getElementById('tanggalKembali').value;
+            let diffDays = 0;
 
-            if (tanggalSewa && tanggalKembali) {
-                const startDate = new Date(tanggalSewa);
-                const endDate = new Date(tanggalKembali);
-                const diffTime = Math.abs(endDate - startDate);
-                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); // Menghitung jumlah hari
-
-                keranjangItems.forEach(item => {
-                    const jumlahElement = item.querySelector('span[id^="jumlah-barang-"]');
-                    const harga = parseInt(item.querySelector('.text-blue-400').textContent.replace('Rp', '')
-                        .replace(/\./g, ''));
-                    const jumlah = parseInt(jumlahElement.textContent);
-                    const namaBarang = item.querySelector('h2').textContent; // Ambil nama barang
-
-                    // Hitung subtotal per item berdasarkan jumlah hari
-                    const subtotal = harga * jumlah * diffDays;
-                    total += subtotal;
-
-                    // Tambahkan subtotal item ke daftar subtotal dengan nama barang
-                    const subtotalDiv = document.createElement('div');
-                    subtotalDiv.classList.add('text-lg');
-                    subtotalDiv.textContent =
-                        `${namaBarang}: Rp${subtotal.toLocaleString('id-ID')} (${diffDays} hari)`; // Menambahkan nama barang
-                    subtotalList.appendChild(subtotalDiv);
-                });
+            if (tglSewa && tglKembali) {
+                const start = new Date(tglSewa);
+                const end = new Date(tglKembali);
+                const diffTime = end - start;
+                // Inclusive days: (end - start) + 1
+                diffDays = Math.max(0, Math.ceil(diffTime / (1000 * 60 * 60 * 24))) + 1;
             }
 
-            // Update tampilan total pembayaran
+            document.getElementById('day-count').textContent = `${diffDays} Days`;
+
+            if (selectedItems.length === 0) {
+                subtotalList.innerHTML = '<div class="text-slate-500 text-xs font-bold text-center italic">No items selected</div>';
+            }
+
+            selectedItems.forEach(item => {
+                const nama = item.querySelector('h2').textContent;
+                const hargaText = item.querySelector('.price-val').textContent.split('/')[0];
+                const harga = parseInt(hargaText.replace(/[^\d]/g, ''));
+                const jumlah = parseInt(item.querySelector('span[id^="jumlah-barang-"]').textContent);
+                
+                const itemSub = harga * jumlah * (diffDays || 0);
+                total += itemSub;
+
+                const row = document.createElement('div');
+                row.className = 'flex justify-between items-center text-xs font-bold';
+                row.innerHTML = `
+                    <span class="text-slate-400">${nama} (${jumlah}x)</span>
+                    <span class="text-white">Rp${itemSub.toLocaleString('id-ID')}</span>
+                `;
+                subtotalList.appendChild(row);
+            });
+
             document.getElementById('totalPembayaran').textContent = `Rp${total.toLocaleString('id-ID')}`;
         }
-        // Fungsi untuk menambah atau mengurangi jumlah barang
-        function updateQuantity(idKeranjang, change, event) {
-            event.stopPropagation(); // Agar tidak memicu toggleSelection
-            const jumlahElement = document.getElementById(`jumlah-barang-${idKeranjang}`);
-            let jumlah = parseInt(jumlahElement.textContent);
 
-            jumlah = Math.max(0, jumlah + change); // Menjamin jumlah tidak negatif
-            jumlahElement.textContent = jumlah;
+        function updateQuantity(id, change, event) {
+            event.stopPropagation();
+            const el = document.getElementById(`jumlah-barang-${id}`);
+            let val = parseInt(el.textContent);
+            val = Math.max(1, val + change);
+            el.textContent = val;
 
-            // Menghitung gross amount untuk item
-            const item = document.querySelector(`[data-id="${idKeranjang}"]`);
-            const harga = parseInt(item.querySelector('.text-blue-400').textContent.replace('Rp', '').replace(/\./g, ''));
-            const subtotal = harga * jumlah; // Hitung gross amount
-
-            // Kirim perubahan jumlah dan gross amount ke server
-            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            const csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
             const endpoint = change > 0 ? '/keranjang/increase' : '/keranjang/decrease';
 
             fetch(endpoint, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': csrfToken,
-                    },
-                    body: JSON.stringify({
-                        id_keranjang: idKeranjang,
-                        jumlah: jumlah,
-                        subtotal: subtotal, // Mengirim gross amount
-                    }),
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        // Update jumlah barang pada UI jika server berhasil memproses
-                        jumlahElement.innerText = data.jumlah_barang;
-                        updateTotalPembayaran(); // Update total pembayaran setelah pembaruan jumlah
-                    } else {
-                        alert(data.message || 'Terjadi kesalahan.');
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-            updateTotalPembayaran();
-            event.preventDefault();
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': csrf },
+                body: JSON.stringify({ id_keranjang: id, jumlah: val })
+            }).then(() => updateTotalPembayaran());
         }
 
-
-        // Fungsi untuk memperbarui subtotal untuk satu item
-        function updateItemSubtotal(idKeranjang, jumlah) {
-            const item = document.querySelector(`[data-id="${idKeranjang}"]`);
-            const harga = parseInt(item.querySelector('.text-blue-400').textContent.replace('Rp', '').replace(/\./g, ''));
-            const namaBarang = item.querySelector('h2').textContent; // Ambil nama barang dari elemen h2
-            let subtotalElement = item.querySelector('.subtotal'); // Elemen untuk subtotal
-
-            if (!subtotalElement) {
-                // Buat elemen subtotal baru jika belum ada
-                subtotalElement = document.createElement('div');
-                subtotalElement.classList.add('subtotal');
-                item.appendChild(subtotalElement);
-            }
-
-            // Hitung subtotal
-            const subtotal = harga * jumlah;
-
-            // Update subtotal dengan nama barang dan harga
-            subtotalElement.textContent =
-                `${namaBarang}: Rp${subtotal.toLocaleString('id-ID')}`; // Menampilkan nama barang dan subtotal
-
-            // Memperbarui total pembayaran setelah update subtotal
+        function toggleSelection(el) {
+            const isSelected = el.getAttribute('data-selected') === 'true';
+            el.setAttribute('data-selected', !isSelected);
+            el.classList.toggle('selected');
             updateTotalPembayaran();
         }
 
-
-        // Fungsi untuk menghitung total pembayaran berdasarkan keranjang
-        function hitungTotalPembayaran() {
-            const keranjangItems = @json($keranjangs); // Data keranjang dari Laravel
-            let total = 0;
-
-            keranjangItems.forEach(item => {
-                total += item.harga_sewa * item.jumlah_barang;
-            });
-
-            document.getElementById('totalPembayaran').textContent = `Rp${total.toLocaleString('id-ID')}`;
-        }
         document.getElementById('submitPayment').addEventListener('click', () => {
-            const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
-            const selectedItems = document.querySelectorAll('.selected'); // Ambil barang yang dipilih
-            const selectedData = [];
-            let totalPembayaran = 0;
+            const csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+            const selectedItems = document.querySelectorAll('.item-card.selected');
+            const tglSewa = document.getElementById('tanggalSewa').value;
+            const tglKembali = document.getElementById('tanggalKembali').value;
 
-            const tanggalSewa = document.getElementById('tanggalSewa').value;
-            const tanggalKembali = document.getElementById('tanggalKembali').value;
-
-            // Validasi tanggal
-            if (!tanggalSewa || !tanggalKembali) {
-                Swal.fire({
-                    title: 'Tanggal tidak lengkap',
-                    text: 'Harap pilih tanggal sewa dan tanggal pengembalian.',
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                });
-                return;
+            if (!tglSewa || !tglKembali) {
+                return Swal.fire({ title: 'Invalid Dates', text: 'Please select rental dates.', icon: 'warning' });
             }
-
-            // Validasi barang yang dipilih
             if (selectedItems.length === 0) {
-                Swal.fire({
-                    title: 'Tidak ada barang dipilih',
-                    text: 'Pilih minimal satu barang untuk melanjutkan pembayaran.',
-                    icon: 'error',
-                    confirmButtonText: 'OK'
-                });
-                return;
+                return Swal.fire({ title: 'No Gear Selected', text: 'Select at least one item to rent.', icon: 'warning' });
             }
 
-            // Hitung total pembayaran
+            const items = [];
+            let total = 0;
+            const diffTime = new Date(tglKembali) - new Date(tglSewa);
+            const days = Math.max(0, Math.ceil(diffTime / (1000 * 60 * 60 * 24))) + 1;
+
             selectedItems.forEach(item => {
-                const idKeranjang = item.dataset.id; // Menggunakan dataset
-                const jumlahElement = item.querySelector('span[id^="jumlah-barang-"]');
-                const jumlah = parseInt(jumlahElement.textContent);
-                const harga = parseInt(item.querySelector('.text-blue-400').textContent.replace('Rp', '')
-                    .replace(/\./g, ''));
-
-                // Ambil nama barang dari elemen h2
-                const namaBarang = item.querySelector('h2').textContent.trim();
-
-                // Menghitung subtotal berdasarkan jumlah hari sewa
-                const startDate = new Date(tanggalSewa);
-                const endDate = new Date(tanggalKembali);
-                const diffTime = Math.abs(endDate - startDate);
-                const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-                const subtotal = harga * jumlah * diffDays;
-                totalPembayaran += subtotal;
-
-                selectedData.push({
-                    id_keranjang: idKeranjang,
-                    jumlah: jumlah,
-                    harga_sewa: harga,
-                    tanggal_sewa: tanggalSewa,
-                    tanggal_kembali: tanggalKembali,
-                    subtotal: subtotal,
-                    nama_barang: namaBarang
-                });
+                const id = item.dataset.id;
+                const qty = parseInt(item.querySelector('span[id^="jumlah-barang-"]').textContent);
+                const hargaText = item.querySelector('.price-val').textContent.split('/')[0];
+                const price = parseInt(hargaText.replace(/[^\d]/g, ''));
+                const sub = price * qty * days;
+                const name = item.querySelector('h2').textContent.trim();
+                total += sub;
+                items.push({ id_keranjang: id, jumlah: qty, harga_sewa: price, subtotal: sub, tanggal_sewa: tglSewa, tanggal_kembali: tglKembali, nama_barang: name });
             });
 
-            // Kirim data pembayaran ke server
             fetch('/pembayaran', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': csrfToken
-                    },
-                    body: JSON.stringify({
-                        total_pembayaran: totalPembayaran, // Total pembayaran
-                        items: selectedData // Data barang yang dipilih
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        Swal.fire({
-                            title: 'Berhasil',
-                            text: 'Pembayaran berhasil diproses!',
-                            icon: 'success',
-                            confirmButtonText: 'OK'
-                        }).then(() => {
-                            window.snap.pay(data.data.token, {
-                                onSuccess: function(result) {
-                                    window.location.href =
-                                        'http://127.0.0.1:8000/history';
-                                },
-                                onPending: function(result) {
-                                    window.location.href =
-                                        'https://abd9-103-47-133-70.ngrok-free.app/api/notfinish';
-                                },
-                                onError: function(result) {
-                                    window.location.href =
-                                        'https://abd9-103-47-133-70.ngrok-free.app/api/error';
-                                },
-                            });
-                        });
-                    } else {
-                        Swal.fire({
-                            title: 'Gagal',
-                            text: data.message || 'Terjadi kesalahan.',
-                            icon: 'error',
-                            confirmButtonText: 'OK'
-                        });
-                    }
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    Swal.fire({
-                        title: 'Error',
-                        text: 'Terjadi kesalahan saat memproses pembayaran.',
-                        icon: 'error',
-                        confirmButtonText: 'OK'
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': csrf },
+                body: JSON.stringify({ total_pembayaran: total, items: items })
+            }).then(r => r.json()).then(data => {
+                if (data.success) {
+                    window.snap.pay(data.data.token, {
+                        onSuccess: () => window.location.href = '/history',
+                        onPending: () => Swal.fire('Pending', 'Payment pending...', 'info'),
+                        onError: () => Swal.fire('Error', 'Payment failed!', 'error')
                     });
-                });
+                } else {
+                    Swal.fire('Failed', data.message, 'error');
+                }
+            });
         });
-
-        function toggleSelection(element) {
-            const isSelected = element.getAttribute('data-selected') === 'true';
-            element.setAttribute('data-selected', !isSelected);
-
-            // Tambahkan/kurangi kelas untuk efek visual
-            if (isSelected) {
-                element.classList.add('opacity-50');
-                element.classList.remove('selected');
-            } else {
-                element.classList.remove('opacity-50');
-                element.classList.add('selected');
-            }
-
-            // Perbarui total pembayaran
-            updateTotalPembayaran();
-        }
-        // Fungsi yang dijalankan saat halaman dimuat
-        document.addEventListener('DOMContentLoaded', hitungTotalPembayaran);
-
-
-        function togglePopup(show) {
-            const popup = document.getElementById('popup');
-            const body = document.body;
-            if (show) {
-                popup.classList.remove('hidden');
-                popup.classList.add('flex');
-                body.style.overflow = 'hidden'; // Disable scrolling
-            } else {
-                popup.classList.add('hidden');
-                popup.classList.remove('flex');
-                body.style.overflow = ''; // Enable scrolling
-            }
-        }
     </script>
-    <script>
-        AOS.init();
-    </script>
-    <script src="path/to/aos.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/aos@next/dist/aos.js"></script>
-
-    @include('pages.layout.script');
+    <script>AOS.init({ duration: 800, once: true });</script>
+    @include('pages.layout.script')
 </body>
-
 </html>

@@ -50,21 +50,20 @@ class HistoryController extends Controller
     ",
             [$currentDate, $idUser],
         );
-
         // Query untuk barang yang sedang disewa
         $barangRented = DB::select(
             "
-        SELECT dp.id_barang, b.nama_barang, dp.jumlah_barang, dp.harga_sewa, dp.subtotal,
-               p.tanggal_sewa, p.tanggal_kembali, b.link_foto, k.nama_kategori
-        FROM detail_penyewaans dp
-        JOIN barangs b ON dp.id_barang = b.id_barang
-        JOIN kategori_barangs k ON b.id_kategori = k.id_kategori
-        JOIN penyewaans p ON dp.id_penyewaan = p.id_penyewaan
-        WHERE p.tanggal_sewa <= ? AND p.tanggal_kembali >= ? AND p.id_user = ?
-    ",
+            SELECT dp.id_barang, b.nama_barang, dp.jumlah_barang, dp.harga_sewa, dp.subtotal,
+            p.tanggal_sewa, p.tanggal_kembali, b.link_foto, k.nama_kategori,p.id_penyewaan
+            FROM detail_penyewaans dp
+            JOIN barangs b ON dp.id_barang = b.id_barang
+            JOIN kategori_barangs k ON b.id_kategori = k.id_kategori
+            JOIN penyewaans p ON dp.id_penyewaan = p.id_penyewaan
+            WHERE p.tanggal_sewa <= ? AND p.tanggal_kembali >= ? AND p.id_user = ?
+            ",
             [$currentDate, $currentDate, $idUser],
         );
-
+        
         // Query untuk barang yang sudah selesai disewa (History)
         $barangHistory = DB::select(
             "

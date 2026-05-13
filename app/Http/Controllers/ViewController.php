@@ -73,9 +73,11 @@ class ViewController extends Controller
 
     public function barangview()
     {
+        $userId = auth()->id();
         $kategori = DB::select('SELECT * FROM kategori_barangs');
-        $barang = DB::select(
+        $keranjangs = DB::select(
             'SELECT
+            k.id_keranjang,
             b.id_barang,
             b.nama_barang,
             b.link_foto,

@@ -283,51 +283,49 @@
     });
 </script>
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const addToBagButtons = document.querySelectorAll('.add-to-bag');
+    document.addEventListener('click', (e) => {
+        const button = e.target.closest('.add-to-bag');
+        if (button) {
+            const idBarang = button.getAttribute('data-id-barang');
+            const quantityDisplay = document.getElementById('quantity-display') || document.getElementById('quantity1');
+            const quantity = quantityDisplay ? quantityDisplay.textContent : 1;
 
-        addToBagButtons.forEach(button => {
-            button.addEventListener('click', () => {
-                const idBarang = button.getAttribute('data-id-barang');
-                const quantity = document.getElementById('quantity1').textContent;
-
-                fetch("{{ route('keranjang.store') }}", {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRF-TOKEN': "{{ csrf_token() }}"
-                        },
-                        body: JSON.stringify({
-                            id_barang: idBarang,
-                            jumlah_barang: quantity
-                        })
+            fetch("{{ route('keranjang.store') }}", {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                    },
+                    body: JSON.stringify({
+                        id_barang: idBarang,
+                        jumlah_barang: quantity
                     })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            Swal.fire({
-                                icon: 'success',
-                                title: 'Berhasil',
-                                text: data.message,
-                            });
-                        } else {
-                            Swal.fire({
-                                icon: 'error',
-                                title: 'Gagal',
-                                text: data.message,
-                            });
-                        }
-                    })
-                    .catch(error => {
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Berhasil',
+                            text: data.message,
+                        });
+                    } else {
                         Swal.fire({
                             icon: 'error',
-                            title: 'Error',
-                            text: 'Terjadi kesalahan saat menambahkan ke keranjang.',
+                            title: 'Gagal',
+                            text: data.message,
                         });
-                        console.error(error);
+                    }
+                })
+                .catch(error => {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Terjadi kesalahan saat menambahkan ke keranjang.',
                     });
-            });
-        });
+                    console.error(error);
+                });
+        }
     });
 
     function increment1(id) {

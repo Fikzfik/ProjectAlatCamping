@@ -1,185 +1,121 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="{{ asset('src/css/output.css') }}">
 <link rel="stylesheet" href="{{ asset('src/css/font.css') }}">
 <link rel="stylesheet" href="{{ asset('src/css/style.css') }}">
 <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<link href="{{ asset('node_modules/aos/dist/aos.css') }}" rel="stylesheet">
-<script src="{{ asset('node_modules/aos/dist/aos.js') }}"></script>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <script src="https://cdn.tailwindcss.com"></script>
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet" />
+
 <style>
-    /* Modal container */
-    .container {
-        z-index: 10;
-        /* Pastikan konten utama berada di atas elemen lain */
+    :root {
+        --primary: #6366f1;
+        --primary-hover: #4f46e5;
+        --secondary: #a855f7;
+        --accent: #10b981;
+        --dark: #0f172a;
+        --slate-800: #1e293b;
+        --slate-900: #0f172a;
+        --glass: rgba(255, 255, 255, 0.05);
+        --glass-border: rgba(255, 255, 255, 0.1);
+        --glass-blur: blur(12px);
     }
 
-    /* Jika ada elemen lain seperti modal atau background, atur z-index lebih rendah */
-    .popup {
-        z-index: 5;
+    body {
+        font-family: 'Outfit', 'Inter', sans-serif;
+        background-color: var(--dark);
+        color: #f1f5f9;
+        -webkit-font-smoothing: antialiased;
     }
 
-    #dropdownList1 {
-        transition: max-height 0.5s ease-in-out;
-        max-height: 0;
-        /* Initially closed */
+    .glass {
+        background: var(--glass);
+        backdrop-filter: var(--glass-blur);
+        -webkit-backdrop-filter: var(--glass-blur);
+        border: 1px solid var(--glass-border);
     }
 
-    nav {
+    .glass-card {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 24px;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .glass-card:hover {
+        transform: translateY(-8px);
+        background: rgba(255, 255, 255, 0.06);
+        border-color: rgba(255, 255, 255, 0.2);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .btn-premium {
+        background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        transition: all 0.3s ease;
         position: relative;
-        /* atau fixed jika ingin navbar tetap terlihat saat di-scroll */
-        z-index: 50;
-        /* Pastikan nilai ini lebih tinggi dibandingkan elemen lainnya */
+        overflow: hidden;
     }
 
-    .container {
-        max-width: 1200px;
-        margin: 40px auto;
-        padding: 20px;
-        9999;
-        /* Modal harus berada di atas */
+    .btn-premium:hover {
+        transform: scale(1.02);
+        box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3);
     }
 
-    .swal2-container {
-        z-index: 10500 !important;
+    .text-gradient {
+        background: linear-gradient(135deg, #fff 0%, #cbd5e1 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
     }
 
-    .modal {
-        position: fixed;
-        /* Ensure it is fixed to the screen */
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(0, 0, 0, 0.5);
-        /* Optional: Dim the background */
-        z-index: 9999;
-        /* Set a high z-index value to ensure it appears on top */
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+        width: 10px;
     }
 
-    /* Modal content */
-    .modal-content {
-        position: relative;
-        /* Ensure modal content is above other content */
-        z-index: 10000;
-        /* Set a higher value if necessary */
-        /* Other styling properties */
+    ::-webkit-scrollbar-track {
+        background: var(--dark);
     }
 
-    /* Optional custom styles to override defaults */
-    #keranjangModal {
-        max-width: 800px;
-        margin: 0 auto;
-        padding: 20px;
+    ::-webkit-scrollbar-thumb {
+        background: #334155;
+        border-radius: 5px;
+        border: 2px solid var(--dark);
     }
 
-    /* Overlay dan Modal */
-    #overlay {
-        z-index: 9999;
-        /* Pastikan overlay selalu di atas */
+    ::-webkit-scrollbar-thumb:hover {
+        background: #475569;
     }
 
-    #keranjangModal {
-        z-index: 10000;
-        max-height: 100vh;
-        /* Maksimal tinggi modal 80% dari tinggi layar */
-        overflow-y: auto;
+    /* DataTables Overrides */
+    .dataTables_wrapper {
+        color: #94a3b8 !important;
+    }
+    
+    table.dataTable.no-footer {
+        border-bottom: 1px solid var(--glass-border) !important;
     }
 
-    /* Elemen Halaman Utama */
-    body>*:not(#overlay):not(#keranjangModal) {
-        z-index: auto;
-        /* Pastikan elemen halaman utama tidak mengganggu */
+    .dataTables_length select, .dataTables_filter input {
+        background-color: var(--slate-800) !important;
+        border: 1px solid var(--glass-border) !important;
+        color: white !important;
+        border-radius: 8px !important;
+        padding: 4px 8px !important;
     }
 
-    .keranjang-item img {
-        width: 80px;
-        height: 120px;
-        object-fit: cover;
-        border-radius: 4px;
-        /* Opsional: untuk membuat sudut gambar melengkung */
-    }
-
-    #keranjangContent {
-        max-height: 60vh;
-        /* Limit height of the cart items */
-        overflow-y: auto;
-        /* Add scroll if there are many items */
-    }
-
-    .keranjangItem {
-        border-bottom: 1px solid #e5e7eb;
-        padding-bottom: 16px;
-        margin-bottom: 16px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    .keranjangItem img {
-        width: 80px;
-        /* Small image size for better alignment */
-        height: 80px;
-        object-fit: cover;
-        border-radius: 8px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        margin-right: 16px;
-        /* Add space between image and content */
-    }
-
-    .keranjangItem .flex-1 {
-        flex: 1;
-    }
-
-    .keranjangItem .quantity-container {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-        /* Reduce space between buttons */
-    }
-
-    .decrease-quantity,
-    .increase-quantity {
-        padding: 8px 12px;
-        border-radius: 50%;
-        font-size: 18px;
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        transition: all 0.2s ease;
-    }
-
-    .decrease-quantity {
-        background-color: #f87171;
-        /* Red background */
-    }
-
-    .increase-quantity {
-        background-color: #3b82f6;
-        /* Blue background */
-    }
-
-    .decrease-quantity:hover,
-    .increase-quantity:hover {
-        transform: scale(1.1);
-        /* Slightly enlarge buttons on hover */
-    }
-
-    button.remove-item {
-        font-size: 14px;
-        text-color: red;
-        transition: color 0.3s ease;
-    }
-
-    button.remove-item:hover {
-        color: #e63946;
+    /* Modal Styling */
+    .modal-premium {
+        background: rgba(15, 23, 42, 0.8);
+        backdrop-filter: blur(8px);
     }
 </style>
 {{-- <title><p>{{ $title }}</p></title> --}}

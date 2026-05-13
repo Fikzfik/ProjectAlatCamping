@@ -3,502 +3,228 @@
 
 <head>
     @include('pages.layout.head')
-    <title>Home</title>
-    <style>
-        #dropdownList5,
-        #dropdownList6,
-        #dropdownList7 {
-            max-height: 0;
-            /* Default tertutup */
-            overflow: hidden;
-            transition: max-height 0.5s ease-in-out;
-        }
-
-        .hidden {
-            display: none;
-        }
-    </style>
-
-    </style>
+    <title>Home - CampRover Premium Gear</title>
 </head>
 
-<body id="body" class="relative">
-    <!-- Background Blur -->
-    <div class="absolute inset-0 -z-10"
-        style="background-image: url('{{ asset('src/assets/images/bgwebsite.jpeg') }}'); 
-               background-size: cover; 
-               background-position: center; 
-               filter: blur(10px); 
-               opacity: 0.9;">
-    </div>
-    @include('pages.layout.nav');
-    <div class="fixed top-4 right-4 bg-green-500 text-white p-4 rounded-lg shadow-lg">
-        {{ session('notif') }}
-    </div>
-    @if (session('error'))
-        <div class="alert alert-danger">
-            {{ session('error') }}
+<body class="bg-slate-950 overflow-x-hidden">
+    @include('pages.layout.nav')
+
+    <!-- Hero Section -->
+    <div class="relative pt-32 pb-20 px-6 overflow-hidden">
+        <div class="absolute inset-0 -z-10">
+            <div class="absolute top-0 left-1/4 w-96 h-96 bg-indigo-600/20 rounded-full blur-[128px] animate-pulse"></div>
+            <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-purple-600/20 rounded-full blur-[128px] animate-pulse" style="animation-delay: 2s"></div>
         </div>
-    @endif
-    <div class="text-white flex justify-between sm:px-[4.271vw] px-[8.372vw] pt-[2.604vw] relative">
+        
+        <div class="container mx-auto text-center relative">
+            <span data-aos="fade-up" class="inline-block px-4 py-1.5 rounded-full glass border-white/10 text-indigo-400 text-xs font-black uppercase tracking-[0.2em] mb-6">Explore the Wilderness</span>
+            <h1 data-aos="fade-up" data-aos-delay="100" class="text-5xl md:text-7xl font-black text-white mb-8 tracking-tighter">
+                Premium Gear for <br><span class="text-gradient">Your Next Adventure</span>
+            </h1>
+            <p data-aos="fade-up" data-aos-delay="200" class="max-w-2xl mx-auto text-slate-400 text-lg mb-10 leading-relaxed">
+                Sewa perlengkapan camping terbaik dengan kualitas premium. Siapkan petualangan Anda dengan alat yang aman dan terpercaya.
+            </p>
+        </div>
+    </div>
 
-        <div class="w-[23.031vw] overflow-y-auto max-h-[100vh] scrollbar-hide sticky top-[0.833vw] sm:inline hidden">
-            <div class="space-y-[1.198vw]">
-                <div data-aos="fade-right" data-aos-duration="500" data-aos-delay="100" class="space-y-[0.729vw]">
-                    <h2 class="text-[1.25vw] font-semibold">Filters:</h2>
-                    <hr>
-                </div>
+    <main class="container mx-auto px-6 pb-24">
+        <div class="flex flex-col lg:flex-row gap-12">
+            <!-- Sidebar Filters -->
+            <aside class="lg:w-80 space-y-8">
+                <div data-aos="fade-right" class="glass-card p-8 sticky top-32">
+                    <div class="flex items-center gap-3 mb-8">
+                        <i class="fa-solid fa-sliders text-indigo-500"></i>
+                        <h2 class="text-xl font-black text-white">Filters</h2>
+                    </div>
 
-                <div class="space-y-[1vw]">
-                    <!-- Tombol dan Dropdown -->
-                    <div data-aos="fade-right" data-aos-duration="500" data-aos-delay="200">
-                        <div class="space-y-[0.729vw]">
-                            <!-- Tombol Toggle -->
-                            <a href="javascript:void(0)" data-dropdown-toggle data-target="dropdownListKategori">
-                                <div data-aos-delay="200" class="flex items-center justify-between">
-                                    <h2 class="text-[1.146vw] font-medium">Categories</h2>
-                                    <img id="dropdownIconKategori" src="src/assets/icons/arrow-icon.svg" alt=""
-                                        class="w-[0.833vw] rotate-0 transition-transform duration-500">
-                                </div>
-                            </a>
-                            <hr>
-
-                            <!-- Dropdown List -->
-                            <div id="dropdownListKategori"
-                                class="overflow-auto max-h-[30vw] transition-all duration-500 ease-in-out hidden">
-                                <div class="space-y-[0.729vw]">
-                                    <ul class="text-[0.938vw] space-y-[0.5vw] max-w-[3vw]">
-                                        @foreach ($kategori as $kat)
-                                            <li>
-                                                <a href="javascript:void(0)" data-kategori="{{ $kat->id_kategori }}">
-                                                    {{ $kat->nama_kategori }}
-                                                </a>
-                                            </li>
-                                        @endforeach
-                                    </ul>
-                                </div>
-                            </div>
+                    <!-- Categories -->
+                    <div class="space-y-6 mb-10">
+                        <h3 class="text-xs font-black text-slate-500 uppercase tracking-widest">Categories</h3>
+                        <div class="flex flex-wrap gap-2">
+                            <a href="javascript:void(0)" data-kategori="all" class="px-4 py-2 rounded-xl glass border-white/5 text-sm font-bold text-slate-400 hover:bg-indigo-600 hover:text-white hover:border-indigo-500 transition-all">All</a>
+                            @foreach ($kategori as $kat)
+                                <a href="javascript:void(0)" data-kategori="{{ $kat->id_kategori }}" class="px-4 py-2 rounded-xl glass border-white/5 text-sm font-bold text-slate-400 hover:bg-indigo-600 hover:text-white hover:border-indigo-500 transition-all">
+                                    {{ $kat->nama_kategori }}
+                                </a>
+                            @endforeach
                         </div>
                     </div>
-                </div>
 
-                <div class="space-y-[1vw]">
-                    <!-- Tombol dan Dropdown -->
-                    <div data-aos="fade-right" data-aos-duration="500" data-aos-delay="200">
-                        <div class="space-y-[0.729vw]">
-                            <!-- Tombol Toggle -->
-                            <a href="javascript:void(0)" id="dropdownToggleKategori">
-                                <div class="flex items-center justify-between">
-                                    <h2 class="text-[1.146vw] font-medium">Availability:</h2>
-                                    <img id="dropdownIconKategori" src="src/assets/icons/arrow-icon.svg"
-                                        alt="Dropdown Icon"
-                                        class="w-[0.833vw] rotate-0 transition-transform duration-500">
+                    <!-- Availability -->
+                    <div class="space-y-6 mb-10">
+                        <h3 class="text-xs font-black text-slate-500 uppercase tracking-widest">Stock Status</h3>
+                        <div class="space-y-3">
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input type="checkbox" id="inStock" class="hidden peer" checked>
+                                <div class="w-6 h-6 rounded-lg glass border-white/10 flex items-center justify-center peer-checked:bg-indigo-600 peer-checked:border-indigo-500 transition-all">
+                                    <i class="fa-solid fa-check text-[10px] text-white opacity-0 peer-checked:opacity-100"></i>
                                 </div>
-                            </a>
-                            <hr>
-
-                            <!-- Dropdown List -->
-                            <div id="AvailabilityList"
-                                class="overflow-hidden max-h-0 transition-all duration-500 ease-in-out">
-                                <ul class="text-[0.938vw] space-y-[0.781vw]">
-                                    <!-- List Item In-Stock -->
-                                    <li
-                                        class="font-medium flex items-center space-x-[0.885vw] opacity-0 translate-x-[-100%] transition-all duration-500 ease-in-out">
-                                        <input type="checkbox" id="inStock" name="availability"
-                                            class="w-[1.302vw] h-[1.302vw] accent-white" checked>
-                                        <label for="inStock" class="text-[0.938vw] font-medium cursor-pointer">In
-                                            Stock</label>
-                                    </li>
-                                    <!-- List Item Out-of-Stock -->
-                                    <li
-                                        class="font-medium flex items-center space-x-[0.885vw] opacity-0 translate-x-[-100%] transition-all duration-500 ease-in-out">
-                                        <input type="checkbox" id="outOfStock" name="availability"
-                                            class="w-[1.302vw] h-[1.302vw] accent-white" checked>
-                                        <label for="outOfStock" class="text-[0.938vw] font-medium cursor-pointer">Out of
-                                            Stock</label>
-                                    </li>
-                                </ul>
-                            </div>
+                                <span class="text-sm font-bold text-slate-400 group-hover:text-white transition-colors">In Stock</span>
+                            </label>
+                            <label class="flex items-center gap-3 cursor-pointer group">
+                                <input type="checkbox" id="outOfStock" class="hidden peer">
+                                <div class="w-6 h-6 rounded-lg glass border-white/10 flex items-center justify-center peer-checked:bg-indigo-600 peer-checked:border-indigo-500 transition-all">
+                                    <i class="fa-solid fa-check text-[10px] text-white opacity-0 peer-checked:opacity-100"></i>
+                                </div>
+                                <span class="text-sm font-bold text-slate-400 group-hover:text-white transition-colors">Out of Stock</span>
+                            </label>
                         </div>
                     </div>
+
+                    <!-- Price Range -->
+                    <div class="space-y-6">
+                        <h3 class="text-xs font-black text-slate-500 uppercase tracking-widest">Price Range</h3>
+                        <div class="grid grid-cols-2 gap-3">
+                            <input id="minPrice" type="number" placeholder="Min" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-indigo-500 outline-none transition-all">
+                            <input id="maxPrice" type="number" placeholder="Max" class="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:border-indigo-500 outline-none transition-all">
+                        </div>
+                        <button id="applyPriceFilter" class="w-full py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm transition-all shadow-lg shadow-indigo-600/20">
+                            Apply Filter
+                        </button>
+                    </div>
                 </div>
+            </aside>
 
-
-                <div class="space-y-[1vw]">
-                    <!-- Tombol dan Dropdown -->
-                    <div data-aos="fade-right" data-aos-duration="500" data-aos-delay="200">
-                        <div class="space-y-[0.729vw]">
-                            <!-- Tombol Toggle -->
-                            <a href="javascript:void(0)" id="dropdownToggleHarga">
-                                <div class="flex items-center justify-between">
-                                    <h2 class="text-[1.146vw] font-medium">Price</h2>
-                                    <img id="dropdownIconHarga" src="src/assets/icons/arrow-icon.svg"
-                                        alt="Dropdown Icon"
-                                        class="w-[0.833vw] rotate-0 transition-transform duration-500">
-                                </div>
-                            </a>
-                            <hr>
-
-                            <!-- Dropdown List -->
-                            <div id="PriceList" class="overflow-hidden max-h-0 transition-all duration-500 ease-in-out">
-                                <div class="flex items-center space-x-[1vw] mt-[1vw]">
-                                    <!-- Input MIN -->
-                                    <div class="border border-gray-300 p-[0.5vw] rounded">
-                                        <label for="minPrice" class="text-gray-500 text-[0.938vw]">Rp MIN</label>
-                                        <input id="minPrice" type="number" placeholder="0"
-                                            class="w-[6vw] text-[0.938vw] outline-none bg-transparent">
+            <!-- Product Grid -->
+            <div class="flex-1">
+                <div id="barangContainer" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+                    @foreach ($barang as $item)
+                        <div data-aos="fade-up" data-aos-delay="{{ $loop->index * 50 }}" class="group">
+                            <div class="glass-card overflow-hidden h-full flex flex-col">
+                                <div class="relative aspect-[4/5] overflow-hidden">
+                                    <img src="{{ asset('storage/' . $item->link_foto) }}" alt="{{ $item->nama_barang }}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-60"></div>
+                                    
+                                    <!-- Category Badge -->
+                                    <div class="absolute top-6 left-6">
+                                        <span class="px-4 py-1.5 rounded-full glass border-white/10 text-[10px] font-black uppercase tracking-widest text-indigo-400">
+                                            {{ $item->nama_kategori }}
+                                        </span>
                                     </div>
 
-                                    <!-- Separator -->
-                                    <span class="text-gray-500 text-[0.938vw]">—</span>
-
-                                    <!-- Input MAX -->
-                                    <div class="border border-gray-300 p-[0.5vw] rounded">
-                                        <label for="maxPrice" class="text-gray-500 text-[0.938vw]">Rp MAKS</label>
-                                        <input id="maxPrice" type="number" placeholder="1000000"
-                                            class="w-[6vw] text-[0.938vw] outline-none bg-transparent">
+                                    <!-- Price Badge -->
+                                    <div class="absolute bottom-6 left-6">
+                                        <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Per Malam</p>
+                                        <p class="text-2xl font-black text-white">Rp {{ number_format($item->harga_sewa, 0, ',', '.') }}</p>
                                     </div>
                                 </div>
 
-                                <!-- Tombol Terapkan -->
-                                <div class="mt-[1vw]">
-                                    <button id="applyPriceFilter"
-                                        class="bg-[#000000] text-white font-medium py-[0.5vw] w-full rounded">
-                                        TERAPKAN
+                                <div class="p-8 flex flex-col flex-1">
+                                    <h3 class="text-xl font-black text-white mb-3 tracking-tight group-hover:text-indigo-400 transition-colors">{{ $item->nama_barang }}</h3>
+                                    <p class="text-slate-500 text-sm line-clamp-2 mb-8 leading-relaxed">
+                                        {{ $item->deskripsi ?? 'Perlengkapan camping premium untuk menunjang aktivitas luar ruangan Anda.' }}
+                                    </p>
+                                    
+                                    <div class="mt-auto flex items-center justify-between gap-4">
+                                        <a href="{{ route('detailbarang', ['id' => $item->id_barang]) }}" class="flex-1 py-4 rounded-2xl glass border-white/5 text-center text-sm font-black text-white hover:bg-white/10 transition-all uppercase tracking-widest">
+                                            Details
+                                        </a>
+                                        <button class="w-14 h-14 rounded-2xl btn-premium flex items-center justify-center text-white shadow-lg shadow-indigo-600/20 add-to-bag" data-id-barang="{{ $item->id_barang }}">
+                                            <i class="fa-solid fa-cart-plus text-lg"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </main>
+
+    @include('pages.layout.footer')
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // Category Filter
+            $('a[data-kategori]').on('click', function(e) {
+                e.preventDefault();
+                const kategoriId = $(this).data('kategori');
+                const targetContainer = $('#barangContainer');
+                
+                // Visual feedback
+                $('a[data-kategori]').removeClass('bg-indigo-600 text-white').addClass('text-slate-400');
+                $(this).addClass('bg-indigo-600 text-white').removeClass('text-slate-400');
+
+                $.ajax({
+                    url: '{{ route('barang.by.kategori') }}',
+                    method: 'GET',
+                    data: { kategori_id: kategoriId },
+                    success: function(response) {
+                        targetContainer.empty();
+                        response.forEach((item, index) => {
+                            const html = renderProductCard(item, index);
+                            targetContainer.append(html);
+                        });
+                        AOS.refresh();
+                    }
+                });
+            });
+
+            // Price Filter
+            $('#applyPriceFilter').on('click', function() {
+                const minPrice = $('#minPrice').val() || 0;
+                const maxPrice = $('#maxPrice').val() || 999999999;
+
+                $.ajax({
+                    url: '{{ route('barang.by.price') }}',
+                    method: 'GET',
+                    data: { min_price: minPrice, max_price: maxPrice },
+                    success: function(response) {
+                        $('#barangContainer').empty();
+                        response.forEach((item, index) => {
+                            $('#barangContainer').append(renderProductCard(item, index));
+                        });
+                        AOS.refresh();
+                    }
+                });
+            });
+
+            function renderProductCard(item, index) {
+                return `
+                    <div data-aos="fade-up" data-aos-delay="${index * 50}" class="group">
+                        <div class="glass-card overflow-hidden h-full flex flex-col">
+                            <div class="relative aspect-[4/5] overflow-hidden">
+                                <img src="/storage/${item.link_foto}" alt="${item.nama_barang}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                                <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-transparent opacity-60"></div>
+                                <div class="absolute top-6 left-6">
+                                    <span class="px-4 py-1.5 rounded-full glass border-white/10 text-[10px] font-black uppercase tracking-widest text-indigo-400">
+                                        ${item.nama_kategori}
+                                    </span>
+                                </div>
+                                <div class="absolute bottom-6 left-6">
+                                    <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Per Malam</p>
+                                    <p class="text-2xl font-black text-white">Rp ${new Intl.NumberFormat('id-ID').format(item.harga_sewa)}</p>
+                                </div>
+                            </div>
+                            <div class="p-8 flex flex-col flex-1">
+                                <h3 class="text-xl font-black text-white mb-3 tracking-tight group-hover:text-indigo-400 transition-colors">${item.nama_barang}</h3>
+                                <p class="text-slate-500 text-sm line-clamp-2 mb-8 leading-relaxed">
+                                    ${item.deskripsi || 'Perlengkapan camping premium untuk menunjang aktivitas luar ruangan Anda.'}
+                                </p>
+                                <div class="mt-auto flex items-center justify-between gap-4">
+                                    <a href="/detailbarang/${item.id_barang}" class="flex-1 py-4 rounded-2xl glass border-white/5 text-center text-sm font-black text-white hover:bg-white/10 transition-all uppercase tracking-widest">
+                                        Details
+                                    </a>
+                                    <button class="w-14 h-14 rounded-2xl btn-premium flex items-center justify-center text-white shadow-lg shadow-indigo-600/20 add-to-bag" data-id-barang="${item.id_barang}">
+                                        <i class="fa-solid fa-cart-plus text-lg"></i>
                                     </button>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                `;
+            }
+        });
 
-
-            </div>
-        </div>
-        <div id="barangContainer"
-            class="sm:w-[65.729vw] w-[83.256vw] grid sm:grid-cols-4 grid-cols-2 sm:place-items-start place-items-center sm:gap-y-[2.344vw] gap-y-[9.767vw] sm:gap-x-[1.146vw] gap-x-[3.256vw]">
-            @foreach ($barang as $item)
-                <a href="{{ route('detailbarang', ['id' => $item->id_barang]) }}"
-                    class="flex justify-center items-center sm:col-span-1 col-span-2 md:col-span-1" data-aos="fade-up"
-                    data-aos-duration="500" data-aos-delay="300">
-                    <div class="space-y-[0.885vw] relative overflow-hidden">
-                        <img src="{{ asset('storage/' . $item->link_foto) }}" alt=""
-                            class="sm:w-[15.555vw] w-[83.256vw] sm:h-[20.859vw] h-[111.628vw] object-cover object-top transform transition-transform duration-300 ease-in-out hover:scale-110">
-                        <div
-                            class="absolute sm:w-[15.555vw] w-[83.256vw] sm:h-[10.426vw] h-[54.419vw] bg-gradient-to-t from-dark/90 to-dark/0 bottom-0">
-                            <div
-                                class="absolute bottom-0 sm:px-[0.938vw] px-[7.442vw] sm:pb-[1vw] pb-[7.442vw] text-white">
-                                <div>
-                                    <h2 class="sm:text-[0.938vw] text-[4.651vw] leading-none">
-                                        {{ $item->nama_barang }}</h2>
-                                    <p class="sm:text-[0.938vw] text-[4.651vw] opacity-60">
-                                        {{ $item->nama_kategori }}</p>
-                                </div>
-                                <div
-                                    class="flex items-center sm:space-x-[0.313vw] space-x-[3.721vw] sm:mt-[0.938vw] mt-[2.181vw]">
-                                    <h2 class="sm:text-[1.25vw] text-[6.047vw]">Rp.
-                                        {{ number_format($item->harga_sewa, 0, ',', '.') }}</h2>
-                                    <h2 class="sm:text-[0.938vw] text-[4.651vw] opacity-50">
-                                        <s>{{ number_format($item->harga_sewa * 2, 0, ',', '.') }}</s>
-                                    </h2>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </a>
-            @endforeach
-        </div>
-    </div>
-    @include('pages.layout.footer')
-    <div id="popup" class="fixed inset-0 items-center justify-center bg-black bg-opacity-50 hidden"
-        onclick="togglePopup(false)">
-        <div class="bg-black flex flex-col items-center p-6 rounded-lg shadow-lg sm:w-[20.833vw] w-[69.767vw]"
-            onclick="event.stopPropagation()">
-            <img src="src/assets/icons/gear-512.png" alt=""
-                class="sm:w-[5.208vw] w-[23.256vw] animate-[spin_5s_linear_infinite]">
-            <h2 class="text-white text-[4.651vw] text-center sm:text-[1.042vw] font-bold mb-4">This features is under
-                developement now</h2>
-            <p class="text-white sm:text-[0.729vw] text-[3.256vw] mb-4">Sorry for the inconvinient</p>
-            <button onclick="togglePopup(false)"
-                class="sm:px-[0.833vw] px-[3.721vw] sm:py-[0.208vw] py-[0.93vw] bg-red-500 text-white sm:text-[0.729vw] text-[3.256vw] rounded-md">Close</button>
-        </div>
-    </div>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const toggleButton = document.getElementById('dropdownToggleKategori');
-            const dropdownList = document.getElementById('AvailabilityList');
-            const dropdownIcon = document.getElementById('dropdownIconKategori');
-            const listItems = document.querySelectorAll('#AvailabilityList li');
-
-            toggleButton.addEventListener('click', () => {
-                // Toggle dropdown visibility
-                dropdownList.classList.toggle('max-h-0');
-                dropdownList.classList.toggle('max-h-[10vw]');
-
-                // Rotate dropdown icon
-                dropdownIcon.classList.toggle('rotate-0');
-                dropdownIcon.classList.toggle('rotate-180');
-
-                // Animate list items
-                listItems.forEach((item, index) => {
-                    setTimeout(() => {
-                        item.classList.toggle('opacity-0');
-                        item.classList.toggle('translate-x-[-100%]');
-                        item.classList.toggle('translate-x-0');
-                    }, index * 100); // Delay animation per list item
-                });
-            });
+        AOS.init({
+            duration: 800,
+            once: true,
+            offset: 100
         });
     </script>
-    <script>
-        $(document).ready(function() {
-            // Fungsi toggle untuk setiap dropdown
-            function toggleDropdown(target) {
-                const dropdown = $(`#${target}`);
-                const arrowIcon = $(`#${target.replace('List', 'Icon')}`);
-
-                if (dropdown.is(':hidden')) {
-                    dropdown.slideDown(300).removeClass('hidden');
-                    arrowIcon.css('transform', 'rotate(180deg)');
-                } else {
-                    dropdown.slideUp(300).addClass('hidden');
-                    arrowIcon.css('transform', 'rotate(0deg)');
-                }
-            }
-
-            // Event listener untuk dropdown
-            $('[data-dropdown-toggle]').on('click', function() {
-                const target = $(this).data('target');
-                toggleDropdown(target);
-            });
-        });
-        $(document).ready(function() {
-            // Event handler untuk klik kategori
-            $('a[data-kategori]').on('click', function(e) {
-                e.preventDefault();
-
-                const kategoriId = $(this).data('kategori'); // Ambil ID kategori
-                const targetContainer = $('#barangContainer'); // Target untuk memuat ulang barang
-
-                $.ajax({
-                    url: '{{ route('barang.by.kategori') }}',
-                    method: 'GET',
-                    data: {
-                        kategori_id: kategoriId
-                    },
-                    success: function(response) {
-                        // Bersihkan kontainer
-                        targetContainer.empty();
-
-                        // Iterasi hasil barang dan tambahkan ke kontainer
-                        response.forEach(item => {
-                            const barangHtml = `
-                        <a href="/detailbarang/${item.id_barang}" 
-                           class="flex justify-center items-center sm:col-span-1 col-span-2 md:col-span-1"
-                           data-aos="fade-up" data-aos-duration="500" data-aos-delay="300">
-                            <div class="space-y-[0.885vw] relative overflow-hidden">
-                                <img src="/storage/${item.link_foto}" alt=""
-                                     class="sm:w-[15.555vw] w-[83.256vw] sm:h-[20.859vw] h-[111.628vw] object-cover object-top transform transition-transform duration-300 ease-in-out hover:scale-110">
-                                <div class="absolute sm:w-[15.555vw] w-[83.256vw] sm:h-[10.426vw] h-[54.419vw] bg-gradient-to-t from-dark/90 to-dark/0 bottom-0">
-                                    <div class="absolute bottom-0 sm:px-[0.938vw] px-[7.442vw] sm:pb-[1vw] pb-[7.442vw] text-white">
-                                        <div>
-                                            <h2 class="sm:text-[0.938vw] text-[4.651vw] leading-none">${item.nama_barang}</h2>
-                                            <p class="sm:text-[0.938vw] text-[4.651vw] opacity-60">${item.nama_kategori}</p>
-                                        </div>
-                                        <div class="flex items-center sm:space-x-[0.313vw] space-x-[3.721vw] sm:mt-[0.938vw] mt-[2.181vw]">
-                                            <h2 class="sm:text-[1.25vw] text-[6.047vw]">Rp. ${item.harga_sewa.toLocaleString('id-ID')}</h2>
-                                            <h2 class="sm:text-[0.938vw] text-[4.651vw] opacity-50">
-                                                <s>Rp. ${(item.harga_sewa * 2).toLocaleString('id-ID')}</s>
-                                            </h2>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    `;
-                            targetContainer.append(barangHtml);
-                        });
-                    },
-                    error: function() {
-                        alert('Gagal memuat barang. Silakan coba lagi.');
-                    }
-                });
-            });
-        });
-        $(document).ready(function() {
-            $('#filterPrice').on('click', function() {
-                const minPrice = $('#minPrice').val() || 0; // Default: 0
-                const maxPrice = $('#maxPrice').val() || Number.MAX_SAFE_INTEGER; // Default: tanpa batas
-
-                const targetContainer = $('#barangContainer'); // Kontainer untuk mengganti isi
-
-                $.ajax({
-                    url: '{{ route('barang.by.price') }}', // Route untuk filter harga
-                    method: 'GET',
-                    data: {
-                        min_price: minPrice,
-                        max_price: maxPrice,
-                    },
-                    success: function(response) {
-                        // Kosongkan kontainer barang
-                        targetContainer.empty();
-
-                        // Tambahkan barang hasil filter ke dalam kontainer
-                        response.forEach(item => {
-                            const barangHtml = `
-                        <a href="/detailbarang/${item.id_barang}" 
-                           class="flex justify-center items-center sm:col-span-1 col-span-2 md:col-span-1"
-                           data-aos="fade-up" data-aos-duration="500" data-aos-delay="300">
-                            <div class="space-y-[0.885vw] relative overflow-hidden">
-                                <img src="/storage/${item.link_foto}" alt=""
-                                     class="sm:w-[15.555vw] w-[83.256vw] sm:h-[20.859vw] h-[111.628vw] object-cover object-top transform transition-transform duration-300 ease-in-out hover:scale-110">
-                                <div class="absolute sm:w-[15.555vw] w-[83.256vw] sm:h-[10.426vw] h-[54.419vw] bg-gradient-to-t from-dark/90 to-dark/0 bottom-0">
-                                    <div class="absolute bottom-0 sm:px-[0.938vw] px-[7.442vw] sm:pb-[1vw] pb-[7.442vw] text-white">
-                                        <div>
-                                            <h2 class="sm:text-[0.938vw] text-[4.651vw] leading-none">${item.nama_barang}</h2>
-                                            <p class="sm:text-[0.938vw] text-[4.651vw] opacity-60">${item.nama_kategori}</p>
-                                        </div>
-                                        <div class="flex items-center sm:space-x-[0.313vw] space-x-[3.721vw] sm:mt-[0.938vw] mt-[2.181vw]">
-                                            <h2 class="sm:text-[1.25vw] text-[6.047vw]">Rp. ${item.harga_sewa.toLocaleString('id-ID')}</h2>
-                                            <h2 class="sm:text-[0.938vw] text-[4.651vw] opacity-50">
-                                                <s>Rp. ${(item.harga_sewa * 2).toLocaleString('id-ID')}</s>
-                                            </h2>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </a>
-                    `;
-                            targetContainer.append(barangHtml);
-                        });
-                    },
-                    error: function() {
-                        alert('Gagal memuat data barang. Silakan coba lagi.');
-                    },
-                });
-            });
-        });
-
-        function toggleDropdown2() {
-            const dropdown = document.getElementById('dropdownList2');
-            const arrowIcon = document.getElementById('arrowIcon2');
-
-            // Toggle max-height untuk membuka/menutup dropdown
-            if (dropdown.classList.contains('max-h-0')) {
-                dropdown.classList.remove('max-h-0', 'overflow-hidden');
-                dropdown.classList.add('max-h-[1000px]'); // Sesuaikan max-height
-                arrowIcon.classList.add('rotate-180');
-            } else {
-                dropdown.classList.add('max-h-0', 'overflow-hidden');
-                dropdown.classList.remove('max-h-[1000px]');
-                arrowIcon.classList.remove('rotate-180');
-            }
-        }
-
-        function filterByStock() {
-            const targetContainer = $('#barangContainer'); // Kontainer untuk barang
-
-            $.ajax({
-                url: '{{ route('barang.filter.stock') }}',
-                method: 'GET',
-                success: function(response) {
-                    console.log(response); // Periksa respons yang diterima dari server
-                    if (Array.isArray(response)) { // Pastikan itu array
-                        targetContainer.empty(); // Kosongkan kontainer barang
-
-                        response.forEach(item => {
-                            const barangHtml = `
-            <a href="/detailbarang/${item.id_barang}" 
-               class="flex justify-center items-center sm:col-span-1 col-span-2 md:col-span-1"
-               data-aos="fade-up" data-aos-duration="500" data-aos-delay="300">
-                <div class="space-y-[0.885vw] relative overflow-hidden">
-                    <img src="/storage/${item.link_foto}" alt="${item.nama_barang}"
-                         class="sm:w-[15.555vw] w-[83.256vw] sm:h-[20.859vw] h-[111.628vw] object-cover object-top transform transition-transform duration-300 ease-in-out hover:scale-110">
-                    <div class="absolute sm:w-[15.555vw] w-[83.256vw] sm:h-[10.426vw] h-[54.419vw] bg-gradient-to-t from-dark/90 to-dark/0 bottom-0">
-                        <div class="absolute bottom-0 sm:px-[0.938vw] px-[7.442vw] sm:pb-[1vw] pb-[7.442vw] text-white">
-                            <div>
-                                <h2 class="sm:text-[0.938vw] text-[4.651vw] leading-none">${item.nama_barang}</h2>
-                                <p class="sm:text-[0.938vw] text-[4.651vw] opacity-60">${item.nama_kategori}</p>
-                            </div>
-                            <div class="flex items-center sm:space-x-[0.313vw] space-x-[3.721vw] sm:mt-[0.938vw] mt-[2.181vw]">
-                                <h2 class="sm:text-[1.25vw] text-[6.047vw]">Rp. ${new Intl.NumberFormat('id-ID').format(item.harga_sewa)}</h2>
-                                <h2 class="sm:text-[0.938vw] text-[4.651vw] opacity-50">
-                                    <s>Rp. ${new Intl.NumberFormat('id-ID').format(item.harga_sewa * 2)}</s>
-                                </h2>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </a>
-            `;
-                            targetContainer.append(barangHtml);
-                        });
-                    } else {
-                        alert('Data tidak valid.');
-                    }
-                },
-
-                error: function() {
-                    alert('Gagal memuat barang. Silakan coba lagi.');
-                }
-            });
-        }
-
-        function filterOutOfStock() {
-            const targetContainer = $('#barangContainer'); // Kontainer untuk barang
-
-            $.ajax({
-                url: '{{ route('barang.filter.outOfStock') }}',
-                method: 'GET',
-                success: function(response) {
-                    console.log(response); // Periksa respons yang diterima dari server
-                    if (Array.isArray(response)) { // Pastikan itu array
-                        targetContainer.empty(); // Kosongkan kontainer barang
-
-                        response.forEach(item => {
-                            const barangHtml = `
-            <a href="/detailbarang/${item.id_barang}" 
-               class="flex justify-center items-center sm:col-span-1 col-span-2 md:col-span-1"
-               data-aos="fade-up" data-aos-duration="500" data-aos-delay="300">
-                <div class="space-y-[0.885vw] relative overflow-hidden">
-                    <img src="/storage/${item.link_foto}" alt="${item.nama_barang}"
-                         class="sm:w-[15.555vw] w-[83.256vw] sm:h-[20.859vw] h-[111.628vw] object-cover object-top transform transition-transform duration-300 ease-in-out hover:scale-110">
-                    <div class="absolute sm:w-[15.555vw] w-[83.256vw] sm:h-[10.426vw] h-[54.419vw] bg-gradient-to-t from-dark/90 to-dark/0 bottom-0">
-                        <div class="absolute bottom-0 sm:px-[0.938vw] px-[7.442vw] sm:pb-[1vw] pb-[7.442vw] text-white">
-                            <div>
-                                <h2 class="sm:text-[0.938vw] text-[4.651vw] leading-none">${item.nama_barang}</h2>
-                                <p class="sm:text-[0.938vw] text-[4.651vw] opacity-60">${item.nama_kategori}</p>
-                            </div>
-                            <div class="flex items-center sm:space-x-[0.313vw] space-x-[3.721vw] sm:mt-[0.938vw] mt-[2.181vw]">
-                                <h2 class="sm:text-[1.25vw] text-[6.047vw]">Rp. ${new Intl.NumberFormat('id-ID').format(item.harga_sewa)}</h2>
-                                <h2 class="sm:text-[0.938vw] text-[4.651vw] opacity-50">
-                                    <s>Rp. ${new Intl.NumberFormat('id-ID').format(item.harga_sewa * 2)}</s>
-                                </h2>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </a>
-            `;
-                            targetContainer.append(barangHtml);
-                        });
-                    } else {
-                        alert('Data tidak valid.');
-                    }
-                },
-
-                error: function() {
-                    alert('Gagal memuat barang. Silakan coba lagi.');
-                }
-            });
-        }
-
-
-
-        AOS.init();
-    </script>
-    @include('pages.layout.script');
+    @include('pages.layout.script')
 </body>
 
 </html>

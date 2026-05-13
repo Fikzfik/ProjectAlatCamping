@@ -69,7 +69,7 @@ class PembayaranController extends Controller
                 // Menghitung subtotal berdasarkan jumlah hari sewa
                 $startDate = new \DateTime($item['tanggal_sewa']);
                 $endDate = new \DateTime($item['tanggal_kembali']);
-                $diffDays = $endDate->diff($startDate)->days;
+                $diffDays = $endDate->diff($startDate)->days + 1; // Inclusive days
 
                 Log::info('Id keranjang : ' . $item['id_keranjang']);
                 $subtotal = $item['harga_sewa'] * $item['jumlah'] * $diffDays;
@@ -124,10 +124,14 @@ class PembayaranController extends Controller
             // Format item untuk Midtrans
             $items = [];
             foreach ($selectedData as $item) {
+                $startDate = new \DateTime($item['tanggal_sewa']);
+                $endDate = new \DateTime($item['tanggal_kembali']);
+                $itemDays = $endDate->diff($startDate)->days + 1;
+
                 $items[] = [
                     'id' => $item['id_keranjang'],
-                    'price' => $item['harga_sewa'],
-                    'quantity' => $item['jumlah'],
+                    'price' => (int)($item['harga_sewa'] * $itemDays),
+                    'quantity' => (int)$item['jumlah'],
                     'name' => $item['nama_barang'],
                 ];
             }
